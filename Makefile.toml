@@ -1,0 +1,59 @@
+[config]
+skip_core_tasks = true
+
+# --- CZYSZCZENIE HISTORII ---
+[tasks.history-clean]
+description = "Czyści zawartość folderu .history, ale zachowuje sam katalog"
+command = "powershell"
+args = [
+    "-Command", 
+    "if (Test-Path '.history\\*') { Remove-Item -Path '.history\\*' -Recurse -Force }; Write-Host 'Folder .history zostal wyczyszczony.'"
+]
+
+# --- SNAPSHOT STRUKTURY ---
+[tasks.history-snapshot-structure]
+description = "Generuje snapshot struktury projektu bez pełnego kodu"
+command = "cargo"
+args = [
+    "plot", "-o", "./.history/", 
+    "-p", "./target/+", "-p", "!./target/", 
+    "-p", "./.git/+", "-p", "!./.git/", 
+    "-p", "./.github/+", "-p", "!./.github/", 
+    "-p", "./.vscode/+", "-p", "!./.vscode/", 
+    "-p", "./.history/+", "-p", "!./.history/", 
+    "-x", "-v", "grid", "--save-address", "-b", "-a", "--lang", "en"
+]
+
+# --- SNAPSHOT PEŁNEGO KODU ---
+[tasks.history-snapshot-totalcode]
+description = "Generuje pełny snapshot archiwum z kodem i plikami konfiguracyjnymi"
+command = "cargo"
+args = [
+    "plot", "-o", "./.history/", 
+    "-p", "./target/+", "-p", "!./target/", 
+    "-p", "./.git/+", "-p", "!./.git/", 
+    "-p", "./.github/+", "-p", "!./.github/", 
+    "-p", "./.vscode/+", "-p", "!./.vscode/", 
+    "-p", "./.history/+", "-p", "!./.history/", 
+    "-p", "./LICENSE-APACHE", "-p", "./LICENSE-MIT", "-p", "*.lock", 
+    "-x", "-v", "grid", "--save-archive", "-b", "-a", "--lang", "en"
+]
+
+# --- KOMENDA ZBIORCZA ---
+[tasks.history-snapshot]
+description = "Wykonuje oba snapshoty: strukturę oraz pełne archiwum"
+dependencies = ["history-snapshot-structure", "history-snapshot-totalcode"]
+
+# --- KOMENDA "NA ŚWIEŻO" ---
+[tasks.history-snapshot-fresh]
+description = "Czyści historię i generuje nowe snapshoty (Serial execution)"
+run_task = { name = ["history-clean", "history-snapshot"], parallel = false }
+
+[tasks.hc]
+alias = "history-clean"
+
+[tasks.hs]
+alias = "history-snapshot"
+
+[tasks.h]
+alias = "history-snapshot-fresh"

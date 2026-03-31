@@ -2,6 +2,7 @@
 use crate::libs::cs::model::{Cs, Dim};
 use crate::libs::tolerance;
 use std::ops::{Add, Sub, Mul, Div, Neg};
+use std::array;
 
 pub mod d2;
 pub mod d3;
@@ -17,17 +18,19 @@ impl<const N: usize> Cs<N> where Cs<N>: Dim {
     /// Odejmuje drugi wektor od obecnego (zwraca wektor między dwoma punktami: B - A).
     #[rustfmt::skip] #[inline] 
     pub fn sub(&self, other: &Self) -> Self { 
-        let mut result = [0.0; N];
-        for i in 0..N { result[i] = self.0[i] - other.0[i]; }
-        Cs(result)
+        // let mut result = [0.0; N];
+        // for i in 0..N { result[i] = self.0[i] - other.0[i]; }
+        // Cs(result)
+        Cs(array::from_fn(|i| self.0[i] - other.0[i]))
     }
     
     /// Dodaje drugi wektor do obecnego (przesunięcie punktu o wektor).
     #[rustfmt::skip] #[inline] 
     pub fn add(&self, other: &Self) -> Self { 
-        let mut result = [0.0; N];
-        for i in 0..N { result[i] = self.0[i] + other.0[i]; }
-        Cs(result)
+        // let mut result = [0.0; N];
+        // for i in 0..N { result[i] = self.0[i] + other.0[i]; }
+        // Cs(result)
+        Cs(array::from_fn(|i| self.0[i] + other.0[i]))
     }
 
     /// Iloczyn skalarny (Dot product) dla dowolnego wymiaru przestrzeni.
@@ -55,9 +58,10 @@ impl<const N: usize> Cs<N> where Cs<N>: Dim {
         if tolerance::is_zero(radius) { 
             Cs([0.0; N]) 
         } else { 
-            let mut result = [0.0; N];
-            for i in 0..N { result[i] = self.0[i] / radius; }
-            Cs(result)
+            // let mut result = [0.0; N];
+            // for i in 0..N { result[i] = self.0[i] / radius; }
+            // Cs(result)
+            Cs(array::from_fn(|i| self.0[i] / radius))
         }
     }
 
@@ -85,9 +89,10 @@ impl<const N: usize> Add for Cs<N> where Cs<N>: Dim {
     type Output = Cs<N>;
     #[inline]
     fn add(self, rhs: Self) -> Self::Output {
-        let mut result = [0.0; N];
-        for i in 0..N { result[i] = self.0[i] + rhs.0[i]; }
-        Cs(result)
+        // let mut result = [0.0; N];
+        // for i in 0..N { result[i] = self.0[i] + rhs.0[i]; }
+        // Cs(result)
+        Cs(array::from_fn(|i| self.0[i] + rhs.0[i]))
     }
 }
 
@@ -96,9 +101,10 @@ impl<const N: usize> Sub for Cs<N> where Cs<N>: Dim {
     type Output = Cs<N>;
     #[inline]
     fn sub(self, rhs: Self) -> Self::Output {
-        let mut result = [0.0; N];
-        for i in 0..N { result[i] = self.0[i] - rhs.0[i]; }
-        Cs(result)
+        // let mut result = [0.0; N];
+        // for i in 0..N { result[i] = self.0[i] - rhs.0[i]; }
+        // Cs(result)
+        Cs(array::from_fn(|i| self.0[i] - rhs.0[i]))
     }
 }
 
@@ -107,9 +113,10 @@ impl<const N: usize> Neg for Cs<N> where Cs<N>: Dim {
     type Output = Cs<N>;
     #[inline]
     fn neg(self) -> Self::Output {
-        let mut result = [0.0; N];
-        for i in 0..N { result[i] = -self.0[i]; }
-        Cs(result)
+        // let mut result = [0.0; N];
+        // for i in 0..N { result[i] = -self.0[i]; }
+        // Cs(result)
+        Cs(array::from_fn(|i| -self.0[i]))
     }
 }
 
@@ -118,9 +125,10 @@ impl<const N: usize> Mul<f64> for Cs<N> where Cs<N>: Dim {
     type Output = Cs<N>;
     #[inline]
     fn mul(self, rhs: f64) -> Self::Output {
-        let mut result = [0.0; N];
-        for i in 0..N { result[i] = self.0[i] * rhs; }
-        Cs(result)
+        // let mut result = [0.0; N];
+        // for i in 0..N { result[i] = self.0[i] * rhs; }
+        // Cs(result)
+        Cs(array::from_fn(|i| self.0[i] * rhs))
     }
 }
 
@@ -138,9 +146,10 @@ impl<const N: usize> Div<f64> for Cs<N> where Cs<N>: Dim {
     type Output = Cs<N>;
     #[inline]
     fn div(self, rhs: f64) -> Self::Output {
-        let mut result = [0.0; N];
-        for i in 0..N { result[i] = self.0[i] / rhs; }
-        Cs(result)
+        // let mut result = [0.0; N];
+        // for i in 0..N { result[i] = self.0[i] / rhs; }
+        // Cs(result)
+        Cs(array::from_fn(|i| self.0[i] / rhs))
     }
 }
 

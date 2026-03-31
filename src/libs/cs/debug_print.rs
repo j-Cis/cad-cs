@@ -71,6 +71,7 @@ pub trait Cs3ConsoleDebug {
     fn print_rfx(&self, name: &str, fmt: AngleFmt);
     fn print_rfy(&self, name: &str, fmt: AngleFmt);
     fn print_rfz(&self, name: &str, fmt: AngleFmt);
+    fn print_dms_sn_we(&self, name: &str);
     fn print(&self, name: &str, fmt: AngleFmt);
 }
 
@@ -111,6 +112,28 @@ impl Cs3ConsoleDebug for Cs<3> {
     }
 
     #[rustfmt::skip] #[inline]
+    fn print_dms_sn_we(&self, name: &str) {
+        // Pobieramy nasz rozszerzony trait dla formatowania znaków
+        use crate::libs::cs::utils::SignStrExt;
+
+        // Dekompresujemy ECEF (XYZ) do DTO z DMS
+        let dms = self.to_dms_sn_we_from_xyz();
+
+        // Wyciągamy litery kierunków na podstawie znaków (N/S i E/W)
+        let lat_dir = dms.sn_lat_d.sign_sn();
+        let lon_dir = dms.we_lon_d.sign_we();
+
+        // Wyświetlamy dokładnie jak na zrzucie ekranu z Google Maps!
+        // {:02} dodaje zera wiodące do minut (np. 8 -> 08)
+        // {:04.1} dodaje zera i ustala 1 miejsce po przecinku dla sekund (np. 2.3 -> 02.3)
+        println!(" {} 🌍 {}°{:02}'{:04.1}\"{} {}°{:02}'{:04.1}\"{}",
+            name,
+            dms.sn_lat_d.abs(), dms.sn_lat_m, dms.sn_lat_s, lat_dir,
+            dms.we_lon_d.abs(), dms.we_lon_m, dms.we_lon_s, lon_dir
+        );
+    }
+
+    #[rustfmt::skip] #[inline]
     fn print(&self, name: &str, fmt: AngleFmt) {
         let spacer = " ".repeat(name.chars().count());
         self.print_xyz(name);
@@ -119,6 +142,7 @@ impl Cs3ConsoleDebug for Cs<3> {
         self.print_rfz(&spacer, fmt);
         self.print_rfy(&spacer, fmt);
         self.print_rfx(&spacer, fmt);
+        self.print_dms_sn_we(&spacer);
         println!(" ");
     }
 }

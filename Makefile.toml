@@ -11,7 +11,7 @@ args = [
 ]
 
 # --- SNAPSHOT STRUKTURY ---
-[tasks.history-snapshot-structure]
+[tasks.history-snapshot-filetree]
 description = "Generuje snapshot struktury projektu bez pełnego kodu"
 command = "cargo"
 args = [
@@ -42,18 +42,42 @@ args = [
 # --- KOMENDA ZBIORCZA ---
 [tasks.history-snapshot]
 description = "Wykonuje oba snapshoty: strukturę oraz pełne archiwum"
-dependencies = ["history-snapshot-structure", "history-snapshot-totalcode"]
+dependencies = ["history-snapshot-filetree", "history-snapshot-totalcode"]
 
 # --- KOMENDA "NA ŚWIEŻO" ---
 [tasks.history-snapshot-fresh]
 description = "Czyści historię i generuje nowe snapshoty (Serial execution)"
 run_task = { name = ["history-clean", "history-snapshot"], parallel = false }
 
-[tasks.hc]
-alias = "history-clean"
-
-[tasks.hs]
+[tasks.a]
 alias = "history-snapshot"
 
-[tasks.h]
+[tasks.d]
+alias = "history-snapshot-totalcode"
+
+[tasks.f]
+alias = "history-snapshot-filetree"
+
+[tasks.n]
 alias = "history-snapshot-fresh"
+
+[tasks.r]
+alias = "history-clean"
+
+# --- AUTOMATYZACJA WERSJONOWANIA (TAG & PUSH) ---
+[tasks.new-version-push]
+description = "Tworzy nowy tag Git i wypycha zmiany na serwer. Użycie: cargo make v <wersja>"
+script_runner = "powershell"
+script = [
+    # Zabezpieczenie: sprawdzamy, czy podano argument
+    "if ('${1}' -eq '') { Write-Host 'Błąd: Podaj numer wersji! Np: cargo make v 0.1.0-alpha.2'; exit 1 }",
+    
+    "Write-Host '🏷️ Tworzenie tagu: v${1}...'",
+    "git tag v${1}",
+    
+    "Write-Host '🚀 Wypychanie kodu i tagów na GitHuba...'",
+    "git push origin main --tags"
+]
+
+[tasks.v]
+alias = "new-version-push"

@@ -153,13 +153,3 @@ impl<const N: usize> Div<f64> for Cs<N> where Cs<N>: Dim {
     }
 }
 
-
-/*
- *  --- DODATKOWE METODY KĄTÓW (Nie są potrzebne, bo można użyć arctan_y_x, arctan_z_x itd. -
- *  --- ale zostawiam je jako ciekawostkę dla map (Bearing/Heading)) 
- *  --- gdzie $0°$ to Północ (oś Y) i kąt rośnie zgodnie ze wskazówkami zegara (CW) w stronę Wschodu (X). 
- *
- *   #[rustfmt::skip] #[inline] fn arctan_x_y(&self) -> f64 { self.0[0].atan2(self.0[1])  }   
- *   #[rustfmt::skip] #[inline] fn arctan_x_z(&self) -> f64 { self.0[0].atan2(self.0[2])  }   
- *   #[rustfmt::skip] #[inline] fn arctan_y_z(&self) -> f64 { self.0[1].atan2(self.0[2])  }   
- */

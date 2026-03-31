@@ -44,6 +44,22 @@ macro_rules! cs {
     };
 }
 
+/// Makro do błyskawicznego tworzenia struktury Angle z formatu DMS.
+#[macro_export]
+macro_rules! dms_angle {
+    ($d:expr, $m:expr, $s:expr) => {
+        $crate::libs::angle::Angle::from_dms($d as i16, $m as u8, $s as f32)
+    };
+}
+
+/// Makro do bezpośredniego wstrzykiwania radianów z formatu DMS do wektorów Cs<N>.
+#[macro_export]
+macro_rules! dms {
+    ($d:expr, $m:expr, $s:expr) => {
+        $crate::libs::angle::Angle::from_dms($d as i16, $m as u8, $s as f32).rad()
+    };
+}
+
 // ===================================================================================
 // OGRANICZENIE WYMIAROWOŚCI (MARKER TRAIT)
 // ===================================================================================

@@ -15,10 +15,30 @@ impl Cs<2> {
     // Matematyka i kąty 2D
     #[rustfmt::skip] #[inline] pub fn rxy(&self) -> f64 { self.0[0].hypot(self.0[1]) }
     #[rustfmt::skip] #[inline] pub fn arctan_y_x(&self) -> f64 { self.0[1].atan2(self.0[0]) }
+    // Kąty kompasowe / mapowe (0° to Y/Północ, rośnie zgodnie z ruchem wskazówek zegara)
+    #[rustfmt::skip] #[inline] pub fn arctan_x_y(&self) -> f64 { self.0[0].atan2(self.0[1]) }
 
     // Konwersje w obrębie 2D
     #[rustfmt::skip] #[inline] pub fn to_rf_from_xy(&self) -> Cs<2> { Cs([self.rxy(), self.arctan_y_x()]) }
 
+    /// Przekształca wektor 2D [Szerokość_rad, Długość_rad] na wektor 3D (X, Y, Z) 
+    /// ze środkiem (0,0,0) w jądrze Ziemi.
+    /// Parametr `r` to promień Ziemi (np. 6371000.0 m dla średniego promienia).
+    pub fn to_ecef_from_rad_sn_we(&self, r: f64) -> Cs<3> {
+        // Składowe trygonometryczne (Rust optymalizuje to sprzętowo jako jedną instrukcję)
+        let (sin_lat, cos_lat) = self.0[0].sin_cos();
+        let (sin_lon, cos_lon) = self.0[1].sin_cos();
+
+        // Oś X: 0°N, 0°E (Greenwich na równiku)
+        // Oś Y: 0°N, 90°E (Ocean Indyjski na równiku)
+        // Oś Z: 90°N (Biegun Północny)
+        Cs([
+            r * cos_lat * cos_lon, // X
+            r * cos_lat * sin_lon, // Y
+            r * sin_lat            // Z
+        ])
+    }
+    
     /// Zwraca ćwiartkę na płaszczyźnie XY (1-4)
     #[rustfmt::skip] #[inline]
     pub fn q(&self) -> u8 {

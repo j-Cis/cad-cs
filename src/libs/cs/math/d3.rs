@@ -23,6 +23,10 @@ impl Cs<3> {
     #[rustfmt::skip] #[inline] pub fn arctan_y_x(&self) -> f64 { self.0[1].atan2(self.0[0]) }
     #[rustfmt::skip] #[inline] pub fn arctan_z_x(&self) -> f64 { self.0[2].atan2(self.0[0]) }
     #[rustfmt::skip] #[inline] pub fn arctan_z_y(&self) -> f64 { self.0[2].atan2(self.0[1]) }
+    // Kąty kompasowe / mapowe (0° to Y/Północ)
+    #[rustfmt::skip] #[inline] pub fn arctan_x_y(&self) -> f64 { self.0[0].atan2(self.0[1]) }   
+    #[rustfmt::skip] #[inline] pub fn arctan_x_z(&self) -> f64 { self.0[0].atan2(self.0[2]) }   
+    #[rustfmt::skip] #[inline] pub fn arctan_y_z(&self) -> f64 { self.0[1].atan2(self.0[2]) }
 
     // Kąty przestrzenne (inklinacja/odchylenie)
     #[rustfmt::skip] #[inline] pub fn arccos_x_rxyz(&self) -> f64 { let r = self.rxyz(); if tolerance::is_zero(r) { 0.0 } else { (self.0[0] / r).clamp(-1.0, 1.0).acos() } }
@@ -39,6 +43,70 @@ impl Cs<3> {
     #[rustfmt::skip] #[inline] pub fn to_rfy_from_xyz(&self) -> Cs<3> { Cs([self.rxz(),  self.arctan_z_x(), self.0[1]]) }
     #[rustfmt::skip] #[inline] pub fn to_rfz_from_xyz(&self) -> Cs<3> { Cs([self.rxy(),  self.arctan_y_x(), self.0[2]]) }
     #[rustfmt::skip] #[inline] pub fn to_rft_from_xyz(&self) -> Cs<3> { Cs([self.rxyz(), self.arctan_y_x(), self.arccos_z_rxyz()]) }
+
+    // ===================================================================================
+    // KONWERSJE GEODEZYJNE
+    // ===================================================================================
+
+    /// Bezpośredni konstruktor wektora ECEF (XYZ) z formatu DMS.
+    /// Nazewnictwo `sn_we`: najpierw Szerokość (S/N), potem Długość (W/E).
+    #[rustfmt::skip]
+    pub fn to_ecef_from_dms_sn_we(
+        sn_d: i16, sn_m: u8, sn_s: f32, 
+        we_d: i16, we_m: u8, we_s: f32, 
+        r: f64
+    ) -> Self {
+        use crate::libs::angle::Angle;
+        let lat_rad = Angle::from_dms(sn_d, sn_m, sn_s).rad();
+        let lon_rad = Angle::from_dms(we_d, we_m, we_s).rad();
+        
+        let (sin_lat, cos_lat) = lat_rad.sin_cos();
+        let (sin_lon, cos_lon) = lon_rad.sin_cos();
+
+        Cs([
+            r * cos_lat * cos_lon,
+            r * cos_lat * sin_lon,
+            r * sin_lat
+        ])
+    }
+
+    /// Przekształca wektor 3D ECEF (X, Y, Z) na współrzędne geograficzne w formacie DMS.
+    /// Zwraca strukturę `CoordsDmsNz90Ex0` (najpierw Szerokość SN, potem Długość WE).
+    #[rustfmt::skip]
+    pub fn to_dms_sn_we_from_xyz(&self) -> crate::libs::cs::model_coords::CoordsDmsNz90Ex0 {
+        use crate::libs::angle::Angle;
+        use crate::libs::tolerance;
+
+        let r = self.rxyz();
+        
+        // Zabezpieczenie przed osobliwością w samym jądrze Ziemi (r = 0)
+        let (lat_rad, lon_rad) = if tolerance::is_zero(r) {
+            (0.0, 0.0)
+        } else {
+            (
+                (self.0[2] / r).clamp(-1.0, 1.0).asin(), // Szerokość z osi Z
+                self.0[1].atan2(self.0[0])               // Długość z płaszczyzny XY
+            )
+        };
+
+        // Rzutujemy radiany na nasz izolator Angle
+        let lat_angle = Angle::from_rad(lat_rad);
+        let lon_angle = Angle::from_rad(lon_rad);
+
+        // Dekodujemy do składowych (Stopnie, Minuty, Sekundy)
+        let (lat_d, lat_m, lat_s) = lat_angle.to_dms();
+        let (lon_d, lon_m, lon_s) = lon_angle.to_dms();
+
+        // Pakujemy w DTO
+        crate::libs::cs::model_coords::CoordsDmsNz90Ex0 {
+            sn_lat_d: lat_d as i8,
+            sn_lat_m: lat_m,
+            sn_lat_s: lat_s,
+            we_lon_d: lon_d,
+            we_lon_m: lon_m,
+            we_lon_s: lon_s,
+        }
+    }
 
     /// Zwraca oktant w przestrzeni XYZ (1-8)
     #[rustfmt::skip] #[inline]

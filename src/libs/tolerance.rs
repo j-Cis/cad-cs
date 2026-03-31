@@ -1,4 +1,3 @@
-
 /// Absolutna tolerancja przestrzenna (np. dla sprawdzania długości wektora i koincydencji).
 /// UWAGA: Ta wartość jest krytyczna dla stabilności numerycznej całego silnika.
 pub const EPSILON_SPATIAL: f64 = 1e-9;

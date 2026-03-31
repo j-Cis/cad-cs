@@ -23,8 +23,8 @@ impl Cs<3> {
     #[rustfmt::skip] #[inline]    pub fn arctan_z_x(&self) -> f64 { self.0[2].atan2(self.0[0]) }
     #[rustfmt::skip] #[inline]    pub fn arctan_z_y(&self) -> f64 { self.0[2].atan2(self.0[1]) }
     // Kąty kompasowe / mapowe (0° to Y/Północ)
-    #[rustfmt::skip] #[inline]    pub fn arctan_x_y(&self) -> f64 { self.0[0].atan2(self.0[1]) }  
-    #[rustfmt::skip] #[inline]    pub fn arctan_x_z(&self) -> f64 { self.0[0].atan2(self.0[2]) }  
+    #[rustfmt::skip] #[inline]    pub fn arctan_x_y(&self) -> f64 { self.0[0].atan2(self.0[1]) }
+    #[rustfmt::skip] #[inline]    pub fn arctan_x_z(&self) -> f64 { self.0[0].atan2(self.0[2]) }
     #[rustfmt::skip] #[inline]    pub fn arctan_y_z(&self) -> f64 { self.0[1].atan2(self.0[2]) }
 
     // Kąty przestrzenne (inklinacja/odchylenie)
@@ -51,14 +51,14 @@ impl Cs<3> {
     /// Nazewnictwo `sn_we`: najpierw Szerokość (S/N), potem Długość (W/E).
     #[rustfmt::skip]
     pub fn to_ecef_from_dms_sn_we(
-        sn_d: i16, sn_m: u8, sn_s: f32, 
-        we_d: i16, we_m: u8, we_s: f32, 
+        sn_d: i16, sn_m: u8, sn_s: f32,
+        we_d: i16, we_m: u8, we_s: f32,
         r: f64
     ) -> Self {
         use crate::libs::angle::Angle;
         let lat_rad = Angle::from_dms(sn_d, sn_m, sn_s).rad();
         let lon_rad = Angle::from_dms(we_d, we_m, we_s).rad();
-        
+
         let (sin_lat, cos_lat) = lat_rad.sin_cos();
         let (sin_lon, cos_lon) = lon_rad.sin_cos();
 
@@ -77,7 +77,7 @@ impl Cs<3> {
         use crate::libs::tolerance;
 
         let r = self.rxyz();
-        
+
         // Zabezpieczenie przed osobliwością w samym jądrze Ziemi (r = 0)
         let (lat_rad, lon_rad) = if tolerance::is_zero(r) {
             (0.0, 0.0)

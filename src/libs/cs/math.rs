@@ -17,7 +17,7 @@ where
 {
     /// Odejmuje drugi wektor od obecnego (zwraca wektor między dwoma punktami: B - A).
     #[rustfmt::skip] #[inline]
-    pub fn sub(&self, other: &Self) -> Self { 
+    pub fn sub(&self, other: &Self) -> Self {
         // let mut result = [0.0; N];
         // for i in 0..N { result[i] = self.0[i] - other.0[i]; }
         // Cs(result)
@@ -26,7 +26,7 @@ where
 
     /// Dodaje drugi wektor do obecnego (przesunięcie punktu o wektor).
     #[rustfmt::skip] #[inline]
-    pub fn add(&self, other: &Self) -> Self { 
+    pub fn add(&self, other: &Self) -> Self {
         // let mut result = [0.0; N];
         // for i in 0..N { result[i] = self.0[i] + other.0[i]; }
         // Cs(result)
@@ -35,7 +35,7 @@ where
 
     /// Iloczyn skalarny (Dot product) dla dowolnego wymiaru przestrzeni.
     #[rustfmt::skip] #[inline]
-    pub fn dot(&self, other: &Self) -> f64 { 
+    pub fn dot(&self, other: &Self) -> f64 {
         let mut sum = 0.0;
         for i in 0..N { sum += self.0[i] * other.0[i]; }
         sum
@@ -52,12 +52,12 @@ where
 
     /// Zwraca znormalizowany wektor (kierunek, długość = 1.0) dla danego wymiaru.
     /// Zwraca wektor zerowy, jeśli długość oryginału to 0.0.
-    #[rustfmt::skip] #[inline]  
+    #[rustfmt::skip] #[inline]
     pub fn normalize_r_projection(&self) -> Self {
         let radius = self.r();
-        if tolerance::is_zero(radius) { 
-            Cs([0.0; N]) 
-        } else { 
+        if tolerance::is_zero(radius) {
+            Cs([0.0; N])
+        } else {
             // let mut result = [0.0; N];
             // for i in 0..N { result[i] = self.0[i] / radius; }
             // Cs(result)
@@ -70,10 +70,10 @@ where
     pub fn angle_between(&self, other: &Self) -> f64 {
         let r1 = self.r();
         let r2 = other.r();
-        if tolerance::is_zero(r1) || tolerance::is_zero(r2) { 
-            0.0 
-        } else { 
-            (self.dot(other) / (r1 * r2)).clamp(-1.0, 1.0).acos() 
+        if tolerance::is_zero(r1) || tolerance::is_zero(r2) {
+            0.0
+        } else {
+            (self.dot(other) / (r1 * r2)).clamp(-1.0, 1.0).acos()
         }
     }
 }

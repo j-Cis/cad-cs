@@ -174,20 +174,25 @@ args = [
     "Write-Host '🧹 Sprzątanie spacji...'; Get-ChildItem -Recurse *.rs | ForEach-Object { $content = Get-Content $_; $content | ForEach-Object { $_.TrimEnd() } | Set-Content $_ }; Write-Host '✅ Pliki .rs są teraz czyste.'"
 ]
 
+# --- NAPRAWY KOMPILATORA I LINTERA (Z ZAPISEM DO LOGÓW) ---
+
 [tasks.cargo-fix-core]
-description = "Automatyczna naprawa błędów samego kompilatora rustc"
-command = "cargo"
-args = ["fix", "--allow-dirty", "--allow-no-vcs", "--all-targets", "--all-features"]
+description = "Automatyczna naprawa błędów rustc"
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' -> 14/16: Naprawa rustc (cargo fix)...'; cargo fix --allow-dirty --allow-no-vcs --all-targets --all-features *> .err/14_cargo_fix.log"]
 
 [tasks.clippy-fix]
 description = "Automatyczna naprawa sugestii Clippy"
-command = "cargo"
-args = ["clippy", "--fix", "--allow-dirty", "--all-targets", "--all-features"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' -> 15/16: Naprawa lintera (clippy --fix)...'; cargo clippy --fix --allow-dirty --all-targets --all-features *> .err/15_clippy_fix.log"]
 
 [tasks.fmt-cargo]
 description = "Standardowe formatowanie cargo fmt"
-command = "cargo"
-args = ["fmt"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' -> 16/16: Formatowanie kodu (cargo fmt)...'; cargo fmt *> .err/16_cargo_fmt.log"]
 
 # --- KOMENDA ZBIORCZA (COMBO) ---
 # --- BEZPIECZNE FORMATOWANIE ---

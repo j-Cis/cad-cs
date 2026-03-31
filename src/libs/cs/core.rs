@@ -109,9 +109,9 @@ impl Cs<2> {
     /// Tworzy nowy wektor 2D z układu biegunowego (R, Φ) na płaszczyźnie XY.
     /// Kąt Phi (azymut) należy podać w radianach.
     #[rustfmt::skip] #[inline]
-    pub fn new_from_rf(r: f64, phi_rad: f64) -> Self { 
+    pub fn new_from_rf(r: f64, phi_rad: f64) -> Self {
         let (sin_phi, cos_phi) = phi_rad.sin_cos();
-        Cs([r * cos_phi, r * sin_phi]) 
+        Cs([r * cos_phi, r * sin_phi])
     }
 
     // Projeksje 2D -> 3D (zwracają nową pamięć Cs<3>)
@@ -169,8 +169,8 @@ impl Cs<3> {
         let (sin_phi, cos_phi) = phi_rad.sin_cos();
         let (sin_theta, cos_theta) = theta_rad.sin_cos();
         Cs([
-            r * sin_theta * cos_phi, 
-            r * sin_theta * sin_phi, 
+            r * sin_theta * cos_phi,
+            r * sin_theta * sin_phi,
             r * cos_theta
         ])
     }

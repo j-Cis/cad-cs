@@ -5,7 +5,7 @@ use cad_cs::{cs, dms};
 
 // Importujemy struktury z Twojej biblioteki
 use cad_cs::libs::angle::AngleFmt;
-use cad_cs::libs::cs::debug_print::{Cs2ConsoleDebug, Cs3ConsoleDebug};
+use cad_cs::libs::cs::debug_print::Cs3ConsoleDebug;
 use cad_cs::libs::cs::model_coords::{Coords2dXyPolar, Coords3dXyzSpherical};
 use cad_cs::libs::cs::{Cs2, Cs3};
 fn main() {

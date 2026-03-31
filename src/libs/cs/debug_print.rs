@@ -85,7 +85,7 @@ impl Cs3ConsoleDebug for Cs<3> {
     fn print_xyz(&self, name: &str) {
         println!(" {} 🔶 (x: {:?}, y: {:?}, z: {:?})", name, self.0[0], self.0[1], self.0[2]);
     }
-    
+
     #[rustfmt::skip] #[inline]
     fn print_rft(&self, name: &str, fmt: AngleFmt) {
         let rft = self.to_rft_from_xyz();

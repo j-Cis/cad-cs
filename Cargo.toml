@@ -1,0 +1,53 @@
+[package]
+name = "cad-cs"
+version = "0.1.0"
+authors = ["Jan Roman Cisowski „j-Cis”"]
+edition = "2024"
+rust-version = "1.94.0"
+description = "Calculations on Coordinate Systems (2D/3D geometry, vectors, transformations)"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/j-Cis/cad-cs"
+documentation = "https://docs.rs/cad-cs"
+
+keywords = ["geometry", "math", "coordinates", "cad", "vector"]
+categories = ["mathematics", "science","science:geo", "algorithms","graphics"]
+
+exclude = [
+    ".history/",
+    ".github/",
+    ".vscode/",
+    "tests/",
+    "benches/",
+]
+
+resolver = "3"
+
+[package.metadata.cargo]
+edition = "2024"
+
+[dependencies]
+
+[profile.release]
+lto = true          # Kompilator optymalizuje kod na poziomie całego projektu
+codegen-units = 1   # Wolniejsza kompilacja, ale szybszy kod wynikowy
+panic = "abort"     # (Opcjonalnie) Mniejsze binarki, brak odwijania stosu przy błędach
+
+[package.metadata.docs.rs]
+all-features = true      # Dokumentuje wszystko, co zdefiniowaliśmy w [features]
+rustdoc-args = ["--cfg", "docsrs"]
+
+# ==========================================
+# Globalna konfiguracja lintów (Analiza kodu)
+# ==========================================
+[lints.rust]
+# Kategorycznie zabraniamy używania bloków `unsafe` w całym projekcie
+unsafe_code = "forbid"
+# Ostrzegamy o nieużywanych importach, zmiennych i funkcjach
+# unused = "warn"
+#
+[lints.clippy]
+# Włączamy surowsze reguły, ale jako ostrzeżenia (nie zepsują kompilacji)
+# pedantic = "warn"
+# Możemy tu też wyciszyć globalnie to, co nas irytuje (opcjonalnie):
+too_many_arguments = "allow"

@@ -1,0 +1,56 @@
+# .github/workflows/rust.yml
+# Plik konfiguracyjny CI (Continuous Integration) dla biblioteki cad-cs.
+# Sprawdza formatowanie, jakość kodu (Clippy) oraz uruchamia testy na wielu systemach.
+
+name: Rust CI & Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test-and-lint:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Update Rust Toolchain
+      run: rustup update stable && rustup default stable && rustup component add clippy rustfmt
+
+    - name: Cache Cargo
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+    # 1. Sprawdzanie formatowania
+    - name: Check Formatting
+      run: cargo fmt -- --check
+
+    # 2. Sprawdzanie jakości kodu (Linter Clippy)
+    - name: Lint with Clippy
+      run: cargo clippy -- -D warnings
+
+    # 3. Uruchomienie testów (Najważniejsze dla biblioteki matematycznej)
+    - name: Run tests
+      run: cargo test --verbose
+
+    # 4. Budowanie wersji produkcyjnej, aby upewnić się, że nie ma błędów kompilacji
+    - name: Build Library
+      run: cargo build --release --verbose

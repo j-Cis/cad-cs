@@ -1,0 +1,64 @@
+# .github/workflows/release.yml
+# Plik konfiguracyjny CD (Continuous Deployment) dla biblioteki cad-cs.
+# Automatyzuje proces wydań po dodaniu taga wersji (np. v0.1.2).
+# Tworzy Release na GitHubie i publikuje paczkę na crates.io.
+
+name: Deploy Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  # --- SPRAWDZANIE GAŁĘZI ---
+  check-branch:
+    name: Check if tag is on main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+      
+      - name: Verify Branch
+        run: |
+          COMMIT_SHA=${{ github.sha }}
+          if git branch -r --contains "$COMMIT_SHA" | grep -q "origin/main"; then
+            echo "Tag is on main. Proceeding with release."
+            exit 0
+          else
+            echo "Error: Tag is NOT on main. It belongs to another branch."
+            exit 1
+          fi
+
+  # --- TWORZENIE GITHUB RELEASE ---
+  create-github-release:
+    name: Create GitHub Release
+    needs: check-branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true # Automatycznie wygeneruje notatki z PR-ów!
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # --- PUBLIKACJA NA CRATES.IO ---
+  publish-to-crates-io:
+    name: Publish to crates.io
+    needs: check-branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: rustup update stable
+      - name: Publish
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish

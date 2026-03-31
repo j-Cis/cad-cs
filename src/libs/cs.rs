@@ -1,12 +1,12 @@
 // src/libs/cs.rs
 
 // 1. Rejestrujemy wszystkie prywatne/publiczne podmoduły
+pub mod core;
+pub mod debug_print;
+pub mod math;
 pub mod model;
 pub mod model_coords;
 pub mod utils;
-pub mod core;
-pub mod math;
-pub mod debug_print;
 
 // 2. Wyciągamy na wierzch to, co ma być widoczne dla użytkownika końcowego
 // (to "spłaszcza" Twoją skomplikowaną architekturę folderów na zewnątrz)
@@ -14,10 +14,9 @@ pub use model::{Cs, Cs2, Cs3, Dim};
 pub use model_coords::*;
 pub use utils::SignStrExt;
 
-// (Metody przypięte przez bloki 'impl Cs' z core.rs, math.rs, d2.rs, d3.rs 
-// ładują się automatycznie dla kompilatora, gdy tylko załadujemy moduł. 
+// (Metody przypięte przez bloki 'impl Cs' z core.rs, math.rs, d2.rs, d3.rs
+// ładują się automatycznie dla kompilatora, gdy tylko załadujemy moduł.
 // Nie trzeba ich eksportować przez 'pub use'!)
-
 
 // ===================================================================================
 // LEGENDA / KLUCZE SYMBOLI W Cs<N>
@@ -39,22 +38,22 @@ pub use utils::SignStrExt;
 //
 // 📖 Współrzędne (Oraz ich bezpieczne odpowiedniki DTO):
 //
-// - xy  (Coords2dXy)      : współrzędne 2D kartezjańskie (x,y) lub lub wektor (x,y) lub płaszczyzna XY 
-// - xz  (Coords2dXz)      : współrzędne 2D kartezjańskie (x,z) lub lub wektor (x,z) lub płaszczyzna XZ 
-// - yz  (Coords2dYz)      : współrzędne 2D kartezjańskie (y,z) lub lub wektor (y,z) lub płaszczyzna YZ 
+// - xy  (Coords2dXy)      : współrzędne 2D kartezjańskie (x,y) lub lub wektor (x,y) lub płaszczyzna XY
+// - xz  (Coords2dXz)      : współrzędne 2D kartezjańskie (x,z) lub lub wektor (x,z) lub płaszczyzna XZ
+// - yz  (Coords2dYz)      : współrzędne 2D kartezjańskie (y,z) lub lub wektor (y,z) lub płaszczyzna YZ
 // - rf  (Coords2dXyPolar) : współrzędne 2D biegunowe/cylindryczne (R, Φ)
 // - rf  (Coords2dXzPolar) : współrzędne 2D biegunowe/cylindryczne (R, Φ)
 // - rf  (Coords2dZyPolar) : współrzędne 2D biegunowe/cylindryczne (R, Φ)
-// - rfx (Coords3dYzCylindricalX) : współrzędne 3D cylindryczne względem osi X (R_yz, Φ, X) 
-// - rfy (Coords3dXzCylindricalY) : współrzędne 3D cylindryczne względem osi Y (R_xz, Φ, Y) 
-// - rfz (Coords3dXyCylindricalZ) : współrzędne 3D cylindryczne względem osi Z (R_xy, Φ, Z) 
+// - rfx (Coords3dYzCylindricalX) : współrzędne 3D cylindryczne względem osi X (R_yz, Φ, X)
+// - rfy (Coords3dXzCylindricalY) : współrzędne 3D cylindryczne względem osi Y (R_xz, Φ, Y)
+// - rfz (Coords3dXyCylindricalZ) : współrzędne 3D cylindryczne względem osi Z (R_xy, Φ, Z)
 // - xyz (Coords3dXyz)            : współrzędne 3D kartezjańskie (x,y,z) lub lub wektor (x,y,z) lub przestrzeń XYZ
 // - rft (Coords3dXyzSpherical)   : współrzędne 3D sferyczne (R, Φ, Θ)
 //
 // 📖 Współrzędne / Kąty (azymuty / inklinacje):
 //
-// - f (f_yx/f_zx/f_zy) : współrzędna 2D/3D (Φ) – kąt azymutu 
-//                                                  w płaszczyźnie XY/XZ/YZ lub 
+// - f (f_yx/f_zx/f_zy) : współrzędna 2D/3D (Φ) – kąt azymutu
+//                                                  w płaszczyźnie XY/XZ/YZ lub
 //                                                  w układach sferycznych RΦΘ lub
 //                                                  w ukłądach cylindrycznych RΦX/RΦY/RΦZ.
 // - t (t_zr) : współrzędna 3D (Θ) – kąt inklinacji w układzie sferycznym od osi Z/Y/X
@@ -86,5 +85,3 @@ pub use utils::SignStrExt;
 // - angle_between             : kąt między dwoma wektorami
 //
 // ===================================================================================
-
-

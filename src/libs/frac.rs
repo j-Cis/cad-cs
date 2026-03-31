@@ -2,15 +2,19 @@ use super::tolerance;
 use std::f64::consts;
 
 // Makra pomocnicze do czystego zapisu ułamków i wielokrotności PI.
-// Eliminują problem dzielenia całkowitoliczbowego (gdzie `1/2` daje `0`) 
+// Eliminują problem dzielenia całkowitoliczbowego (gdzie `1/2` daje `0`)
 // oraz konieczność dodawania `.0` do literałów.
 
 /// Makro do czystego zapisu ułamków zwykłych.
 /// Zwraca surowe `f64`.
 #[macro_export]
 macro_rules! frac {
-    ($n:tt / $d:tt) => { (($n as f64) / ($d as f64)) };
-    ($n:tt) => { ($n as f64) };
+    ($n:tt / $d:tt) => {
+        (($n as f64) / ($d as f64))
+    };
+    ($n:tt) => {
+        ($n as f64)
+    };
 }
 
 /// Makro do czystego zapisu wielokrotności PI.
@@ -58,7 +62,7 @@ pub fn as_frac(value: f64) -> (f64, f64) {
         den_curr = den_next;
 
         let diff = val - a;
-        
+
         // Przerywamy, gdy trafimy z dokładnością naszego inżynieryjnego jądra
         if tolerance::is_zero(diff) {
             break;
@@ -69,7 +73,7 @@ pub fn as_frac(value: f64) -> (f64, f64) {
     (sign * num_curr, den_curr)
 }
 
-/// Odwrotność makra `frac_pi!`. Przyjmuje surową wartość (np. kąt w radianach) 
+/// Odwrotność makra `frac_pi!`. Przyjmuje surową wartość (np. kąt w radianach)
 /// i zwraca go jako ułamek wielokrotności PI (licznik, mianownik).
 pub fn as_frac_pi(value: f64) -> (f64, f64) {
     as_frac(value / consts::PI)

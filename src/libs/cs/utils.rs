@@ -1,4 +1,3 @@
-
 /// Trait rozszerzający dla f64, ułatwiający formatowanie znaków.
 pub trait SignStrExt {
     /// Zwraca statyczny string "+" dla liczb >= 0 oraz "-" dla ujemnych.
@@ -6,7 +5,7 @@ pub trait SignStrExt {
 
     /// Zwraca "N" dla wartości >= 0 (Północ) oraz "S" dla ujemnych (Południe).
     fn sign_sn(self) -> &'static str;
-    
+
     /// Zwraca "E" dla wartości >= 0 (Wschód) oraz "W" dla ujemnych (Zachód).
     fn sign_we(self) -> &'static str;
 }
@@ -15,9 +14,18 @@ pub trait SignStrExt {
 macro_rules! impl_sign_str {
     ($t:ty, $zero:expr) => {
         impl SignStrExt for $t {
-            #[inline] fn sign_str(self) -> &'static str { if self >= $zero { "+" } else { "-" } }
-            #[inline] fn sign_sn(self) -> &'static str { if self >= $zero { "N" } else { "S" } }
-            #[inline] fn sign_we(self) -> &'static str { if self >= $zero { "E" } else { "W" } }
+            #[inline]
+            fn sign_str(self) -> &'static str {
+                if self >= $zero { "+" } else { "-" }
+            }
+            #[inline]
+            fn sign_sn(self) -> &'static str {
+                if self >= $zero { "N" } else { "S" }
+            }
+            #[inline]
+            fn sign_we(self) -> &'static str {
+                if self >= $zero { "E" } else { "W" }
+            }
         }
     };
 }

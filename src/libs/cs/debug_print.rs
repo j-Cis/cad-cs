@@ -1,6 +1,6 @@
 // src/libs/cs/debug_print.rs
-use crate::libs::cs::model::Cs;
 use crate::libs::angle::{AngleExt, AngleFmt};
+use crate::libs::cs::model::Cs;
 // UWAGA: Potrzebuje też dostępu do metod matematycznych z innych bloków impl!
 // Ponieważ w Ruście metody rozszerzające (traitowe) muszą być w scope, a Twoje
 // metody to bezposrednie "impl Cs", będą widoczne o ile tylko typ Cs jest znany.
@@ -8,7 +8,6 @@ use crate::libs::angle::{AngleExt, AngleFmt};
 // ===================================================================================
 // HELPERY PRYWATNE DLA MODUŁU DEBUG
 // ===================================================================================
-
 
 /// Prywatny helper do dynamicznego formatowania kątów.
 /// Żyje tylko w warstwie prezentacji, z dala od czystej matematyki.
@@ -147,33 +146,31 @@ impl Cs3ConsoleDebug for Cs<3> {
     }
 }
 
-
-
 // TODO: Wdrożenie Metody D - "Formatter Adapter Pattern" (Zatwierdzona ścieżka rozwoju)
 // ---------------------------------------------------------------------------------------
-// CEL: Całkowita separacja warstwy prezentacji od logiki wyjścia (stdout). 
+// CEL: Całkowita separacja warstwy prezentacji od logiki wyjścia (stdout).
 // Obecna Metoda A (CsConsoleDebug) jest wygodna, ale "sztywno" wiąże nas z println!.
 //
 // KONCEPCJA:
-// Zamiast metod .print(), stworzymy adaptery (lekkie struktury), które implementują 
-// trait `std::fmt::Display`. Dzięki temu punkt będzie można wypisać nie tylko na konsolę, 
+// Zamiast metod .print(), stworzymy adaptery (lekkie struktury), które implementują
+// trait `std::fmt::Display`. Dzięki temu punkt będzie można wypisać nie tylko na konsolę,
 // ale też do logów, plików, czy przesłać jako String do UI.
 //
 // PRZEWIDYWANA ERGONOMIA:
 // let pt = cs![1.0, 2.0, 3.0];
 // println!("Punkt kontrolny: {}", pt.display_as("P1", AngleFmt::Deg));
-// 
+//
 // ZALETY:
 // 1. Wsparcie dla makr systemowych: format!, write!, panic!, log!.
-// 2. Leniwa ewaluacja (Lazy): Formantowanie tekstu następuje dopiero w momencie 
+// 2. Leniwa ewaluacja (Lazy): Formantowanie tekstu następuje dopiero w momencie
 //    rzeczywistego żądania zapisu, a nie w trakcie wywołania metody.
 // 3. Czystość: Usunięcie bezpośrednich zależności od `std::io` z rdzenia matematycznego.
 //
 // SZKIC IMPLEMENTACJI:
-// struct CsFormatter<'a, const N: usize> { 
-//     source: &'a Cs<N>, 
-//     name: &'a str, 
-//     fmt: AngleFmt 
+// struct CsFormatter<'a, const N: usize> {
+//     source: &'a Cs<N>,
+//     name: &'a str,
+//     fmt: AngleFmt
 // }
 //
 // impl<'a, const N: usize> std::fmt::Display for CsFormatter<'a, N> {
@@ -182,5 +179,3 @@ impl Cs3ConsoleDebug for Cs<3> {
 //     }
 // }
 // ---------------------------------------------------------------------------------------
-
-

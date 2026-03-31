@@ -156,14 +156,67 @@ run_task = { name = [
     "err-diag-audit"
 ], parallel = false }
 
-# --- BEZPIECZNE FORMATOWANIE ---
-[tasks.fmt-safe]
-description = "Robi commit 'backup' i wykonuje cargo fmt"
+# --- MODUŁY POMOCNICZE ---
+
+[tasks.git-backup]
+description = "Tworzy bezpieczny commit, jeśli są niezatwierdzone zmiany"
 command = "powershell"
 args = [
     "-Command",
-    "Write-Host '📦 Sprawdzanie zmian...'; if (git status --porcelain) { git add .; git commit -m 'chore: pre-format backup'; Write-Host '✅ Zmiany zabezpieczone commitem.' } else { Write-Host 'ℹ️ Brak zmian do zabezpieczenia.' }; Write-Host '🎨 Formatowanie kodu...'; cargo fmt; Write-Host '🚀 Gotowe! Kod jest sformatowany i bezpieczny.'"
+    "Write-Host '📦 Zabezpieczanie pracy...'; if (git status --porcelain) { git add .; git commit -m 'chore: pre-operation backup'; Write-Host '✅ Zmiany zapisane w Gicie.' } else { Write-Host 'ℹ️ Brak zmian do zapisu.' }"
 ]
+
+[tasks.fmt-fix-whitespace]
+description = "Usuwa puste spacje z końców linii (naprawa błędu rustfmt)"
+command = "powershell"
+args = [
+    "-Command",
+    "Write-Host '🧹 Sprzątanie spacji...'; Get-ChildItem -Recurse *.rs | ForEach-Object { $content = Get-Content $_; $content | ForEach-Object { $_.TrimEnd() } | Set-Content $_ }; Write-Host '✅ Pliki .rs są teraz czyste.'"
+]
+
+[tasks.cargo-fix-core]
+description = "Automatyczna naprawa błędów samego kompilatora rustc"
+command = "cargo"
+args = ["fix", "--allow-dirty", "--allow-no-vcs", "--all-targets", "--all-features"]
+
+[tasks.clippy-fix]
+description = "Automatyczna naprawa sugestii Clippy"
+command = "cargo"
+args = ["clippy", "--fix", "--allow-dirty", "--all-targets", "--all-features"]
+
+[tasks.fmt-cargo]
+description = "Standardowe formatowanie cargo fmt"
+command = "cargo"
+args = ["fmt"]
+
+# --- KOMENDA ZBIORCZA (COMBO) ---
+# --- BEZPIECZNE FORMATOWANIE ---
+
+[tasks.fmt-safe]
+description = "Pełny cykl: Backup -> Spacje -> Clippy Fix -> Cargo Fmt"
+run_task = { name = [
+    "git-backup", 
+    "fmt-fix-whitespace", 
+    "cargo-fix-core",
+    "clippy-fix", 
+    "fmt-cargo"
+], parallel = false }
+
+# --- SPRAWDZANIE PLATFORM (Przenośność) ---
+
+[tasks.check-wasm32]
+description = "Sprawdza, czy biblioteka skompiluje się pod WebAssembly (przeglądarki)"
+command = "cargo"
+args = ["check", "--target", "wasm32-unknown-unknown", "--lib"]
+# UWAGA: Aby to zadziałało, musisz mieć zainstalowany target.
+# Odpal raz w konsoli: rustup target add wasm32-unknown-unknown
+
+[tasks.check-wasm64]
+description = "Sprawdza, czy biblioteka skompiluje się pod WebAssembly (przeglądarki)"
+command = "cargo"
+args = ["check", "--target", "wasm64-unknown-unknown", "--lib"]
+# UWAGA: Aby to zadziałało, musisz mieć zainstalowany target.
+# Odpal raz w konsoli: rustup target add wasm64-unknown-unknown
 
 # --- AUTOMATYZACJA WERSJONOWANIA (TAG & PUSH) ---
 [tasks.push-new-release-git]
@@ -206,7 +259,13 @@ alias = "history-snapshot-fresh"
 [tasks.r]
 alias = "history-clean"
 
-[tasks.s]
+[tasks.w]
+alias = "check-wasm32"
+
+[tasks.w64]
+alias = "check-wasm32"
+
+[tasks.x]
 alias = "fmt-safe"
 
 

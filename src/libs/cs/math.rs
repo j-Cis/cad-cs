@@ -1,31 +1,31 @@
 // src/libs/cs/math.rs
 use crate::libs::cs::model::{Cs, Dim};
 use crate::libs::tolerance;
-use std::ops::{Add, Sub, Mul, Div, Neg};
 use std::array;
+use std::ops::{Add, Div, Mul, Neg, Sub};
 
 pub mod d2;
 pub mod d3;
-
-
 
 // ===================================================================================
 // MATEMATYKA WEKTOROWA
 // ===================================================================================
 
-impl<const N: usize> Cs<N> where Cs<N>: Dim {
-    
+impl<const N: usize> Cs<N>
+where
+    Cs<N>: Dim,
+{
     /// Odejmuje drugi wektor od obecnego (zwraca wektor między dwoma punktami: B - A).
-    #[rustfmt::skip] #[inline] 
+    #[rustfmt::skip] #[inline]
     pub fn sub(&self, other: &Self) -> Self { 
         // let mut result = [0.0; N];
         // for i in 0..N { result[i] = self.0[i] - other.0[i]; }
         // Cs(result)
         Cs(array::from_fn(|i| self.0[i] - other.0[i]))
     }
-    
+
     /// Dodaje drugi wektor do obecnego (przesunięcie punktu o wektor).
-    #[rustfmt::skip] #[inline] 
+    #[rustfmt::skip] #[inline]
     pub fn add(&self, other: &Self) -> Self { 
         // let mut result = [0.0; N];
         // for i in 0..N { result[i] = self.0[i] + other.0[i]; }
@@ -34,14 +34,14 @@ impl<const N: usize> Cs<N> where Cs<N>: Dim {
     }
 
     /// Iloczyn skalarny (Dot product) dla dowolnego wymiaru przestrzeni.
-    #[rustfmt::skip] #[inline] 
+    #[rustfmt::skip] #[inline]
     pub fn dot(&self, other: &Self) -> f64 { 
         let mut sum = 0.0;
         for i in 0..N { sum += self.0[i] * other.0[i]; }
         sum
     }
 
-    /// Kwadrat pełnej długości wektora (wspólny dla 2D i 3D). 
+    /// Kwadrat pełnej długości wektora (wspólny dla 2D i 3D).
     /// Zastępuje rxy_sq dla 2D oraz rxyz_sq dla 3D w operacjach ogólnych.
     #[rustfmt::skip] #[inline]
     pub fn r_sq(&self) -> f64 { self.dot(self) }
@@ -66,7 +66,7 @@ impl<const N: usize> Cs<N> where Cs<N>: Dim {
     }
 
     /// Zwraca kąt między dwoma wektorami w radianach (uniwersalne dla 2D i 3D).
-    #[rustfmt::skip] #[inline] 
+    #[rustfmt::skip] #[inline]
     pub fn angle_between(&self, other: &Self) -> f64 {
         let r1 = self.r();
         let r2 = other.r();
@@ -78,14 +78,16 @@ impl<const N: usize> Cs<N> where Cs<N>: Dim {
     }
 }
 
-
 // ===================================================================================
 // PRZECIĄŻANIE OPERATORÓW DLA DOWOLNEGO N
 // (Implementacja automatyczna dzięki użyciu tablic!)
 // ===================================================================================
 
 // --- DODAWANIE (Cs + Cs) ---
-impl<const N: usize> Add for Cs<N> where Cs<N>: Dim {
+impl<const N: usize> Add for Cs<N>
+where
+    Cs<N>: Dim,
+{
     type Output = Cs<N>;
     #[inline]
     fn add(self, rhs: Self) -> Self::Output {
@@ -97,7 +99,10 @@ impl<const N: usize> Add for Cs<N> where Cs<N>: Dim {
 }
 
 // --- ODEJMOWANIE (Cs - Cs) ---
-impl<const N: usize> Sub for Cs<N> where Cs<N>: Dim {
+impl<const N: usize> Sub for Cs<N>
+where
+    Cs<N>: Dim,
+{
     type Output = Cs<N>;
     #[inline]
     fn sub(self, rhs: Self) -> Self::Output {
@@ -109,7 +114,10 @@ impl<const N: usize> Sub for Cs<N> where Cs<N>: Dim {
 }
 
 // --- NEGACJA (-Cs) ---
-impl<const N: usize> Neg for Cs<N> where Cs<N>: Dim {
+impl<const N: usize> Neg for Cs<N>
+where
+    Cs<N>: Dim,
+{
     type Output = Cs<N>;
     #[inline]
     fn neg(self) -> Self::Output {
@@ -121,7 +129,10 @@ impl<const N: usize> Neg for Cs<N> where Cs<N>: Dim {
 }
 
 // --- MNOŻENIE PRZEZ SKALAR (Cs * f64) ---
-impl<const N: usize> Mul<f64> for Cs<N> where Cs<N>: Dim {
+impl<const N: usize> Mul<f64> for Cs<N>
+where
+    Cs<N>: Dim,
+{
     type Output = Cs<N>;
     #[inline]
     fn mul(self, rhs: f64) -> Self::Output {
@@ -133,7 +144,10 @@ impl<const N: usize> Mul<f64> for Cs<N> where Cs<N>: Dim {
 }
 
 // --- MNOŻENIE PRZEZ SKALAR (f64 * Cs) - ułatwia życie, gdy f64 jest po lewej ---
-impl<const N: usize> Mul<Cs<N>> for f64 where Cs<N>: Dim {
+impl<const N: usize> Mul<Cs<N>> for f64
+where
+    Cs<N>: Dim,
+{
     type Output = Cs<N>;
     #[inline]
     fn mul(self, rhs: Cs<N>) -> Self::Output {
@@ -142,7 +156,10 @@ impl<const N: usize> Mul<Cs<N>> for f64 where Cs<N>: Dim {
 }
 
 // --- DZIELENIE PRZEZ SKALAR (Cs / f64) ---
-impl<const N: usize> Div<f64> for Cs<N> where Cs<N>: Dim {
+impl<const N: usize> Div<f64> for Cs<N>
+where
+    Cs<N>: Dim,
+{
     type Output = Cs<N>;
     #[inline]
     fn div(self, rhs: f64) -> Self::Output {
@@ -152,4 +169,3 @@ impl<const N: usize> Div<f64> for Cs<N> where Cs<N>: Dim {
         Cs(array::from_fn(|i| self.0[i] / rhs))
     }
 }
-

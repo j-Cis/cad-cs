@@ -3,7 +3,7 @@
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Coords2dXy {
     pub x: f64,
-    pub y: f64, 
+    pub y: f64,
 }
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Coords2dXyPolar {
@@ -20,7 +20,7 @@ pub struct Coords3dXyCylindricalZ {
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Coords2dXz {
     pub x: f64,
-    pub z: f64, 
+    pub z: f64,
 }
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Coords2dXzPolar {
@@ -37,7 +37,7 @@ pub struct Coords3dXzCylindricalY {
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Coords2dYz {
     pub y: f64,
-    pub z: f64, 
+    pub z: f64,
 }
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Coords2dYzPolar {
@@ -48,14 +48,14 @@ pub struct Coords2dYzPolar {
 pub struct Coords3dYzCylindricalX {
     pub r_yz: f64,
     pub f_zy: f64, // w radianach
-    pub x: f64, 
+    pub x: f64,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Coords3dXyz {
     pub x: f64,
-    pub y: f64, 
-    pub z: f64, 
+    pub y: f64,
+    pub z: f64,
 }
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Coords3dXyzSpherical {
@@ -64,7 +64,7 @@ pub struct Coords3dXyzSpherical {
     pub t_zr: f64, // w radianach
 }
 
-/* 
+/*
  * // NARAZIE POMIJAMY
  * #[derive(Debug, Clone, Copy, PartialEq)]
  * pub struct CoordsDddNz90Ex0 {
@@ -72,12 +72,12 @@ pub struct Coords3dXyzSpherical {
  *     pub we_lon: Angle, // Długość (-180.0 do 180.0)
  *     //pub alt: f64,    // Wysokość nad poziomem morza (m)
  * }
- * 
+ *
  */
 
- // WYMAGA Cs<6> i Cs<7> aby w przyszłości ułatwić operacje 
+// WYMAGA Cs<6> i Cs<7> aby w przyszłości ułatwić operacje
 /// Współrzędne w formacie DMS (Stopnie, Minuty, Sekundy).
-/// Orientacja Nz90Ex0: 
+/// Orientacja Nz90Ex0:
 /// - Oś Z: 90°N 0°E
 /// - Oś X: 0°N 0°E (Greenwich)
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -88,6 +88,5 @@ pub struct CoordsDmsNz90Ex0 {
     pub we_lon_d: i16, // Długość stopnie (-180 do 180)
     pub we_lon_m: u8,  // Długość minuty (0 do 59)
     pub we_lon_s: f32, // Długość sekundy (0.0 do 59.99999)
-    //pub alt: f64,    // Wysokość nad poziomem morza (m)
+                       //pub alt: f64,    // Wysokość nad poziomem morza (m)
 }
-

@@ -64,7 +64,7 @@ macro_rules! dms {
 // OGRANICZENIE WYMIAROWOŚCI (MARKER TRAIT)
 // ===================================================================================
 
-/// Pusty trait znacznikowy, który pozwala na implementację metod wspólnych 
+/// Pusty trait znacznikowy, który pozwala na implementację metod wspólnych
 /// wyłącznie dla jawnie obsługiwanych wymiarów.
 pub trait Dim {}
 
@@ -73,7 +73,13 @@ impl Dim for Cs<2> {}
 impl Dim for Cs<3> {}
 
 // Implementacja Deref pozwala używać cs[0], cs[1] itd.
-impl<const N: usize> Deref for Cs<N> where Cs<N>: Dim {
+impl<const N: usize> Deref for Cs<N>
+where
+    Cs<N>: Dim,
+{
     type Target = [f64; N];
-    #[inline] fn deref(&self) -> &Self::Target { &self.0 }
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
 }

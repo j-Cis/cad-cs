@@ -20,6 +20,7 @@ args = [
     "-p", "./.git/+", "-p", "!./.git/", 
     "-p", "./.github/+", "-p", "!./.github/", 
     "-p", "./.vscode/+", "-p", "!./.vscode/", 
+    "-p", "./.err/+", "-p", "!./.err/", 
     "-p", "./.history/+", "-p", "!./.history/", 
     "-x", "-v", "grid", "--save-address", "-b", "-a", "--lang", "en"
 ]
@@ -35,6 +36,7 @@ args = [
     "-p", "./.github/+", "-p", "!./.github/", 
     "-p", "./.vscode/+", "-p", "!./.vscode/", 
     "-p", "./.history/+", "-p", "!./.history/", 
+    "-p", "./.err/+", "-p", "!./.err/", 
     "-p", "./LICENSE-APACHE", "-p", "./LICENSE-MIT", "-p", "*.lock", 
     "-x", "-v", "grid", "--save-archive", "-b", "-a", "--lang", "en"
 ]
@@ -49,8 +51,142 @@ dependencies = ["history-snapshot-filetree", "history-snapshot-totalcode"]
 description = "Czyści historię i generuje nowe snapshoty (Serial execution)"
 run_task = { name = ["history-clean", "history-snapshot"], parallel = false }
 
+# --- DIAGNOSTYKA LOKALNA (CI/CD) - "SZCZĘŚLIWA PLIKÓW TRZYNASTKA" ---
+[tasks.err-diag-setup]
+description = "Przygotowanie folderu .err"
+command = "powershell"
+args = ["-Command", "if (-Not (Test-Path .err)) { New-Item -ItemType Directory -Path .err | Out-Null }"]
+
+# --- MODUŁY 1-13 (Czysty PS7 Flow) ---
+
+[tasks.err-diag-check]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo check --message-format short *> .err/01_check.log"]
+
+[tasks.err-diag-examples]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo check --examples *> .err/02_check_examples.log"]
+
+[tasks.err-diag-fmt]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo fmt -- --check *> .err/03_fmt_check.log"]
+
+[tasks.err-diag-clippy-basic]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo clippy *> .err/04_clippy.log"]
+
+[tasks.err-diag-clippy-strict]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo clippy --all-targets --all-features -- -D warnings *> .err/05_clippy_strict.log"]
+
+[tasks.err-diag-test-compile]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --no-run *> .err/06_test_compile.log"]
+
+[tasks.err-diag-doc-gen]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo doc --no-deps --document-private-items *> .err/07_doc_check.log"]
+
+[tasks.err-diag-release-build]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo build --release *> .err/08_build_release.log"]
+
+[tasks.err-diag-test-run]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --verbose *> .err/09_test_run.log"]
+
+[tasks.err-diag-test-doc]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --doc *> .err/10_test_doc.log"]
+
+[tasks.err-diag-package-list]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo package --list --allow-dirty *> .err/11_package_list.log"]
+
+[tasks.err-diag-verify]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo verify-project *> .err/12_verify_project.log"]
+
+[tasks.err-diag-audit]
+dependencies = ["err-diag-setup"]
+ignore_errors = true
+command = "powershell"
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo audit *> .err/13_security_audit.log"]
+# --- KOMENDA ZBIORCZA (COMBO) ---
+
+[tasks.errors-snapshot]
+description = "Uruchamia pełną diagnostykę Cargo 1-12 (Tuzin Inżyniera)"
+run_task = { name = [
+    "err-diag-check",
+    "err-diag-examples",
+    "err-diag-fmt",
+    "err-diag-clippy-basic",
+    "err-diag-clippy-strict",
+    "err-diag-test-compile",
+    "err-diag-doc-gen",
+    "err-diag-release-build",
+    "err-diag-test-run",
+    "err-diag-test-doc",
+    "err-diag-package-list",
+    "err-diag-verify",
+    "err-diag-audit"
+], parallel = false }
+
+# --- BEZPIECZNE FORMATOWANIE ---
+[tasks.fmt-safe]
+description = "Robi commit 'backup' i wykonuje cargo fmt"
+command = "powershell"
+args = [
+    "-Command",
+    "Write-Host '📦 Sprawdzanie zmian...'; if (git status --porcelain) { git add .; git commit -m 'chore: pre-format backup'; Write-Host '✅ Zmiany zabezpieczone commitem.' } else { Write-Host 'ℹ️ Brak zmian do zabezpieczenia.' }; Write-Host '🎨 Formatowanie kodu...'; cargo fmt; Write-Host '🚀 Gotowe! Kod jest sformatowany i bezpieczny.'"
+]
+
+# --- AUTOMATYZACJA WERSJONOWANIA (TAG & PUSH) ---
+[tasks.push-new-release-git]
+description = "Tworzy nowy tag Git na podstawie wersji w Cargo.toml i wypycha na serwer"
+command = "powershell"
+args = [
+    "-Command",
+    "Write-Host \"🏷️ Odczytana wersja z Cargo.toml: v$env:CARGO_MAKE_CRATE_VERSION...\"; git tag v$env:CARGO_MAKE_CRATE_VERSION; Write-Host \"🚀 Wypychanie kodu i tagów na GitHuba...\"; git push origin main --tags"
+]
+
+# --- PUBLIKACJA NA CRATES.IO ---
+[tasks.push-new-release-cargo]
+description = "Publikuje najnowszą wersję paczki w rejestrze crates.io"
+command = "cargo"
+args = ["publish"]
+
+# --- ALIASY ALFABETYCZNIE ---
+
 [tasks.a]
 alias = "history-snapshot"
+
+[tasks.e]
+alias = "errors-snapshot"
 
 [tasks.d]
 alias = "history-snapshot-totalcode"
@@ -58,26 +194,20 @@ alias = "history-snapshot-totalcode"
 [tasks.f]
 alias = "history-snapshot-filetree"
 
+[tasks.g]
+alias = "push-new-release-git"
+
+[tasks.h]
+alias = "push-new-release-cargo"
+
 [tasks.n]
 alias = "history-snapshot-fresh"
 
 [tasks.r]
 alias = "history-clean"
 
-# --- AUTOMATYZACJA WERSJONOWANIA (TAG & PUSH) ---
-[tasks.new-version-push]
-description = "Tworzy nowy tag Git i wypycha zmiany na serwer. Użycie: cargo make v <wersja>"
-script_runner = "powershell"
-script = [
-    # Zabezpieczenie: sprawdzamy, czy podano argument
-    "if ('${1}' -eq '') { Write-Host 'Błąd: Podaj numer wersji! Np: cargo make v 0.1.0-alpha.2'; exit 1 }",
-    
-    "Write-Host '🏷️ Tworzenie tagu: v${1}...'",
-    "git tag v${1}",
-    
-    "Write-Host '🚀 Wypychanie kodu i tagów na GitHuba...'",
-    "git push origin main --tags"
-]
+[tasks.s]
+alias = "fmt-safe"
 
-[tasks.v]
-alias = "new-version-push"
+
+

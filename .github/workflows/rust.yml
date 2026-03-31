@@ -6,9 +6,9 @@ name: Rust CI & Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 env:
@@ -19,38 +19,39 @@ jobs:
     name: Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false # <--- KLUCZOWE: Nie ubija Windowsa, gdy macOS zgłosi błąd!
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Update Rust Toolchain
-      run: rustup update stable && rustup default stable && rustup component add clippy rustfmt
+      - name: Update Rust Toolchain
+        run: rustup update stable && rustup default stable && rustup component add clippy rustfmt
 
-    - name: Cache Cargo
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.cargo/bin/
-          ~/.cargo/registry/index/
-          ~/.cargo/registry/cache/
-          ~/.cargo/git/db/
-          target/
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-    # 1. Sprawdzanie formatowania
-    - name: Check Formatting
-      run: cargo fmt -- --check
+      # 1. Sprawdzanie formatowania
+      - name: Check Formatting
+        run: cargo fmt -- --check
 
-    # 2. Sprawdzanie jakości kodu (Linter Clippy)
-    - name: Lint with Clippy
-      run: cargo clippy -- -D warnings
+      # 2. Sprawdzanie jakości kodu (Linter Clippy) w samej bibliotece i przykładach
+      - name: Lint with Clippy
+        run: cargo clippy --lib --examples -- -D warnings
 
-    # 3. Uruchomienie testów (Najważniejsze dla biblioteki matematycznej)
-    - name: Run tests
-      run: cargo test --verbose
+      # 3. Uruchomienie testów (Najważniejsze dla biblioteki matematycznej)
+      - name: Run tests
+        run: cargo test --verbose
 
-    # 4. Budowanie wersji produkcyjnej, aby upewnić się, że nie ma błędów kompilacji
-    - name: Build Library
-      run: cargo build --release --verbose
+      # 4. Budowanie stricte BIBLIOTEKI w trybie release (bez ewentualnych binarek)
+      - name: Build Library
+        run: cargo build --lib --release --verbose

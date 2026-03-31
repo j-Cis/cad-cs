@@ -15,6 +15,7 @@ categories = ["mathematics", "science","science::geo", "algorithms","graphics"]
 
 exclude = [
     ".history/",
+    ".err/",
     ".github/",
     ".vscode/",
     "tests/",

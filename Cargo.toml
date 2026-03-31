@@ -11,7 +11,7 @@ repository = "https://github.com/j-Cis/cad-cs"
 documentation = "https://docs.rs/cad-cs"
 
 keywords = ["geometry", "math", "coordinates", "cad", "vector"]
-categories = ["mathematics", "science","science:geo", "algorithms","graphics"]
+categories = ["mathematics", "science","science::geo", "algorithms","graphics"]
 
 exclude = [
     ".history/",

@@ -27,16 +27,16 @@ pub struct CoordsXyz {
 /// 💡 Can represent any projection plane (XY, XZ, YZ) treated as a two-dimensional space.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct CoordsPolar {
-	pub r_xy: f64,
-	pub f_yx: f64, // w radianach
+	pub r_d2: f64,
+	pub f_y_x: f64, // w radianach
 }
 
 /// 📚 【 POL】: Współrzędne 3D w układzie cylindrycznym względem osi Z.
 /// 📚 【 ENG】: 3D coordinates in the Cylindrical system relative to the Z-axis.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct CoordsCylindricalZ {
-	pub r_xy: f64,
-	pub f_yx: f64, // w radianach
+	pub r_d2: f64,
+	pub f_y_x: f64, // w radianach
 	pub z: f64,
 }
 
@@ -44,8 +44,8 @@ pub struct CoordsCylindricalZ {
 /// 📚 【 ENG】: 3D coordinates in the Cylindrical system relative to the Y-axis.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct CoordsCylindricalY {
-	pub r_xz: f64,
-	pub f_zx: f64, // w radianach
+	pub r_d2: f64,
+	pub f_z_x: f64, // w radianach
 	pub y: f64,
 }
 
@@ -53,8 +53,8 @@ pub struct CoordsCylindricalY {
 /// 📚 【 ENG】: 3D coordinates in the Cylindrical system relative to the X-axis.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct CoordsCylindricalX {
-	pub r_yz: f64,
-	pub f_zy: f64, // w radianach
+	pub r_d2: f64,
+	pub f_z_y: f64, // w radianach
 	pub x: f64,
 }
 
@@ -62,9 +62,9 @@ pub struct CoordsCylindricalX {
 /// 📚 【 ENG】: 3D coordinates in the Spherical system (Radius, Azimuth, Inclination).
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct CoordsSpherical {
-	pub r_xyz: f64,
-	pub f_yx: f64, // w radianach (Azymut w płaszczyźnie XY)
-	pub t_zr: f64, // w radianach (Inklinacja od osi Z)
+	pub r_d3: f64,
+	pub f_y_x: f64, // w radianach (Azymut w płaszczyźnie XY)
+	pub t_z_r: f64, // w radianach (Inklinacja od osi Z)
 }
 
 // 📚 【 POL】: Współrzędne geograficzne w formacie DMS (Stopnie, Minuty, Sekundy).

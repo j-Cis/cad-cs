@@ -44,8 +44,8 @@ fn main() {
 	// 📚 [POL]: Konwersja układu biegunowego (R, Φ) na kartezjański wektor Cs2.
 	// 📚 [ENG]: Conversion of polar system (R, Φ) to Cartesian Cs2 vector.
 	let punkt_z_biegunowego: Cs2 = CoordsPolar {
-		r_xy: 10.0,
-		f_yx: std::f64::consts::PI / 2.0, // 90° (Y-axis)
+		r_d2: 10.0,
+		f_y_x: std::f64::consts::PI / 2.0, // 90° (Y-axis)
 	}
 	.into();
 
@@ -54,9 +54,9 @@ fn main() {
 	// 📚 [POL]: Konwersja układu sferycznego (R, Φ, Θ) na kartezjański wektor Cs3.
 	// 📚 [ENG]: Conversion of spherical system (R, Φ, Θ) to Cartesian Cs3 vector.
 	let punkt_ze_sferycznego: Cs3 = CoordsSpherical {
-		r_xyz: 20.0,
-		f_yx: 0.0,                        // X-axis azimuth
-		t_zr: std::f64::consts::PI / 4.0, // 45° inclination from Z-axis
+		r_d3: 20.0,
+		f_y_x: 0.0,                        // X-axis azimuth
+		t_z_r: std::f64::consts::PI / 4.0, // 45° inclination from Z-axis
 	}
 	.into();
 

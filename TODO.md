@@ -136,7 +136,7 @@ pub(crate) mod cs_utils; // Dostępny tylko wewnątrz crate przy włączonym cs_
 ---
 ---
 
-- [ ] **Symmetry Check:** Zweryfikować spójność kierunków kątów `f_zx` oraz `f_zy` względem reguły prawej dłoni w układach cylindrycznych osi Y i X.
+- [ ] **Symmetry Check:** Zweryfikować spójność kierunków kątów `f_z_x` oraz `f_z_y` względem reguły prawej dłoni w układach cylindrycznych osi Y i X.
 - [ ] **Unified DTO Trait:** Rozważyć wprowadzenie traitu `Cylindrical` wspierającego różne osie obrotu (X, Y, Z) dla ujednolicenia interfejsu konwersji.
 - [ ] **DMS Nz90Ex0 Altitude:** Podjąć decyzję o włączeniu pola `alt` (wysokość) do struktury `CoordsDmsNz90Ex0` w celu pełnej zgodności z ECEF.
 

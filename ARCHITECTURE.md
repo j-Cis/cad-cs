@@ -52,12 +52,12 @@ Litery używane do oznaczania kątów różnią się w zależności od ich funkc
 
 **Klucze metod konwersji kątowych:**
 
-* `y_x` (czyli `f_yx`) → $\arctan(\frac{y}{x})$ – azymut w płaszczyźnie XY
-* `z_x` (czyli `f_zx`) → $\arctan(\frac{z}{x})$ – azymut w płaszczyźnie XZ
-* `z_y` (czyli `f_zy`) → $\arctan(\frac{z}{y})$ – azymut w płaszczyźnie YZ
+* `y_x` (czyli `f_y_x`) → $\arctan(\frac{y}{x})$ – azymut w płaszczyźnie XY
+* `z_x` (czyli `f_z_x`) → $\arctan(\frac{z}{x})$ – azymut w płaszczyźnie XZ
+* `z_y` (czyli `f_z_y`) → $\arctan(\frac{z}{y})$ – azymut w płaszczyźnie YZ
 * `x_rxyz` (czyli `t_xr`) → $\arccos(\frac{x}{rxyz})$ – inklinacja względem osi X
 * `y_rxyz` (czyli `t_yr`) → $\arccos(\frac{y}{rxyz})$ – inklinacja względem osi Y
-* `z_rxyz` (czyli `t_zr`) → $\arccos(\frac{z}{rxyz})$ – inklinacja względem osi Z
+* `z_rxyz` (czyli `t_z_r`) → $\arccos(\frac{z}{rxyz})$ – inklinacja względem osi Z
 
 ---
 
@@ -145,9 +145,9 @@ Biblioteka separuje surowe obliczenia na `Cs<N>` od struktur wejściowych/wyjśc
 
 Biblioteka `cad-cs` wspiera pełną ortogonalność układów współrzędnych. Poza standardową płaszczyzną XY, zaimplementowano natywne wsparcie dla płaszczyzn XZ i YZ:
 
-* **XY / Oś Z:** Standardowa orientacja "z góry". Układ cylindryczny bazuje na promieniu `r_xy`.
-* **XZ / Oś Y:** Orientacja "z boku" (front/back). Układ cylindryczny bazuje na promieniu `r_xz`.
-* **YZ / Oś X:** Orientacja "z boku" (left/right). Układ cylindryczny bazuje na promieniu `r_yz`.
+* **XY / Oś Z:** Standardowa orientacja "z góry". Układ cylindryczny bazuje na promieniu `r_d2`.
+* **XZ / Oś Y:** Orientacja "z boku" (front/back). Układ cylindryczny bazuje na promieniu `r_d2`.
+* **YZ / Oś X:** Orientacja "z boku" (left/right). Układ cylindryczny bazuje na promieniu `r_d2`.
 
 Taka struktura pozwala na bezpośrednie rzutowanie punktów 3D na dowolną z trzech głównych płaszczyzn kartezjańskich bez konieczności ręcznej zamiany składowych wektora przed obliczeniami biegunowymi.
 

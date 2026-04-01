@@ -19,8 +19,8 @@ impl From<CoordsCylindricalZ> for Cs3 {
 	/// 📚 【 ENG】: Converts cylindrical coordinates relative to the Z-axis to a Cs3 Cartesian vector.
 	#[inline]
 	fn from(c: CoordsCylindricalZ) -> Self {
-		let (sin_f, cos_f) = c.f_yx.sin_cos();
-		Cs([c.r_xy * cos_f, c.r_xy * sin_f, c.z])
+		let (sin_f, cos_f) = c.f_y_x.sin_cos();
+		Cs([c.r_d2 * cos_f, c.r_d2 * sin_f, c.z])
 	}
 }
 
@@ -29,8 +29,8 @@ impl From<CoordsCylindricalY> for Cs3 {
 	/// 📚 【 ENG】: Converts cylindrical coordinates relative to the Y-axis to a Cs3 Cartesian vector.
 	#[inline]
 	fn from(c: CoordsCylindricalY) -> Self {
-		let (sin_f, cos_f) = c.f_zx.sin_cos();
-		Cs([c.r_xz * cos_f, c.y, c.r_xz * sin_f])
+		let (sin_f, cos_f) = c.f_z_x.sin_cos();
+		Cs([c.r_d2 * cos_f, c.y, c.r_d2 * sin_f])
 	}
 }
 
@@ -39,8 +39,8 @@ impl From<CoordsCylindricalX> for Cs3 {
 	/// 📚 【 ENG】: Converts cylindrical coordinates relative to the X-axis to a Cs3 Cartesian vector.
 	#[inline]
 	fn from(c: CoordsCylindricalX) -> Self {
-		let (sin_f, cos_f) = c.f_zy.sin_cos();
-		Cs([c.x, c.r_yz * cos_f, c.r_yz * sin_f])
+		let (sin_f, cos_f) = c.f_z_y.sin_cos();
+		Cs([c.x, c.r_d2 * cos_f, c.r_d2 * sin_f])
 	}
 }
 
@@ -49,9 +49,9 @@ impl From<CoordsSpherical> for Cs3 {
 	/// 📚 【 ENG】: Converts spherical coordinates to a Cs3 Cartesian vector.
 	#[inline]
 	fn from(c: CoordsSpherical) -> Self {
-		let (sin_f, cos_f) = c.f_yx.sin_cos(); // Azymut XY
-		let (sin_t, cos_t) = c.t_zr.sin_cos(); // Inklinacja Z do R
-		Cs([c.r_xyz * sin_t * cos_f, c.r_xyz * sin_t * sin_f, c.r_xyz * cos_t])
+		let (sin_f, cos_f) = c.f_y_x.sin_cos(); // Azymut XY
+		let (sin_t, cos_t) = c.t_z_r.sin_cos(); // Inklinacja Z do R
+		Cs([c.r_d3 * sin_t * cos_f, c.r_d3 * sin_t * sin_f, c.r_d3 * cos_t])
 	}
 }
 
@@ -81,9 +81,9 @@ impl Cs<3> {
 	/// 📚 【 POL】: Tworzy nowy wektor 3D z układu cylindrycznego względem osi Z: (R_xy, Φ, Z).
 	/// 📚 【 ENG】: Creates a new 3D vector from a cylindrical system relative to the Z-axis: (R_xy, Φ, Z).
 	#[rustfmt::skip] #[inline]
-	pub fn new_from_rfz(r_xy: f64, phi_rad: f64, z: f64) -> Self {
+	pub fn new_from_rfz(r_d2: f64, phi_rad: f64, z: f64) -> Self {
 		let (sin_phi, cos_phi) = phi_rad.sin_cos();
-		Cs([r_xy * cos_phi, r_xy * sin_phi, z])
+		Cs([r_d2 * cos_phi, r_d2 * sin_phi, z])
 	}
 
 	/// 📚 【 POL】: Tworzy nowy wektor 3D z układu cylindrycznego względem osi X: (R_yz, Φ, X).
@@ -91,9 +91,9 @@ impl Cs<3> {
 	/// ⚙️ 【 POL】: Kąt Φ mierzony jest od osi Y do Z na płaszczyźnie YZ.
 	/// ⚙️ 【 ENG】: Angle Φ is measured from the Y-axis to the Z-axis on the YZ plane.
 	#[rustfmt::skip] #[inline]
-	pub fn new_from_rfx(r_yz: f64, phi_rad: f64, x: f64) -> Self {
+	pub fn new_from_rfx(r_d2: f64, phi_rad: f64, x: f64) -> Self {
 		let (sin_phi, cos_phi) = phi_rad.sin_cos();
-		Cs([x, r_yz * cos_phi, r_yz * sin_phi])
+		Cs([x, r_d2 * cos_phi, r_d2 * sin_phi])
 	}
 
 	/// 📚 【 POL】: Tworzy nowy wektor 3D z układu cylindrycznego względem osi Y: (R_xz, Φ, Y).
@@ -101,8 +101,8 @@ impl Cs<3> {
 	/// ⚙️ 【 POL】: Kąt Φ mierzony jest od osi X do Z na płaszczyźnie XZ.
 	/// ⚙️ 【 ENG】: Angle Φ is measured from the X-axis to the Z-axis on the XZ plane.
 	#[rustfmt::skip] #[inline]
-	pub fn new_from_rfy(r_xz: f64, phi_rad: f64, y: f64) -> Self {
+	pub fn new_from_rfy(r_d2: f64, phi_rad: f64, y: f64) -> Self {
 		let (sin_phi, cos_phi) = phi_rad.sin_cos();
-		Cs([r_xz * cos_phi, y, r_xz * sin_phi])
+		Cs([r_d2 * cos_phi, y, r_d2 * sin_phi])
 	}
 }

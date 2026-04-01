@@ -19,8 +19,8 @@ impl From<CoordsPolar> for Cs2 {
 	/// 📚 【 ENG】: Converts XY polar coordinates to a Cs2 Cartesian vector.
 	#[inline]
 	fn from(c: CoordsPolar) -> Self {
-		let (sin_f, cos_f) = c.f_yx.sin_cos();
-		Cs([c.r_xy * cos_f, c.r_xy * sin_f])
+		let (sin_f, cos_f) = c.f_y_x.sin_cos();
+		Cs([c.r_d2 * cos_f, c.r_d2 * sin_f])
 	}
 }
 

@@ -19,11 +19,15 @@ exclude = [
 	".github/",
 	".vscode/",
 	".temp/",
-	"Makefile.toml",
 	".rustfmt.toml",
+	"Makefile.toml",
 	"TODO.md",
-	"tests/",
-	"benches/",
+	"ROADMAP.md",
+	"AUTHORS.md",
+	"CHANGELOG.md",
+	"CHEATSHEET.md",
+	".gitignore",
+	".gitattributes"
 ]
 
 resolver = "3"

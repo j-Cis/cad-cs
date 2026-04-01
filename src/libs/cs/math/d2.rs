@@ -1,6 +1,5 @@
 // 📃 ./src/libs/cs/math/d2.rs
 
-
 use crate::libs::cs::{model::Cs, utils::SignStrExt};
 
 impl Cs<2> {

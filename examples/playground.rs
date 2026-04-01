@@ -12,7 +12,7 @@ use cad_cs::cs;
 // use cad_cs::{Cs, Cs2, Cs3, Dim};
 
 // Typy modeli i układów współrzędnych (DTO)
-// use cad_cs::{CoordsXy, CoordsPolar, CoordsXz2d, CoordsPolarXz2d, CoordsYz2d, CoordsPolarYz2d};
+// use cad_cs::{CoordsXy, CoordsPolar};
 // use cad_cs::{CoordsCylindricalZ, CoordsCylindricalY, CoordsCylindricalX};
 // use cad_cs::{CoordsXyz, CoordsSpherical, CoordsSphericalEcefSnWeDms};
 

@@ -27,17 +27,15 @@ Sufiksy przy metodach (np. `to_rf_from_xy()`) oraz nazwy obiektów DTO (Domain T
 
 | Symbol | Klasa DTO | Opis Układu |
 | :--- | :--- | :--- |
-| **`xy`** | `Coords2dXy` | Współrzędne 2D kartezjańskie (x,y) na płaszczyźnie XY lub lub wektor (x,y)  lub płaszczyzna XY |
-| **`xz`** | `Coords2dXz` | Współrzędne 2D kartezjańskie (x,z) na płaszczyźnie XZ lub lub wektor (x,z)  lub płaszczyzna XZ |
-| **`yz`** | `Coords2dYz` | Współrzędne 2D kartezjańskie (y,z) na płaszczyźnie YZ lub lub wektor (y,z)  lub płaszczyzna YZ |
-| **`rf`** | `Coords2dXyPolar` | Współrzędne 2D biegunowe/cylindryczne (R, Φ) |
-| **`rf`** | `Coords2dXzPolar` | Współrzędne 2D biegunowe/cylindryczne (R, Φ) |
-| **`rf`** | `Coords2dZyPolar` | Współrzędne 2D biegunowe/cylindryczne (R, Φ) |
-| **`rfx`** | `Coords3dYzCylindricalX` | Współrzędne 3D cylindryczne względem osi X (R_yz, Φ, X) |
-| **`rfy`** | `Coords3dXzCylindricalY` | Współrzędne 3D cylindryczne względem osi Y (R_xz, Φ, Y) |
-| **`rfz`** | `Coords3dXyCylindricalZ` | Współrzędne 3D cylindryczne względem osi Z (R_xy, Φ, Z) |
-| **`xyz`** | `Coords3dXyz` | Współrzędne 3D kartezjańskie (x,y,z) / Przestrzeń XYZ |
-| **`rft`** | `Coords3dXyzSpherical` | Współrzędne 3D sferyczne (R, Φ, Θ) |
+| **`xy`** | `CoordsXy` | Współrzędne 2D kartezjańskie (x,y) na płaszczyźnie XY lub lub wektor (x,y)  lub płaszczyzna XY |
+| **`xz`** | | Współrzędne 2D kartezjańskie (x,z) na płaszczyźnie XZ lub lub wektor (x,z)  lub płaszczyzna XZ |
+| **`yz`** | | Współrzędne 2D kartezjańskie (y,z) na płaszczyźnie YZ lub lub wektor (y,z)  lub płaszczyzna YZ |
+| **`rf`** | `CoordsPolar` | Współrzędne 2D biegunowe/cylindryczne (R, Φ) |
+| **`rfx`** | `CoordsCylindricalX` | Współrzędne 3D cylindryczne względem osi X (R_yz, Φ, X) |
+| **`rfy`** | `CoordsCylindricalY` | Współrzędne 3D cylindryczne względem osi Y (R_xz, Φ, Y) |
+| **`rfz`** | `CoordsCylindricalZ` | Współrzędne 3D cylindryczne względem osi Z (R_xy, Φ, Z) |
+| **`xyz`** | `CoordsXyz` | Współrzędne 3D kartezjańskie (x,y,z) / Przestrzeń XYZ |
+| **`rft`** | `CoordsSpherical` | Współrzędne 3D sferyczne (R, Φ, Θ) |
 
 ---
 
@@ -265,6 +263,6 @@ Plik `src/lib.rs` jest celowo zredukowany do absolutnego minimum.
 Biblioteka `cad-cs` promuje dwa główne wzorce inicjalizacji i transferu danych, co zostało udokumentowane w katalogu `examples/`:
 
 1. **Szybka Inicjalizacja (Zero-cost):** Użycie makr `cs!` oraz `dms!` do bezpośredniego wstrzykiwania surowych danych numerycznych w postaci wektorów. Zoptymalizowane pod kątem wydajności.
-2. **Bezpieczna Inicjalizacja (Type-safe):** Wykorzystanie struktur DTO (np. `Coords3dXyzSpherical`) z implementacją traitów `Into/From`. Zabezpiecza przed pomyleniem kolejności parametrów wejściowych (np. R z Azymutem).
+2. **Bezpieczna Inicjalizacja (Type-safe):** Wykorzystanie struktur DTO (np. `CoordsSpherical`) z implementacją traitów `Into/From`. Zabezpiecza przed pomyleniem kolejności parametrów wejściowych (np. R z Azymutem).
 
 ---

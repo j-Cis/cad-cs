@@ -1,6 +1,7 @@
 // 📃 ./src/libs/frac.rs
 
 use std::f64::consts;
+
 use super::tolerance;
 
 /// 📚 【 POL】: Konstruktor makrowy dla ułamków zwykłych. Zapobiega błędom dzielenia całkowitoliczbowego.

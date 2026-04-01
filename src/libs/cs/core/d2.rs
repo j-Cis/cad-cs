@@ -14,7 +14,6 @@ impl From<CoordsXy> for Cs2 {
 	fn from(c: CoordsXy) -> Self { Cs([c.x, c.y]) }
 }
 
-
 impl From<CoordsPolar> for Cs2 {
 	/// 📚 【 POL】: Konwertuje współrzędne biegunowe XY na wektor kartezjański Cs2.
 	/// 📚 【 ENG】: Converts XY polar coordinates to a Cs2 Cartesian vector.

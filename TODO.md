@@ -195,7 +195,7 @@ pub(crate) mod cs_utils; // Dostępny tylko wewnątrz crate przy włączonym cs_
 ---
 ---
 
-- [ ] **Fasada w przykładach:** Zaktualizować importy w `basic_usage.rs`, aby używały skróconych ścieżek z fasady `cs.rs` (np. `use cad_cs::Coords2dXyPolar;` zamiast pełnej ścieżki do `model_coords`), w celu testowania publicznego API tak, jak widzi to użytkownik zewnętrzny.
+- [ ] **Fasada w przykładach:** Zaktualizować importy w `basic_usage.rs`, aby używały skróconych ścieżek z fasady `cs.rs` (np. `use cad_cs::CoordsPolar;` zamiast pełnej ścieżki do `model_coords`), w celu testowania publicznego API tak, jak widzi to użytkownik zewnętrzny.
 - [ ] **Rozszerzenie Examples:** Dodać osobny plik `examples/advanced_geodesy.rs` skupiający się wyłącznie na konwersjach ECEF i operacjach krzyżowych, odciążając tym samym `basic_usage.rs`.
 
 ---

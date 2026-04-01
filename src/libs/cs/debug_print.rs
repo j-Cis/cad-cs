@@ -77,8 +77,8 @@ pub trait Cs3ConsoleDebug {
 impl Cs3ConsoleDebug for Cs<3> {
     #[rustfmt::skip] #[inline]
     fn print_q(&self, name: &str) {
-      let s = self.q_sign();
-      println!(" {}    (Oktant: {} [{}, {}, {}])", name, self.q(), s[0], s[1], s[2]);
+        let s = self.q_sign();
+        println!(" {}    (Oktant: {} [{}, {}, {}])", name, self.q(), s[0], s[1], s[2]);
     }
 
     #[rustfmt::skip] #[inline]
@@ -145,37 +145,3 @@ impl Cs3ConsoleDebug for Cs<3> {
         println!(" ");
     }
 }
-
-// TODO: Wdrożenie Metody D - "Formatter Adapter Pattern" (Zatwierdzona ścieżka rozwoju)
-// ---------------------------------------------------------------------------------------
-// CEL: Całkowita separacja warstwy prezentacji od logiki wyjścia (stdout).
-// Obecna Metoda A (CsConsoleDebug) jest wygodna, ale "sztywno" wiąże nas z println!.
-//
-// KONCEPCJA:
-// Zamiast metod .print(), stworzymy adaptery (lekkie struktury), które implementują
-// trait `std::fmt::Display`. Dzięki temu punkt będzie można wypisać nie tylko na konsolę,
-// ale też do logów, plików, czy przesłać jako String do UI.
-//
-// PRZEWIDYWANA ERGONOMIA:
-// let pt = cs![1.0, 2.0, 3.0];
-// println!("Punkt kontrolny: {}", pt.display_as("P1", AngleFmt::Deg));
-//
-// ZALETY:
-// 1. Wsparcie dla makr systemowych: format!, write!, panic!, log!.
-// 2. Leniwa ewaluacja (Lazy): Formantowanie tekstu następuje dopiero w momencie
-//    rzeczywistego żądania zapisu, a nie w trakcie wywołania metody.
-// 3. Czystość: Usunięcie bezpośrednich zależności od `std::io` z rdzenia matematycznego.
-//
-// SZKIC IMPLEMENTACJI:
-// struct CsFormatter<'a, const N: usize> {
-//     source: &'a Cs<N>,
-//     name: &'a str,
-//     fmt: AngleFmt
-// }
-//
-// impl<'a, const N: usize> std::fmt::Display for CsFormatter<'a, N> {
-//     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-//         // Tutaj przenosimy logikę z obecnych metod print, używając writeln!(f, ...)
-//     }
-// }
-// ---------------------------------------------------------------------------------------

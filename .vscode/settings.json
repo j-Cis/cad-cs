@@ -1,5 +1,28 @@
 {
     "markdownlint.ignore": [
         ".history/**/*.md"
-    ]
+    ],
+
+	// --- FORMATOWANIE I TABULATORY ---
+	// Wymuszamy tabulatory zamiast spacji (zgodnie z .rustfmt.toml)
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false,
+	
+	// --- WIZUALIZACJA STRUKTURY KODU ---
+    
+    // Pionowe linie (Rulers) - ustawiamy na 100 zgodnie z rustfmt
+    "editor.rulers": [100],
+
+    // Podświetlanie aktywnych wcięć (ułatwia połapanie się w blokach)
+    "editor.guides.bracketPairs": "active",
+    "editor.guides.indentation": true,
+    "editor.guides.highlightActiveIndentation": true,
+
+    // Pokazywanie białych znaków (kropki dla spacji, strzałki dla tabulatorów)
+    // "boundary" pokazuje je tylko tam, gdzie są wcięcia/końce linii
+    "editor.renderWhitespace": "boundary",
+
+    // Renderowanie małej strzałki na końcach linii (ułatwia nawigację)
+    "editor.renderLineHighlight": "all"
 }

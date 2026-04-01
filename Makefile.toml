@@ -138,38 +138,19 @@ args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; c
 dependencies = ["err-diag-setup"]
 ignore_errors = true
 command = "powershell"
-args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo package --list --allow-dirty *> .err/11_package_list.log"]
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo package --list --allow-dirty *> .err/F_package_list.log"]
 
 [tasks.err-diag-verify]
 dependencies = ["err-diag-setup"]
 ignore_errors = true
 command = "powershell"
-args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo verify-project *> .err/12_verify_project.log"]
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo verify-project *> .err/D_verify_project.log"]
 
 [tasks.err-diag-audit]
 dependencies = ["err-diag-setup"]
 ignore_errors = true
 command = "powershell"
-args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo audit *> .err/13_security_audit.log"]
-# --- KOMENDA ZBIORCZA (COMBO) ---
-
-[tasks.errors-snapshot]
-description = "Uruchamia pełną diagnostykę Cargo 1-12 (Tuzin Inżyniera)"
-run_task = { name = [
-	"err-diag-check",
-	"err-diag-examples",
-	"err-diag-fmt",
-	"err-diag-clippy-basic",
-	"err-diag-clippy-strict",
-	"err-diag-test-compile",
-	"err-diag-doc-gen",
-	"err-diag-release-build",
-	"err-diag-test-run",
-	"err-diag-test-doc",
-	"err-diag-package-list",
-	"err-diag-verify",
-	"err-diag-audit"
-], parallel = false }
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo audit *> .err/E_security_audit.log"]
 
 # --- MODUŁY POMOCNICZE ---
 
@@ -210,6 +191,23 @@ command = "powershell"
 args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' -> 3/3 (C/{A,B,C}): Formatowanie kodu (cargo +nightly fmt)...'; cargo +nightly fmt *> .err/C_cargo_fmt.log"]
 
 # --- KOMENDA ZBIORCZA (COMBO) ---
+
+
+[tasks.errors-snapshot]
+description = "Uruchamia pełną diagnostykę Cargo 1-12 (Tuzin Inżyniera)"
+run_task = { name = [
+	"err-diag-check",
+	"err-diag-examples",
+	"err-diag-fmt",
+	"err-diag-clippy-basic",
+	"err-diag-clippy-strict",
+	"err-diag-test-compile",
+	"err-diag-doc-gen",
+	"err-diag-release-build",
+	"err-diag-test-run",
+	"err-diag-test-doc"
+], parallel = false }
+
 # --- BEZPIECZNE FORMATOWANIE ---
 
 [tasks.fmt-safe]
@@ -219,7 +217,10 @@ run_task = { name = [
 	"fmt-fix-whitespace", 
 	"cargo-fix-core",
 	"clippy-fix", 
-	"fmt-cargo"
+	"fmt-cargo",
+	"err-diag-package-list",
+	"err-diag-verify",
+	"err-diag-audit"
 ], parallel = false }
 
 # --- SPRAWDZANIE PLATFORM (Przenośność) ---

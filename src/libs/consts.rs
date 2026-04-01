@@ -12,26 +12,26 @@ pub const G_ACCELERATION: f64 = 9.80665;
 /// 📚 【 ENG】: Radius mode used in arc calculations and DMS conversions.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum RadiusMode {
-    /// 📚 【 POL】: Średni promień Ziemi (6,371,000 m).
-    /// 📚 【 ENG】: Mean Earth radius (6,371,000 m).
-    Mean,
-    /// 📚 【 POL】: Jedność (1.0) - przydatne do obliczeń znormalizowanych.
-    /// 📚 【 ENG】: Unity (1.0) - useful for normalized calculations.
-    Unity,
-    /// 📚 【 POL】: Własny promień podany w metrach.
-    /// 📚 【 ENG】: Custom radius provided in meters.
-    Custom(f64),
+	/// 📚 【 POL】: Średni promień Ziemi (6,371,000 m).
+	/// 📚 【 ENG】: Mean Earth radius (6,371,000 m).
+	Mean,
+	/// 📚 【 POL】: Jedność (1.0) - przydatne do obliczeń znormalizowanych.
+	/// 📚 【 ENG】: Unity (1.0) - useful for normalized calculations.
+	Unity,
+	/// 📚 【 POL】: Własny promień podany w metrach.
+	/// 📚 【 ENG】: Custom radius provided in meters.
+	Custom(f64),
 }
 
 impl RadiusMode {
-    /// 📚 【 POL】: Zwraca liczbową wartość promienia dla wybranego trybu.
-    /// 📚 【 ENG】: Returns the numerical radius value for the selected mode.
-    #[inline]
-    pub fn val(&self) -> f64 {
-        match self {
-            Self::Mean => EARTH_MEAN_RADIUS_METERS,
-            Self::Unity => 1.0,
-            Self::Custom(r) => *r,
-        }
-    }
+	/// 📚 【 POL】: Zwraca liczbową wartość promienia dla wybranego trybu.
+	/// 📚 【 ENG】: Returns the numerical radius value for the selected mode.
+	#[inline]
+	pub fn val(&self) -> f64 {
+		match self {
+			Self::Mean => EARTH_MEAN_RADIUS_METERS,
+			Self::Unity => 1.0,
+			Self::Custom(r) => *r,
+		}
+	}
 }

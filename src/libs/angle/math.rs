@@ -1,9 +1,12 @@
 // 📃 src/libs/angle/math.rs
 
 use std::f64::consts;
+
+use super::{
+	abstracts::{AbstractAngle, AngleExt},
+	model::{Angle, AngleFmt},
+};
 use crate::libs::frac;
-use super::abstracts::{AbstractAngle, AngleExt};
-use super::model::{Angle, AngleFmt};
 
 impl AbstractAngle for Angle {
 	/// 📚 【 POL】: Tworzy instancję Angle bezpośrednio z wartości w radianach (Konstruktor bazowy).
@@ -86,15 +89,11 @@ impl AbstractAngle for Angle {
 	}
 }
 
-
-
 impl AngleExt for f64 {
 	#[rustfmt::skip] #[inline]	fn deg(self) -> Angle { Angle::from_deg(self) }
 	#[rustfmt::skip] #[inline]	fn rad(self) -> Angle { Angle::from_rad(self) }
 	#[rustfmt::skip] #[inline]	fn pi_frac(self) -> Angle { Angle::from_pi_frac(self) }
 }
-
-
 
 impl AngleFmt {
 	/// 📚 【 POL】: Formatuje wartość f64 (interpretowaną jako radiany) zgodnie z wybranym formatem.
@@ -109,7 +108,6 @@ impl AngleFmt {
     }
 }
 
-
 /// 📚 【 POL】: Funkcja pomocnicza (Top-level API) tworząca instancję Angle z wartości w radianach.
 /// 📚 【 ENG】: Helper function (Top-level API) creating an Angle instance from a value in radians.
 #[rustfmt::skip] #[inline] pub const fn rad(r: f64) -> Angle { Angle(r) }
@@ -121,7 +119,3 @@ impl AngleFmt {
 /// 📚 【 POL】: Funkcja pomocnicza (Top-level API) tworząca instancję Angle jako wielokrotność liczby PI.
 /// 📚 【 ENG】: Helper function (Top-level API) creating an Angle instance as a multiple of PI.
 #[rustfmt::skip] #[inline] pub fn pi_frac(fraction: f64) -> Angle { Angle::from_pi_frac(fraction) }
-
-
-
-

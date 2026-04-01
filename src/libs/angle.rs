@@ -6,7 +6,5 @@ pub mod model;
 
 // Udostępniamy użytkownikowi modele i kontrakty od razu
 pub use abstracts::*;
-pub use model::*;
 pub use math::{deg, pi_frac, rad};
-
-
+pub use model::*;

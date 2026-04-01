@@ -1,13 +1,13 @@
 // 📃 ./src/libs/cs/math/d3.rs
 
 use crate::libs::{
+	angle::AbstractAngle,
 	cs::{
 		abstracts::{AbstractMathCs3, AbstractSignStrExt},
 		model::Cs,
 	},
 	tolerance,
 };
-use crate::libs::angle::AbstractAngle;
 
 impl AbstractMathCs3 for Cs<3> {
 	/// 📚 【 POL】: Długość rzutu (promień) na płaszczyznę XY.

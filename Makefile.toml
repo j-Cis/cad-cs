@@ -6,8 +6,8 @@ skip_core_tasks = true
 description = "Czyści zawartość folderu .history, ale zachowuje sam katalog"
 command = "powershell"
 args = [
-    "-Command", 
-    "if (Test-Path '.history\\*') { Remove-Item -Path '.history\\*' -Recurse -Force }; Write-Host 'Folder .history zostal wyczyszczony.'"
+	"-Command", 
+	"if (Test-Path '.history\\*') { Remove-Item -Path '.history\\*' -Recurse -Force }; Write-Host 'Folder .history zostal wyczyszczony.'"
 ]
 
 # --- SNAPSHOT STRUKTURY ---
@@ -15,14 +15,14 @@ args = [
 description = "Generuje snapshot struktury projektu bez pełnego kodu"
 command = "cargo"
 args = [
-    "plot", "-o", "./.history/", 
-    "-p", "./target/+", "-p", "!./target/", 
-    "-p", "./.git/+", "-p", "!./.git/", 
-    "-p", "./.github/+", "-p", "!./.github/", 
-    "-p", "./.vscode/+", "-p", "!./.vscode/", 
-    "-p", "./.err/+", "-p", "!./.err/", 
-    "-p", "./.history/+", "-p", "!./.history/", 
-    "-x", "-v", "grid", "--save-address", "-b", "-a", "--lang", "en"
+	"plot", "-o", "./.history/", 
+	"-p", "./target/+", "-p", "!./target/", 
+	"-p", "./.git/+", "-p", "!./.git/", 
+	"-p", "./.github/+", "-p", "!./.github/", 
+	"-p", "./.vscode/+", "-p", "!./.vscode/", 
+	"-p", "./.err/+", "-p", "!./.err/", 
+	"-p", "./.history/+", "-p", "!./.history/", 
+	"-x", "-v", "grid", "--save-address", "-b", "-a", "--lang", "en"
 ]
 
 # --- SNAPSHOT PEŁNEGO KODU ---
@@ -30,15 +30,15 @@ args = [
 description = "Generuje pełny snapshot archiwum z kodem i plikami konfiguracyjnymi"
 command = "cargo"
 args = [
-    "plot", "-o", "./.history/", 
-    "-p", "./target/+", "-p", "!./target/", 
-    "-p", "./.git/+", "-p", "!./.git/", 
-    "-p", "./.github/+", "-p", "!./.github/", 
-    "-p", "./.vscode/+", "-p", "!./.vscode/", 
-    "-p", "./.history/+", "-p", "!./.history/", 
-    "-p", "./.err/+", "-p", "!./.err/", 
-    "-p", "./LICENSE-APACHE", "-p", "./LICENSE-MIT", "-p", "*.lock", 
-    "-x", "-v", "grid", "--save-archive", "-b", "-a", "--lang", "en"
+	"plot", "-o", "./.history/", 
+	"-p", "./target/+", "-p", "!./target/", 
+	"-p", "./.git/+", "-p", "!./.git/", 
+	"-p", "./.github/+", "-p", "!./.github/", 
+	"-p", "./.vscode/+", "-p", "!./.vscode/", 
+	"-p", "./.history/+", "-p", "!./.history/", 
+	"-p", "./.err/+", "-p", "!./.err/", 
+	"-p", "./LICENSE-APACHE", "-p", "./LICENSE-MIT", "-p", "*.lock", 
+	"-x", "-v", "grid", "--save-archive", "-b", "-a", "--lang", "en"
 ]
 
 # --- KOMENDA ZBIORCZA ---
@@ -75,7 +75,7 @@ args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; c
 dependencies = ["err-diag-setup"]
 ignore_errors = true
 command = "powershell"
-args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo fmt -- --check *> .err/03_fmt_check.log"]
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo +nightly fmt -- --check *> .err/03_fmt_check.log"]
 
 [tasks.err-diag-clippy-basic]
 dependencies = ["err-diag-setup"]
@@ -141,19 +141,19 @@ args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; c
 [tasks.errors-snapshot]
 description = "Uruchamia pełną diagnostykę Cargo 1-12 (Tuzin Inżyniera)"
 run_task = { name = [
-    "err-diag-check",
-    "err-diag-examples",
-    "err-diag-fmt",
-    "err-diag-clippy-basic",
-    "err-diag-clippy-strict",
-    "err-diag-test-compile",
-    "err-diag-doc-gen",
-    "err-diag-release-build",
-    "err-diag-test-run",
-    "err-diag-test-doc",
-    "err-diag-package-list",
-    "err-diag-verify",
-    "err-diag-audit"
+	"err-diag-check",
+	"err-diag-examples",
+	"err-diag-fmt",
+	"err-diag-clippy-basic",
+	"err-diag-clippy-strict",
+	"err-diag-test-compile",
+	"err-diag-doc-gen",
+	"err-diag-release-build",
+	"err-diag-test-run",
+	"err-diag-test-doc",
+	"err-diag-package-list",
+	"err-diag-verify",
+	"err-diag-audit"
 ], parallel = false }
 
 # --- MODUŁY POMOCNICZE ---
@@ -162,16 +162,16 @@ run_task = { name = [
 description = "Tworzy bezpieczny commit, jeśli są niezatwierdzone zmiany"
 command = "powershell"
 args = [
-    "-Command",
-    "Write-Host '📦 Zabezpieczanie pracy...'; if (git status --porcelain) { git add .; git commit -m 'chore: pre-operation backup'; Write-Host '✅ Zmiany zapisane w Gicie.' } else { Write-Host 'ℹ️ Brak zmian do zapisu.' }"
+	"-Command",
+	"Write-Host '📦 Zabezpieczanie pracy...'; if (git status --porcelain) { git add .; git commit -m 'chore: pre-operation backup'; Write-Host '✅ Zmiany zapisane w Gicie.' } else { Write-Host 'ℹ️ Brak zmian do zapisu.' }"
 ]
 
 [tasks.fmt-fix-whitespace]
 description = "Usuwa puste spacje z końców linii (naprawa błędu rustfmt)"
 command = "powershell"
 args = [
-    "-Command",
-    "Write-Host '🧹 Sprzątanie spacji...'; Get-ChildItem -Recurse *.rs | ForEach-Object { $content = Get-Content $_; $content | ForEach-Object { $_.TrimEnd() } | Set-Content $_ }; Write-Host '✅ Pliki .rs są teraz czyste.'"
+	"-Command",
+	"Write-Host '🧹 Sprzątanie spacji...'; Get-ChildItem -Recurse *.rs | ForEach-Object { $content = Get-Content $_; $content | ForEach-Object { $_.TrimEnd() } | Set-Content $_ }; Write-Host '✅ Pliki .rs są teraz czyste.'"
 ]
 
 # --- NAPRAWY KOMPILATORA I LINTERA (Z ZAPISEM DO LOGÓW) ---
@@ -180,19 +180,19 @@ args = [
 description = "Automatyczna naprawa błędów rustc"
 ignore_errors = true
 command = "powershell"
-args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' -> 14/16: Naprawa rustc (cargo fix)...'; cargo fix --allow-dirty --allow-no-vcs --all-targets --all-features *> .err/14_cargo_fix.log"]
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' -> 1/3 (A/{A,B,C}): Naprawa rustc (cargo fix)...'; cargo fix --allow-dirty --allow-no-vcs --all-targets --all-features *> .err/A_cargo_fix.log"]
 
 [tasks.clippy-fix]
 description = "Automatyczna naprawa sugestii Clippy"
 ignore_errors = true
 command = "powershell"
-args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' -> 15/16: Naprawa lintera (clippy --fix)...'; cargo clippy --fix --allow-dirty --all-targets --all-features *> .err/15_clippy_fix.log"]
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' -> 2/3 (B/{A,B,C}): Naprawa lintera (clippy --fix)...'; cargo clippy --fix --allow-dirty --all-targets --all-features *> .err/B_clippy_fix.log"]
 
 [tasks.fmt-cargo]
-description = "Standardowe formatowanie cargo fmt"
+description = "Standardowe formatowanie cargo +nightly fmt"
 ignore_errors = true
 command = "powershell"
-args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' -> 16/16: Formatowanie kodu (cargo fmt)...'; cargo fmt *> .err/16_cargo_fmt.log"]
+args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' -> 3/3 (C/{A,B,C}): Formatowanie kodu (cargo +nightly fmt)...'; cargo +nightly fmt *> .err/C_cargo_fmt.log"]
 
 # --- KOMENDA ZBIORCZA (COMBO) ---
 # --- BEZPIECZNE FORMATOWANIE ---
@@ -200,11 +200,11 @@ args = ["-Command", "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; W
 [tasks.fmt-safe]
 description = "Pełny cykl: Backup -> Spacje -> Clippy Fix -> Cargo Fmt"
 run_task = { name = [
-    "git-backup", 
-    "fmt-fix-whitespace", 
-    "cargo-fix-core",
-    "clippy-fix", 
-    "fmt-cargo"
+	"git-backup", 
+	"fmt-fix-whitespace", 
+	"cargo-fix-core",
+	"clippy-fix", 
+	"fmt-cargo"
 ], parallel = false }
 
 # --- SPRAWDZANIE PLATFORM (Przenośność) ---
@@ -228,8 +228,8 @@ args = ["check", "--target", "wasm64-unknown-unknown", "--lib"]
 description = "Tworzy nowy tag Git na podstawie wersji w Cargo.toml i wypycha na serwer"
 command = "powershell"
 args = [
-    "-Command",
-    "Write-Host \"🏷️ Odczytana wersja z Cargo.toml: v$env:CARGO_MAKE_CRATE_VERSION...\"; git tag v$env:CARGO_MAKE_CRATE_VERSION; Write-Host \"🚀 Wypychanie kodu i tagów na GitHuba...\"; git push origin main --tags"
+	"-Command",
+	"Write-Host \"🏷️ Odczytana wersja z Cargo.toml: v$env:CARGO_MAKE_CRATE_VERSION...\"; git tag v$env:CARGO_MAKE_CRATE_VERSION; Write-Host \"🚀 Wypychanie kodu i tagów na GitHuba...\"; git push origin main --tags"
 ]
 
 # --- PUBLIKACJA NA CRATES.IO ---

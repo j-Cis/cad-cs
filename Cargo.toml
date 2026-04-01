@@ -14,12 +14,15 @@ keywords = ["geometry", "math", "coordinates", "cad", "vector"]
 categories = ["mathematics", "science","science::geo", "algorithms","graphics"]
 
 exclude = [
-    ".history/",
-    ".err/",
-    ".github/",
-    ".vscode/",
-    "tests/",
-    "benches/",
+	".history/",
+	".err/",
+	".github/",
+	".vscode/",
+	"Makefile.toml",
+	".rustfmt.toml",
+	"TODO.md",
+	"tests/",
+	"benches/",
 ]
 
 resolver = "3"

@@ -12,7 +12,11 @@
 	// --- WIZUALIZACJA STRUKTURY KODU ---
     
     // Pionowe linie (Rulers) - ustawiamy na 100 zgodnie z rustfmt
-    "editor.rulers": [100],
+    "editor.rulers": [
+		100,
+		150,
+		200
+	],
 
     // Podświetlanie aktywnych wcięć (ułatwia połapanie się w blokach)
     "editor.guides.bracketPairs": "active",

@@ -35,7 +35,7 @@ overflow_delimited_expr = true
 where_single_line = true
 
 # Formatowanie struktur i bloków
-brace_style = "SameLine"
+brace_style = "PreferSameLine"
 control_brace_style = "AlwaysSameLine"
 indent_style = "Block"
 

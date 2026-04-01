@@ -1,33 +1,40 @@
-/// Trait rozszerzający dla f64, ułatwiający formatowanie znaków.
+// src/libs/cs/utils.rs
+
+/// 📚 【 POL】: Trait rozszerzający dla typów liczbowych, ułatwiający prezentację znaków kierunkowych.
+/// 📚 【 ENG】: Extension trait for numerical types, facilitating the presentation of directional signs.
 pub trait SignStrExt {
-    /// Zwraca statyczny string "+" dla liczb >= 0 oraz "-" dla ujemnych.
+	/// 📚 【 POL】: Zwraca "+" dla wartości nieujemnych oraz "-" dla ujemnych.
+    /// 📚 【 ENG】: Returns "+" for non-negative values and "-" for negative ones.
     fn sign_str(self) -> &'static str;
 
-    /// Zwraca "N" dla wartości >= 0 (Północ) oraz "S" dla ujemnych (Południe).
+	/// 📚 【 POL】: Zwraca "N" (Północ) dla wartości nieujemnych oraz "S" (Południe) dla ujemnych.
+    /// 📚 【 ENG】: Returns "N" (North) for non-negative values and "S" (South) for negative ones.
     fn sign_sn(self) -> &'static str;
 
-    /// Zwraca "E" dla wartości >= 0 (Wschód) oraz "W" dla ujemnych (Zachód).
+	/// 📚 【 POL】: Zwraca "E" (Wschód) dla wartości nieujemnych oraz "W" (Zachód) dla ujemnych.
+    /// 📚 【 ENG】: Returns "E" (East) for non-negative values and "W" (West) for negative ones.
     fn sign_we(self) -> &'static str;
 }
 
-// Makro do błyskawicznej implementacji dla różnych typów liczbowych
+/// 📚 【 POL】: Makro implementujące trait SignStrExt dla wskazanych typów liczbowych i zdefiniowanego punktu zera.
+/// 📚 【 ENG】: Macro implementing the SignStrExt trait for specified numerical types and a defined zero point.
 macro_rules! impl_sign_str {
-    ($t:ty, $zero:expr) => {
-        impl SignStrExt for $t {
-            #[inline]
-            fn sign_str(self) -> &'static str {
-                if self >= $zero { "+" } else { "-" }
-            }
-            #[inline]
-            fn sign_sn(self) -> &'static str {
-                if self >= $zero { "N" } else { "S" }
-            }
-            #[inline]
-            fn sign_we(self) -> &'static str {
-                if self >= $zero { "E" } else { "W" }
-            }
-        }
-    };
+	($t:ty, $zero:expr) => {
+		impl SignStrExt for $t {
+			#[inline]
+			fn sign_str(self) -> &'static str {
+				if self >= $zero { "+" } else { "-" }
+			}
+			#[inline]
+			fn sign_sn(self) -> &'static str {
+				if self >= $zero { "N" } else { "S" }
+			}
+			#[inline]
+			fn sign_we(self) -> &'static str {
+				if self >= $zero { "E" } else { "W" }
+			}
+		}
+	};
 }
 
 // Implementujemy trait dla f64 (rdzeń matematyczny) oraz i8/i16 (struktury DMS)

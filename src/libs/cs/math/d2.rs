@@ -1,24 +1,23 @@
 // src/libs/cs/math/d2.rs
 
-use crate::libs::cs::model::Cs;
-use crate::libs::cs::utils::SignStrExt;
+use crate::libs::cs::{model::Cs, utils::SignStrExt};
 
 impl Cs<2> {
 	/// 📚 【 POL】: Długość rzutu (promień) na płaszczyznę XY.
 	/// 📚 【 ENG】: Projection length (radius) on the XY plane.
-	#[rustfmt::skip] #[inline]    pub fn rxy(&self) -> f64 { self.0[0].hypot(self.0[1]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn rxy(&self) -> f64 { self.0[0].hypot(self.0[1]) }
+
 	/// 📚 【 POL】: Azymut matematyczny (od osi X w stronę Y, CCW).
 	/// 📚 【 ENG】: Mathematical azimuth (from X-axis towards Y, CCW).
-	#[rustfmt::skip] #[inline]    pub fn arctan_y_x(&self) -> f64 { self.0[1].atan2(self.0[0]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn arctan_y_x(&self) -> f64 { self.0[1].atan2(self.0[0]) }
+
 	/// 📚 【 POL】: Azymut kompasowy/geodezyjny (od osi Y w stronę X, CW).
 	/// 📚 【 ENG】: Compass/geodetic azimuth (from Y-axis towards X, CW).
-	#[rustfmt::skip] #[inline]    pub fn arctan_x_y(&self) -> f64 { self.0[0].atan2(self.0[1]) }
+	#[rustfmt::skip] #[inline]	pub fn arctan_x_y(&self) -> f64 { self.0[0].atan2(self.0[1]) }
 
 	/// 📚 【 POL】: Konwertuje wektor kartezjański [X, Y] na wektor biegunowy [R, Φ] w obrębie Cs2.
 	/// 📚 【 ENG】: Converts a Cartesian vector [X, Y] to a polar vector [R, Φ] within Cs2.
-	#[rustfmt::skip] #[inline]    pub fn to_rf_from_xy(&self) -> Cs<2> { Cs([self.rxy(), self.arctan_y_x()]) }
+	#[rustfmt::skip] #[inline]	pub fn to_rf_from_xy(&self) -> Cs<2> { Cs([self.rxy(), self.arctan_y_x()]) }
 
 	/// 📚 【 POL】: Przekształca współrzędne geograficzne [Szerokość, Długość] w radianach na wektor 3D ECEF (X, Y, Z).
 	/// 📚 【 ENG】: Transforms geographic coordinates [Latitude, Longitude] in radians to a 3D ECEF vector (X, Y, Z).
@@ -47,7 +46,7 @@ impl Cs<2> {
 			(true, true) => 1, (false, true) => 2, (false, false) => 3, (true, false) => 4,
 		}
 	}
-	
+
 	/// 📚 【 POL】: Zwraca znaki kierunkowe osi X i Y w formie tablicy stringów (np. ["+", "-"]).
 	/// 📚 【 ENG】: Returns the directional signs of the X and Y axes as an array of strings (e.g., ["+", "-"]).
 	#[rustfmt::skip] #[inline]
@@ -55,7 +54,7 @@ impl Cs<2> {
 
 	/// 📚 【 POL】: Kwadrat długości rzutu XY (szybsza alternatywa dla rxy).
 	/// 📚 【 ENG】: Squared projection length XY (faster alternative to rxy).
-	#[rustfmt::skip] #[inline]    pub fn rxy_sq(&self) -> f64 { self.0[0] * self.0[0] + self.0[1] * self.0[1] }
+	#[rustfmt::skip] #[inline]	pub fn rxy_sq(&self) -> f64 { self.0[0] * self.0[0] + self.0[1] * self.0[1] }
 
 	/// 📚 【 POL】: Iloczyn wektorowy 2D (wyznacznik). Znak określa orientację (lewo/prawo).
 	/// 📚 【 ENG】: 2D cross product (determinant). The sign determines orientation (left/right).

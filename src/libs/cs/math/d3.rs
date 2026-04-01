@@ -1,99 +1,100 @@
 // src/libs/cs/math/d3.rs
 
-use crate::libs::cs::model::Cs;
-use crate::libs::cs::utils::SignStrExt;
-use crate::libs::tolerance;
+use crate::libs::{
+	cs::{model::Cs, utils::SignStrExt},
+	tolerance,
+};
 
 impl Cs<3> {
 	/// 📚 【 POL】: Długość rzutu (promień) na płaszczyznę XY.
 	/// 📚 【 ENG】: Projection length (radius) on the XY plane.
-	#[rustfmt::skip] #[inline]    pub fn rxy(&self)  -> f64 { self.0[0].hypot(self.0[1]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn rxy(&self)  -> f64 { self.0[0].hypot(self.0[1]) }
+
 	/// 📚 【 POL】: Długość rzutu (promień) na płaszczyznę XZ.
 	/// 📚 【 ENG】: Projection length (radius) on the XZ plane.
-	#[rustfmt::skip] #[inline]    pub fn rxz(&self)  -> f64 { self.0[0].hypot(self.0[2]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn rxz(&self)  -> f64 { self.0[0].hypot(self.0[2]) }
+
 	/// 📚 【 POL】: Długość rzutu (promień) na płaszczyznę YZ.
 	/// 📚 【 ENG】: Projection length (radius) on the YZ plane.
-	#[rustfmt::skip] #[inline]    pub fn ryz(&self)  -> f64 { self.0[1].hypot(self.0[2]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn ryz(&self)  -> f64 { self.0[1].hypot(self.0[2]) }
+
 	/// 📚 【 POL】: Pełna długość wektora w przestrzeni XYZ.
 	/// 📚 【 ENG】: Full vector length in XYZ space.
-	#[rustfmt::skip] #[inline]    pub fn rxyz(&self) -> f64 { self.0[0].hypot(self.0[1]).hypot(self.0[2]) }
+	#[rustfmt::skip] #[inline]	pub fn rxyz(&self) -> f64 { self.0[0].hypot(self.0[1]).hypot(self.0[2]) }
 
 	// --- KĄTY PŁASKIE (AZYMUTY MATEMATYCZNE CCW) ---
 
 	/// 📚 【 POL】: Azymut na płaszczyźnie XY (od X do Y).
 	/// 📚 【 ENG】: Azimuth on the XY plane (from X to Y).
-	#[rustfmt::skip] #[inline]    pub fn arctan_y_x(&self) -> f64 { self.0[1].atan2(self.0[0]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn arctan_y_x(&self) -> f64 { self.0[1].atan2(self.0[0]) }
+
 	/// 📚 【 POL】: Azymut na płaszczyźnie XZ (od X do Z).
 	/// 📚 【 ENG】: Azimuth on the XZ plane (from X to Z).
-	#[rustfmt::skip] #[inline]    pub fn arctan_z_x(&self) -> f64 { self.0[2].atan2(self.0[0]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn arctan_z_x(&self) -> f64 { self.0[2].atan2(self.0[0]) }
+
 	/// 📚 【 POL】: Azymut na płaszczyźnie YZ (od Y do Z).
 	/// 📚 【 ENG】: Azimuth on the YZ plane (from Y to Z).
-	#[rustfmt::skip] #[inline]    pub fn arctan_z_y(&self) -> f64 { self.0[2].atan2(self.0[1]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn arctan_z_y(&self) -> f64 { self.0[2].atan2(self.0[1]) }
+
 	// --- KĄTY KOMPASOWE / MAPOWE (CW, 0° NA OSI PIONOWEJ) ---
 
 	/// 📚 【 POL】: Azymut kompasowy na XY (0° na osi Y).
 	/// 📚 【 ENG】: Compass azimuth on XY (0° on Y-axis).
-	#[rustfmt::skip] #[inline]    pub fn arctan_x_y(&self) -> f64 { self.0[0].atan2(self.0[1]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn arctan_x_y(&self) -> f64 { self.0[0].atan2(self.0[1]) }
+
 	/// 📚 【 POL】: Azymut kompasowy na XZ (0° na osi Z).
 	/// 📚 【 ENG】: Compass azimuth on XZ (0° on Z-axis).
-	#[rustfmt::skip] #[inline]    pub fn arctan_x_z(&self) -> f64 { self.0[0].atan2(self.0[2]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn arctan_x_z(&self) -> f64 { self.0[0].atan2(self.0[2]) }
+
 	/// 📚 【 POL】: Azymut kompasowy na YZ (0° na osi Z).
 	/// 📚 【 ENG】: Compass azimuth on YZ (0° on Z-axis).
-	#[rustfmt::skip] #[inline]    pub fn arctan_y_z(&self) -> f64 { self.0[1].atan2(self.0[2]) }
+	#[rustfmt::skip] #[inline]	pub fn arctan_y_z(&self) -> f64 { self.0[1].atan2(self.0[2]) }
 
 	// --- KĄTY PRZESTRZENNE (INKLINACJA) ---
 
 	/// 📚 【 POL】: Kąt między wektorem a osią X.
 	/// 📚 【 ENG】: Angle between the vector and the X-axis.
-	#[rustfmt::skip] #[inline]    pub fn arccos_x_rxyz(&self) -> f64 { let r = self.rxyz(); if tolerance::is_zero(r) { 0.0 } else { (self.0[0] / r).clamp(-1.0, 1.0).acos() } }
-	
+	#[rustfmt::skip] #[inline]	pub fn arccos_x_rxyz(&self) -> f64 { let r = self.rxyz(); if tolerance::is_zero(r) { 0.0 } else { (self.0[0] / r).clamp(-1.0, 1.0).acos() } }
+
 	/// 📚 【 POL】: Kąt między wektorem a osią Y.
 	/// 📚 【 ENG】: Angle between the vector and the Y-axis.
-	#[rustfmt::skip] #[inline]    pub fn arccos_y_rxyz(&self) -> f64 { let r = self.rxyz(); if tolerance::is_zero(r) { 0.0 } else { (self.0[1] / r).clamp(-1.0, 1.0).acos() } }
-	
+	#[rustfmt::skip] #[inline]	pub fn arccos_y_rxyz(&self) -> f64 { let r = self.rxyz(); if tolerance::is_zero(r) { 0.0 } else { (self.0[1] / r).clamp(-1.0, 1.0).acos() } }
+
 	/// 📚 【 POL】: Kąt między wektorem a osią Z (Inklinacja sferyczna).
 	/// 📚 【 ENG】: Angle between the vector and the Z-axis (Spherical inclination).
-	#[rustfmt::skip] #[inline]    pub fn arccos_z_rxyz(&self) -> f64 { let r = self.rxyz(); if tolerance::is_zero(r) { 0.0 } else { (self.0[2] / r).clamp(-1.0, 1.0).acos() } }
+	#[rustfmt::skip] #[inline]	pub fn arccos_z_rxyz(&self) -> f64 { let r = self.rxyz(); if tolerance::is_zero(r) { 0.0 } else { (self.0[2] / r).clamp(-1.0, 1.0).acos() } }
 
 	// --- KONWERSJE 3D -> 2D (RZUTY BIEGUNOWE) ---
 
 	/// 📚 【 POL】: Rzutuje wektor 3D na płaszczyznę XY w formacie biegunowym [R, Φ].
 	/// 📚 【 ENG】: Projects a 3D vector onto the XY plane in polar format [R, Φ].
-	#[rustfmt::skip] #[inline]    pub fn to_rf_from_xy(&self) -> Cs<2> { Cs([self.rxy(), self.arctan_y_x()]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn to_rf_from_xy(&self) -> Cs<2> { Cs([self.rxy(), self.arctan_y_x()]) }
+
 	/// 📚 【 POL】: Rzutuje wektor 3D na płaszczyznę XZ w formacie biegunowym [R, Φ].
 	/// 📚 【 ENG】: Projects a 3D vector onto the XZ plane in polar format [R, Φ].
-	#[rustfmt::skip] #[inline]    pub fn to_rf_from_xz(&self) -> Cs<2> { Cs([self.rxz(), self.arctan_z_x()]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn to_rf_from_xz(&self) -> Cs<2> { Cs([self.rxz(), self.arctan_z_x()]) }
+
 	/// 📚 【 POL】: Rzutuje wektor 3D na płaszczyznę YZ w formacie biegunowym [R, Φ].
 	/// 📚 【 ENG】: Projects a 3D vector onto the YZ plane in polar format [R, Φ].
-	#[rustfmt::skip] #[inline]    pub fn to_rf_from_yz(&self) -> Cs<2> { Cs([self.ryz(), self.arctan_z_y()]) }
+	#[rustfmt::skip] #[inline]	pub fn to_rf_from_yz(&self) -> Cs<2> { Cs([self.ryz(), self.arctan_z_y()]) }
 
 	// --- KONWERSJE 3D -> 3D (UKŁADY CYLINDRYCZNE I SFERYCZNE) ---
 
 	/// 📚 【 POL】: Konwertuje XYZ na układ cylindryczny względem osi X [R_yz, Φ_zy, X].
 	/// 📚 【 ENG】: Converts XYZ to a cylindrical system relative to the X-axis [R_yz, Φ_zy, X].
-	#[rustfmt::skip] #[inline]    pub fn to_rfx_from_xyz(&self) -> Cs<3> { Cs([self.ryz(),  self.arctan_z_y(), self.0[0]]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn to_rfx_from_xyz(&self) -> Cs<3> { Cs([self.ryz(),  self.arctan_z_y(), self.0[0]]) }
+
 	/// 📚 【 POL】: Konwertuje XYZ na układ cylindryczny względem osi Y [R_xz, Φ_zx, Y].
 	/// 📚 【 ENG】: Converts XYZ to a cylindrical system relative to the Y-axis [R_xz, Φ_zx, Y].
-	#[rustfmt::skip] #[inline]    pub fn to_rfy_from_xyz(&self) -> Cs<3> { Cs([self.rxz(),  self.arctan_z_x(), self.0[1]]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn to_rfy_from_xyz(&self) -> Cs<3> { Cs([self.rxz(),  self.arctan_z_x(), self.0[1]]) }
+
 	/// 📚 【 POL】: Konwertuje XYZ na układ cylindryczny względem osi Z [R_xy, Φ_yx, Z].
 	/// 📚 【 ENG】: Converts XYZ to a cylindrical system relative to the Z-axis [R_xy, Φ_yx, Z].
-	#[rustfmt::skip] #[inline]    pub fn to_rfz_from_xyz(&self) -> Cs<3> { Cs([self.rxy(),  self.arctan_y_x(), self.0[2]]) }
-	
+	#[rustfmt::skip] #[inline]	pub fn to_rfz_from_xyz(&self) -> Cs<3> { Cs([self.rxy(),  self.arctan_y_x(), self.0[2]]) }
+
 	/// 📚 【 POL】: Konwertuje XYZ na pełny układ sferyczny [R_xyz, Φ_yx, Θ_zr].
 	/// 📚 【 ENG】: Converts XYZ to a full spherical system [R_xyz, Φ_yx, Θ_zr].
-	#[rustfmt::skip] #[inline]    pub fn to_rft_from_xyz(&self) -> Cs<3> { Cs([self.rxyz(), self.arctan_y_x(), self.arccos_z_rxyz()]) }
+	#[rustfmt::skip] #[inline]	pub fn to_rft_from_xyz(&self) -> Cs<3> { Cs([self.rxyz(), self.arctan_y_x(), self.arccos_z_rxyz()]) }
 
 	// --- GEODEZJA ---
 
@@ -178,19 +179,19 @@ impl Cs<3> {
 
 	/// 📚 【 POL】: Kwadrat pełnej długości wektora 3D.
 	/// 📚 【 ENG】: Squared full length of the 3D vector.
-	#[rustfmt::skip] #[inline]    pub fn rxyz_sq(&self) -> f64 { self.0[0] * self.0[0] + self.0[1] * self.0[1] + self.0[2] * self.0[2] }
+	#[rustfmt::skip] #[inline]	pub fn rxyz_sq(&self) -> f64 { self.0[0] * self.0[0] + self.0[1] * self.0[1] + self.0[2] * self.0[2] }
 
 	/// 📚 【 POL】: Kwadrat długości rzutu na płaszczyznę XY.
 	/// 📚 【 ENG】: Squared projection length on the XY plane.
-	#[rustfmt::skip] #[inline]    pub fn rxy_sq(&self) -> f64 { self.0[0] * self.0[0] + self.0[1] * self.0[1] }
-	
+	#[rustfmt::skip] #[inline]	pub fn rxy_sq(&self) -> f64 { self.0[0] * self.0[0] + self.0[1] * self.0[1] }
+
 	/// 📚 【 POL】: Kwadrat długości rzutu na płaszczyznę XZ.
 	/// 📚 【 ENG】: Squared projection length on the XZ plane.
-	#[rustfmt::skip] #[inline]    pub fn rxz_sq(&self) -> f64 { self.0[0] * self.0[0] + self.0[2] * self.0[2] }
-	
+	#[rustfmt::skip] #[inline]	pub fn rxz_sq(&self) -> f64 { self.0[0] * self.0[0] + self.0[2] * self.0[2] }
+
 	/// 📚 【 POL】: Kwadrat długości rzutu na płaszczyznę YZ.
 	/// 📚 【 ENG】: Squared projection length on the YZ plane.
-	#[rustfmt::skip] #[inline]    pub fn ryz_sq(&self) -> f64 { self.0[1] * self.0[1] + self.0[2] * self.0[2] }
+	#[rustfmt::skip] #[inline]	pub fn ryz_sq(&self) -> f64 { self.0[1] * self.0[1] + self.0[2] * self.0[2] }
 
 	// --- NORMALIZACJE RZUTOWE ---
 

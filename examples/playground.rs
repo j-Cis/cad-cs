@@ -29,7 +29,6 @@ use cad_cs::libs::cs::helper::{d2::Cs2ConsoleDebug, d3::Cs3ConsoleDebug};
 // Trait rozszerzający znaki
 // use cad_cs::SignStrExt;
 
-
 fn main() {
 	// 📚 [POL]: Testy wyczerpujące wektorów 2D w poszczególnych ćwiartkach kartezjańskich.
 	// 📚 [ENG]: Exhaustive testing of 2D vectors in individual Cartesian quadrants.
@@ -76,12 +75,8 @@ fn main() {
 
 	// 📚 [POL]: System sferyczny (R=14.0, Φ=45°, Θ=225°) -> Kartezjański Cs3.
 	// 📚 [ENG]: Spherical system (R=14.0, Φ=45°, Θ=225°) -> Cartesian Cs3.
-	let sfer_pt1 = cs![
-		14.0,
-		0.25 * std::f64::consts::PI,
-		1.25 * std::f64::consts::PI
-	]
-	.new_as_xyz_from_rft();
+	let sfer_pt1 =
+		cs![14.0, 0.25 * std::f64::consts::PI, 1.25 * std::f64::consts::PI].new_as_xyz_from_rft();
 
 	// 📚 [POL]: System cylindryczny względem osi X (X=12.0) -> Kartezjański Cs3.
 	// 📚 [ENG]: Cylindrical system relative to X-axis (X=12.0) -> Cartesian Cs3.

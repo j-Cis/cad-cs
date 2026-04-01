@@ -1,8 +1,7 @@
 // src/libs/cs/helper/d2.rs
 
-use crate::libs::angle::AngleFmt;
-use crate::libs::cs::model::Cs;
 use super::print_fmt_ang;
+use crate::libs::{angle::AngleFmt, cs::model::Cs};
 
 // ===================================================================================
 // TRAIT DLA 2D

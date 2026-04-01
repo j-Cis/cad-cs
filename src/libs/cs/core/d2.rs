@@ -1,26 +1,31 @@
 // src/libs/cs/core/d2.rs
 
-use crate::libs::cs::model::{Cs, Cs2};
-use crate::libs::cs::model_coords::*;
+use crate::libs::cs::{
+	model::{Cs, Cs2},
+	model_coords::*,
+};
 
 // --- IMPLEMENTACJE FROM (DTO -> Cs2) ---
 
 impl From<Coords2dXy> for Cs2 {
 	/// 📚 【 POL】: Konwertuje kartezjańskie DTO XY na wektor Cs2.
 	/// 📚 【 ENG】: Converts Cartesian XY DTO to a Cs2 vector.
-	#[inline] fn from(c: Coords2dXy) -> Self { Cs([c.x, c.y]) }
+	#[inline]
+	fn from(c: Coords2dXy) -> Self { Cs([c.x, c.y]) }
 }
 
 impl From<Coords2dXz> for Cs2 {
 	/// 📚 【 POL】: Konwertuje kartezjańskie DTO XZ na wektor Cs2.
 	/// 📚 【 ENG】: Converts Cartesian XZ DTO to a Cs2 vector.
-	#[inline] fn from(c: Coords2dXz) -> Self { Cs([c.x, c.z]) }
+	#[inline]
+	fn from(c: Coords2dXz) -> Self { Cs([c.x, c.z]) }
 }
 
 impl From<Coords2dYz> for Cs2 {
 	/// 📚 【 POL】: Konwertuje kartezjańskie DTO YZ na wektor Cs2.
 	/// 📚 【 ENG】: Converts Cartesian YZ DTO to a Cs2 vector.
-	#[inline] fn from(c: Coords2dYz) -> Self { Cs([c.y, c.z]) }
+	#[inline]
+	fn from(c: Coords2dYz) -> Self { Cs([c.y, c.z]) }
 }
 
 impl From<Coords2dXyPolar> for Cs2 {
@@ -63,9 +68,9 @@ impl Cs<2> {
 	}
 
 	// Projeksje 2D -> 3D
-	#[rustfmt::skip] #[inline] pub fn new_as_xy(&self) -> Cs<3> { Cs([self.0[0], self.0[1], 0.0]) }
-	#[rustfmt::skip] #[inline] pub fn new_as_xz(&self) -> Cs<3> { Cs([self.0[0], 0.0, self.0[1]]) }
-	#[rustfmt::skip] #[inline] pub fn new_as_yz(&self) -> Cs<3> { Cs([0.0, self.0[0], self.0[1]]) }
+	#[rustfmt::skip] #[inline]	pub fn new_as_xy(&self) -> Cs<3> { Cs([self.0[0], self.0[1], 0.0]) }
+	#[rustfmt::skip] #[inline]	pub fn new_as_xz(&self) -> Cs<3> { Cs([self.0[0], 0.0, self.0[1]]) }
+	#[rustfmt::skip] #[inline]	pub fn new_as_yz(&self) -> Cs<3> { Cs([0.0, self.0[0], self.0[1]]) }
 
 	// ===================================================================================
 	// KREACJA Z UKŁADÓW BIEGUNOWYCH I CYLINDRYCZNYCH (Źródło: R, Phi)

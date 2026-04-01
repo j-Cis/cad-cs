@@ -26,17 +26,14 @@ pub mod model_coords;
 /// 📚 【 ENG】: Utility tools, including type extensions for sign formatting.
 pub mod utils;
 
-
 // --- FASADA API (RE-EKSPORTY) ---
 
 /// 📚 【 POL】: Bezpośredni dostęp do jądra obliczeniowego i aliasów typów.
 /// 📚 【 ENG】: Direct access to the computational kernel and type aliases.
 pub use model::{Cs, Cs2, Cs3, Dim};
-
 /// 📚 【 POL】: Globalny eksport wszystkich struktur DTO dla wygody inicjalizacji.
 /// 📚 【 ENG】: Global export of all DTO structures for initialization convenience.
 pub use model_coords::*;
-
 /// 📚 【 POL】: Eksport traitu formatowania, wymaganego dla metod takich jak `sign_sn()`.
 /// 📚 【 ENG】: Export of the formatting trait, required for methods like `sign_sn()`.
 pub use utils::SignStrExt;

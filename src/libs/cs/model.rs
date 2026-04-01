@@ -4,7 +4,7 @@ use std::ops::Deref;
 
 /// 📚 【 POL】: Generyczny wrapper dla tablic o stałym rozmiarze, ograniczony do wymiarów 2D i 3D.
 /// 📚 【 ENG】: Generic wrapper for fixed-size arrays, restricted to 2D and 3D dimensions.
-/// 
+///
 /// ⚠️ 【 POL】: Implementacja ściśle ograniczona do N=2 lub N=3. Inne wymiary nie są wspierane.
 /// ⚠️ 【 ENG】: Implementation strictly limited to N=2 or N=3. Other dimensions are not supported.
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -30,7 +30,7 @@ pub type Cs3 = Cs<3>;
 
 /// 📚 【 POL】: Konstruktor makrowy dla `Cs<N>`. Obsługuje rzutowanie typów numerycznych na f64.
 /// 📚 【 ENG】: Macro constructor for `Cs<N>`. Handles casting of numerical types to f64.
-/// 
+///
 /// # Examples: `cs![1, 2]` (Cs2), `cs![1, 2, 3]` (Cs3)
 #[macro_export]
 macro_rules! cs {
@@ -73,12 +73,9 @@ impl Dim for Cs<3> {}
 /// 📚 【 POL】: Implementacja Deref zapewniająca bezpośredni dostęp do wewnętrznej tablicy danych.
 /// 📚 【 ENG】: Deref implementation providing direct access to the internal data array.
 impl<const N: usize> Deref for Cs<N>
-where
-	Cs<N>: Dim,
+where Cs<N>: Dim
 {
 	type Target = [f64; N];
 	#[inline]
-	fn deref(&self) -> &Self::Target {
-		&self.0
-	}
+	fn deref(&self) -> &Self::Target { &self.0 }
 }

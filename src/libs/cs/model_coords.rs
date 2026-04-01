@@ -117,5 +117,5 @@ pub struct CoordsDmsNz90Ex0 {
 	pub we_lon_d: i16, // Długość stopnie (-180 do 180)
 	pub we_lon_m: u8,  // Długość minuty (0 do 59)
 	pub we_lon_s: f32, // Długość sekundy (0.0 do 59.99999)
-					   //pub alt: f64,    // Wysokość nad poziomem morza (m)
+	                   //pub alt: f64,    // Wysokość nad poziomem morza (m)
 }

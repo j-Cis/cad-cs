@@ -1,10 +1,18 @@
 // examples/basic_usage.rs
 
-use cad_cs::{cs, dms};
-use cad_cs::libs::angle::AngleFmt;
-use cad_cs::libs::cs::helper::d3::Cs3ConsoleDebug;
-use cad_cs::libs::cs::model_coords::{Coords2dXyPolar, Coords3dXyzSpherical};
-use cad_cs::libs::cs::{Cs2, Cs3};
+use cad_cs::{
+	cs,
+	dms,
+	libs::{
+		angle::AngleFmt,
+		cs::{
+			Cs2,
+			Cs3,
+			helper::d3::Cs3ConsoleDebug,
+			model_coords::{Coords2dXyPolar, Coords3dXyzSpherical},
+		},
+	},
+};
 
 fn main() {
 	// 📚 [POL]: Inicjalizacja demonstracji API biblioteki cad-cs.
@@ -14,7 +22,7 @@ fn main() {
 	// =================================================================
 	// 1. MACRO INITIALIZATION (cs!)
 	// =================================================================
-	
+
 	let pt_2d = cs![3.0, 4.0];
 	let pt_3d = cs![3.0, 4.0, 12.0];
 
@@ -73,12 +81,12 @@ fn main() {
 	let stawowa_xyz = stawowa2.to_ecef_from_rad_sn_we(r_ziemi);
 
 	println!("🌐 Radian input (Lat, Lon): {:?}", stawowa2);
-	
+
 	// 📚 [POL]: Wywołanie warstwy diagnostycznej (helper).
 	// 📚 [ENG]: Invocation of the diagnostic layer (helper).
 	stawowa_xyz.print("stawowa_xyz", AngleFmt::Deg);
 	stawowa_xyz.print_dms_sn_we("stawowa_xyz_dms");
-	
+
 	println!("📍 Location relative to Earth's core (meters):");
 	println!("   X: {:.2} m", stawowa_xyz[0]);
 	println!("   Y: {:.2} m", stawowa_xyz[1]);

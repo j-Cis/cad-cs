@@ -1,14 +1,17 @@
 // src/libs/cs/core/d3.rs
 
-use crate::libs::cs::model::{Cs, Cs3};
-use crate::libs::cs::model_coords::*;
+use crate::libs::cs::{
+	model::{Cs, Cs3},
+	model_coords::*,
+};
 
 // --- IMPLEMENTACJE FROM (DTO -> Cs3) ---
 
 impl From<Coords3dXyz> for Cs3 {
 	/// 📚 【 POL】: Konwertuje kartezjańskie DTO XYZ na wektor Cs3.
 	/// 📚 【 ENG】: Converts Cartesian XYZ DTO to a Cs3 vector.
-	#[inline] fn from(c: Coords3dXyz) -> Self { Cs([c.x, c.y, c.z]) }
+	#[inline]
+	fn from(c: Coords3dXyz) -> Self { Cs([c.x, c.y, c.z]) }
 }
 
 impl From<Coords3dXyCylindricalZ> for Cs3 {
@@ -48,11 +51,7 @@ impl From<Coords3dXyzSpherical> for Cs3 {
 	fn from(c: Coords3dXyzSpherical) -> Self {
 		let (sin_f, cos_f) = c.f_yx.sin_cos(); // Azymut XY
 		let (sin_t, cos_t) = c.t_zr.sin_cos(); // Inklinacja Z do R
-		Cs([
-			c.r_xyz * sin_t * cos_f,
-			c.r_xyz * sin_t * sin_f,
-			c.r_xyz * cos_t,
-		])
+		Cs([c.r_xyz * sin_t * cos_f, c.r_xyz * sin_t * sin_f, c.r_xyz * cos_t])
 	}
 }
 

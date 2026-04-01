@@ -1,9 +1,10 @@
-use super::tolerance;
 use std::f64::consts;
+
+use super::tolerance;
 
 /// 📚 【 POL】: Konstruktor makrowy dla ułamków zwykłych. Zapobiega błędom dzielenia całkowitoliczbowego.
 /// 📚 【 ENG】: Macro constructor for common fractions. Prevents integer division errors.
-/// 
+///
 /// # Examples: `frac![1 / 2]` -> 0.5 (f64), `frac![5]` -> 5.0 (f64)
 #[macro_export]
 macro_rules! frac {
@@ -17,7 +18,7 @@ macro_rules! frac {
 
 /// 📚 【 POL】: Konstruktor makrowy dla wielokrotności liczby PI. Zwraca surową wartość f64.
 /// 📚 【 ENG】: Macro constructor for multiples of PI. Returns a raw f64 value.
-/// 
+///
 /// # Examples: `frac_pi![1 / 2]` -> 1.5707... (PI/2)
 #[macro_export]
 macro_rules! frac_pi {
@@ -31,7 +32,7 @@ macro_rules! frac_pi {
 
 /// 📚 【 POL】: Aproksymuje wartość zmiennoprzecinkową do ułamka zwykłego (licznik, mianownik).
 /// 📚 【 ENG】: Approximates a floating-point value to a common fraction (numerator, denominator).
-/// 
+///
 /// ⚙️ 【 POL】: Wykorzystuje algorytm ułamków łańcuchowych (Continued Fractions) z limitem mianownika 10^6.
 /// ⚙️ 【 ENG】: Employs the Continued Fractions algorithm with a denominator limit of 10^6.
 pub fn as_frac(value: f64) -> (f64, f64) {
@@ -74,6 +75,4 @@ pub fn as_frac(value: f64) -> (f64, f64) {
 
 /// 📚 【 POL】: Rozkłada wartość na ułamek wielokrotności liczby PI (odwrotność makra frac_pi!).
 /// 📚 【 ENG】: Decomposes a value into a fraction of PI (inverse of frac_pi! macro).
-pub fn as_frac_pi(value: f64) -> (f64, f64) {
-	as_frac(value / consts::PI)
-}
+pub fn as_frac_pi(value: f64) -> (f64, f64) { as_frac(value / consts::PI) }

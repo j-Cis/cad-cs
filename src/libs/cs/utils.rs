@@ -4,16 +4,16 @@
 /// 📚 【 ENG】: Extension trait for numerical types, facilitating the presentation of directional signs.
 pub trait SignStrExt {
 	/// 📚 【 POL】: Zwraca "+" dla wartości nieujemnych oraz "-" dla ujemnych.
-    /// 📚 【 ENG】: Returns "+" for non-negative values and "-" for negative ones.
-    fn sign_str(self) -> &'static str;
+	/// 📚 【 ENG】: Returns "+" for non-negative values and "-" for negative ones.
+	fn sign_str(self) -> &'static str;
 
 	/// 📚 【 POL】: Zwraca "N" (Północ) dla wartości nieujemnych oraz "S" (Południe) dla ujemnych.
-    /// 📚 【 ENG】: Returns "N" (North) for non-negative values and "S" (South) for negative ones.
-    fn sign_sn(self) -> &'static str;
+	/// 📚 【 ENG】: Returns "N" (North) for non-negative values and "S" (South) for negative ones.
+	fn sign_sn(self) -> &'static str;
 
 	/// 📚 【 POL】: Zwraca "E" (Wschód) dla wartości nieujemnych oraz "W" (Zachód) dla ujemnych.
-    /// 📚 【 ENG】: Returns "E" (East) for non-negative values and "W" (West) for negative ones.
-    fn sign_we(self) -> &'static str;
+	/// 📚 【 ENG】: Returns "E" (East) for non-negative values and "W" (West) for negative ones.
+	fn sign_we(self) -> &'static str;
 }
 
 /// 📚 【 POL】: Makro implementujące trait SignStrExt dla wskazanych typów liczbowych i zdefiniowanego punktu zera.
@@ -22,17 +22,11 @@ macro_rules! impl_sign_str {
 	($t:ty, $zero:expr) => {
 		impl SignStrExt for $t {
 			#[inline]
-			fn sign_str(self) -> &'static str {
-				if self >= $zero { "+" } else { "-" }
-			}
+			fn sign_str(self) -> &'static str { if self >= $zero { "+" } else { "-" } }
 			#[inline]
-			fn sign_sn(self) -> &'static str {
-				if self >= $zero { "N" } else { "S" }
-			}
+			fn sign_sn(self) -> &'static str { if self >= $zero { "N" } else { "S" } }
 			#[inline]
-			fn sign_we(self) -> &'static str {
-				if self >= $zero { "E" } else { "W" }
-			}
+			fn sign_we(self) -> &'static str { if self >= $zero { "E" } else { "W" } }
 		}
 	};
 }

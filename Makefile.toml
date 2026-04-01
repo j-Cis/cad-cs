@@ -265,6 +265,31 @@ args = [
     "--open"
 ]
 
+
+[tasks.HELP]
+description = "Wyświetla listę wszystkich autorskich komend, opisów i aliasów"
+category = "Zarządzanie"
+command = "cargo"
+args = ["make", "--list-all-steps", "--output-format", "short-description"]
+
+
+[tasks.help]
+description = "Wyświetla posegregowaną listę komend: Aliasy, Komendy zbiorcze i Jednostki"
+category = "Pomoc"
+command = "powershell"
+args = [
+    "-Command",
+    "$OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;",
+    "$all = cargo make --list-all-steps --output-format short-description | Where-Object { $_ -match ' - ' -and $_ -notmatch '^(init|end|default)\b' };",
+    "Write-Host \"`n`n🚀 --- NAJWAŻNIEJSZE (Z ALIASAMI) ---\" -ForegroundColor Cyan;",
+    "$all | Where-Object { $_ -match '\\[aliases:' } | ForEach-Object { Write-Host $_ };",
+    "Write-Host \"`n`n📦 --- KOMENDY ZBIORCZE (COMBO) ---\" -ForegroundColor Yellow;",
+    "$all | Where-Object { $_ -notmatch '\\[aliases:' -and $_ -match 'snapshot|safe|release' } | ForEach-Object { Write-Host $_ };",
+    "Write-Host \"`n`n🛠️ --- JEDNOSTKI (INDYWIDUALNE) ---\" -ForegroundColor White;",
+    "$all | Where-Object { $_ -notmatch '\\[aliases:' -and $_ -notmatch 'snapshot|safe|release' } | ForEach-Object { Write-Host $_ };",
+    "Write-Host \"`n\";"
+]
+
 # --- ALIASY ALFABETYCZNIE ---
 
 [tasks.a]
@@ -290,6 +315,12 @@ alias = "fmt-safe"
 
 [tasks.f_clean]
 alias = "errors-clean"
+
+[tasks.h]
+alias = "help"
+
+[tasks.H]
+alias = "HELP"
 
 [tasks.next]
 alias = "push-new-release-git"

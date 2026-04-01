@@ -77,4 +77,6 @@ pub fn as_frac(value: f64) -> (f64, f64) {
 
 /// 📚 【 POL】: Rozkłada wartość na ułamek wielokrotności liczby PI (odwrotność makra frac_pi!).
 /// 📚 【 ENG】: Decomposes a value into a fraction of PI (inverse of frac_pi! macro).
-pub fn as_frac_pi(value: f64) -> (f64, f64) { as_frac(value / consts::PI) }
+pub fn as_frac_pi(value: f64) -> (f64, f64) {
+	as_frac(value / consts::PI)
+}

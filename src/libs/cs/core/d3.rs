@@ -1,8 +1,7 @@
 // 📃 ./src/libs/cs/core/d3.rs
 
 use crate::libs::cs::{
-	model::{Cs, Cs3},
-	model_coords::*,
+	abstract_traits::AbstractProjectionsCs3, model::Cs, model::*, types::Cs3,
 };
 
 // --- IMPLEMENTACJE FROM (DTO -> Cs3) ---
@@ -11,7 +10,9 @@ impl From<CoordsXyz> for Cs3 {
 	/// 📚 【 POL】: Konwertuje kartezjańskie DTO XYZ na wektor Cs3.
 	/// 📚 【 ENG】: Converts Cartesian XYZ DTO to a Cs3 vector.
 	#[inline]
-	fn from(c: CoordsXyz) -> Self { Cs([c.x, c.y, c.z]) }
+	fn from(c: CoordsXyz) -> Self {
+		Cs([c.x, c.y, c.z])
+	}
 }
 
 impl From<CoordsCylindricalZ> for Cs3 {
@@ -55,11 +56,11 @@ impl From<CoordsSpherical> for Cs3 {
 	}
 }
 
-impl Cs<3> {
+impl AbstractProjectionsCs3 for Cs<3> {
 	/// 📚 【 POL】: Tworzy nowy wektor Cs3 z układu sferycznego (R, Φ, Θ).
 	/// 📚 【 ENG】: Creates a new Cs3 vector from a spherical system (R, Φ, Θ).
 	#[rustfmt::skip] #[inline]
-	pub fn new_from_rft(r: f64, phi_rad: f64, theta_rad: f64) -> Self {
+	fn new_from_rft(r: f64, phi_rad: f64, theta_rad: f64) -> Self {
 		let (sin_phi, cos_phi) = phi_rad.sin_cos();
 		let (sin_theta, cos_theta) = theta_rad.sin_cos();
 		Cs([r * sin_theta * cos_phi, r * sin_theta * sin_phi, r * cos_theta])
@@ -68,7 +69,7 @@ impl Cs<3> {
 	/// 📚 【 POL】: Interpretuje Cs3 jako kontener sferyczny [R, Φ, Θ] i zwraca wektor kartezjański [X, Y, Z].
 	/// 📚 【 ENG】: Interprets Cs3 as a spherical container [R, Φ, Θ] and returns a Cartesian vector [X, Y, Z].
 	#[rustfmt::skip] #[inline]
-	pub fn new_as_xyz_from_rft(&self) -> Cs<3> {
+	fn new_as_xyz_from_rft(&self) -> Cs<3> {
 		let (sin_phi, cos_phi) = self.0[1].sin_cos();
 		let (sin_theta, cos_theta) = self.0[2].sin_cos();
 		Cs([
@@ -81,7 +82,7 @@ impl Cs<3> {
 	/// 📚 【 POL】: Tworzy nowy wektor 3D z układu cylindrycznego względem osi Z: (R_xy, Φ, Z).
 	/// 📚 【 ENG】: Creates a new 3D vector from a cylindrical system relative to the Z-axis: (R_xy, Φ, Z).
 	#[rustfmt::skip] #[inline]
-	pub fn new_from_rfz(r_d2: f64, phi_rad: f64, z: f64) -> Self {
+	fn new_from_rfz(r_d2: f64, phi_rad: f64, z: f64) -> Self {
 		let (sin_phi, cos_phi) = phi_rad.sin_cos();
 		Cs([r_d2 * cos_phi, r_d2 * sin_phi, z])
 	}
@@ -91,7 +92,7 @@ impl Cs<3> {
 	/// ⚙️ 【 POL】: Kąt Φ mierzony jest od osi Y do Z na płaszczyźnie YZ.
 	/// ⚙️ 【 ENG】: Angle Φ is measured from the Y-axis to the Z-axis on the YZ plane.
 	#[rustfmt::skip] #[inline]
-	pub fn new_from_rfx(r_d2: f64, phi_rad: f64, x: f64) -> Self {
+	fn new_from_rfx(r_d2: f64, phi_rad: f64, x: f64) -> Self {
 		let (sin_phi, cos_phi) = phi_rad.sin_cos();
 		Cs([x, r_d2 * cos_phi, r_d2 * sin_phi])
 	}
@@ -101,7 +102,7 @@ impl Cs<3> {
 	/// ⚙️ 【 POL】: Kąt Φ mierzony jest od osi X do Z na płaszczyźnie XZ.
 	/// ⚙️ 【 ENG】: Angle Φ is measured from the X-axis to the Z-axis on the XZ plane.
 	#[rustfmt::skip] #[inline]
-	pub fn new_from_rfy(r_d2: f64, phi_rad: f64, y: f64) -> Self {
+	fn new_from_rfy(r_d2: f64, phi_rad: f64, y: f64) -> Self {
 		let (sin_phi, cos_phi) = phi_rad.sin_cos();
 		Cs([r_d2 * cos_phi, y, r_d2 * sin_phi])
 	}

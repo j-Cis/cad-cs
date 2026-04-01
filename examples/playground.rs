@@ -23,11 +23,18 @@ use cad_cs::libs::angle::AngleFmt;
 // Typy z modułu ułamków
 // use cad_cs::libs::frac::{as_frac, as_frac_pi};
 
-// Traity diagnostyczne (Print Debug)
-use cad_cs::libs::cs::helper::{d2::Cs2ConsoleDebug, d3::Cs3ConsoleDebug};
 
 // Trait rozszerzający znaki
-// use cad_cs::SignStrExt;
+// use cad_cs::AbstractSignStrExt;
+
+use cad_cs::libs::cs::abstract_traits::{
+	AbstractProjectionsCs2,
+	AbstractProjectionsCs3,
+	// AbstractMathCs2,        // Dla metod typu .q() czy .rxy()
+	// AbstractMathCs3,
+	AbstractHelperCs2,
+	AbstractHelperCs3
+};
 
 fn main() {
 	// 📚 [POL]: Testy wyczerpujące wektorów 2D w poszczególnych ćwiartkach kartezjańskich.

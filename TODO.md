@@ -13,13 +13,14 @@
 ### Dług technologiczny (Drobne poprawki)
 
 - [ ] **Zabezpieczenie tagu HTML w dokumentacji:** Składnia `Cs<N>` w pliku `src/libs/cs/model.rs` (linia 55) musi zostać ujęta w grawisy (`` `Cs<N>` ``), żeby `cargo doc` nie uznawał `<N>` za niezamknięty tag języka HTML.
-- [ ] **Oczyszczenie importów:** Nieużywany import `Cs2ConsoleDebug` w `examples/basic_usage.rs` nie został naprawiony przez `cargo fix` i nadal wymaga ręcznego usunięcia.
+- [ ] **Oczyszczenie importów:** Nieużywany import `AbstractHelperCs2` w `examples/basic_usage.rs` nie został naprawiony przez `cargo fix` i nadal wymaga ręcznego usunięcia.
 
 ### Rozwój Architektury
 
 - [ ] **Eksploracja wasm64:** W miarę jak projekt zacznie operować na wielkich chmurach punktów (np. miliony wektorów 3D) rozważyć dodanie targetu `wasm64-unknown-unknown`, aby ominąć 4-gigabajtowy limit pamięci standardowego WebAssembly.
 
 ---
+
 ---
 
 ## Wdrożenie wzorca "Formatter Adapter Pattern"
@@ -61,6 +62,7 @@ impl<'a, const N: usize> std::fmt::Display for CsFormatter<'a, N> {
 ```
 
 ---
+
 ---
 
 ## 🧩 Modularyzacja i Feature Flags (Planowana Optymalizacja)
@@ -100,6 +102,7 @@ pub(crate) mod cs_utils; // Dostępny tylko wewnątrz crate przy włączonym cs_
 3. [cite_start]**Czystość dokumentacji:** Dzięki `all-features = true` w metadanych `docs.rs`, dokumentacja nadal będzie pokazywać pełne API[cite: 006].
 
 ---
+
 ---
 
 ## 🛠️ Poprawki i Refaktoryzacja
@@ -109,24 +112,28 @@ pub(crate) mod cs_utils; // Dostępny tylko wewnątrz crate przy włączonym cs_
 - [ ] **Implementacja Traitów:** Rozważyć implementację `std::ops::AddAssign` i `SubAssign` dla `Cs<N>` celem uniknięcia alokacji przy operacjach modyfikujących.
 
 ---
+
 ---
 
 - [ ] **Macro compile_error:** Rozważyć użycie `compile_error!` w makrze `cs!` dla nieobsługiwanej liczby argumentów, aby dawać czytelniejsze komunikaty niż błąd dopasowania wzorca.
 - [ ] **DerefMut:** Podjąć decyzję, czy dopuszczamy `impl DerefMut` dla `Cs<N>`. Obecnie struktura promuje niemutowalność, co jest bezpieczniejsze w obliczeniach wektorowych.
 
 ---
+
 ---
 
 - [ ] **Shorthand API Consistency:** Rozważyć dodanie podobnych funkcji pomocniczych dla innych modułów (np. w `tolerance` dla szybkich porównań), jeśli ich częstotliwość użycia będzie wysoka.
 - [ ] **Const context:** Sprawdzić, czy `from_deg` i `from_pi_frac` mogą stać się `const fn` (obecnie ograniczone przez wywołania `to_radians()`), co pozwoliłoby na używanie shorthandów w kontekstach statycznych.
 
 ---
+
 ---
 
 - [ ] **Aproksymacja Symetryczna:** Przetestować zachowanie `as_frac` dla wartości ekstremalnie bliskich zeru, ale o różnym znaku, w celu uniknięcia anomalii w mianowniku.
 - [ ] **Własny Typ Fraction:** Rozważyć wprowadzenie struktury `Fraction { num: f64, den: f64 }` zamiast krotki, aby umożliwić implementację traitu `Display`.
 
 ---
+
 ---
 
 - [x] **Naprawa dokumentacji enum:** Naprawiono błąd `///` w `AngleFmt`.
@@ -134,6 +141,7 @@ pub(crate) mod cs_utils; // Dostępny tylko wewnątrz crate przy włączonym cs_
 - [ ] **Validation Logic:** Dodać metody walidujące zakresy dla DTO (np. czy `sn_lat_d` nie przekracza 90) przed konwersją do `Cs<N>`.
 
 ---
+
 ---
 
 - [ ] **Symmetry Check:** Zweryfikować spójność kierunków kątów `f_z_x` oraz `f_z_y` względem reguły prawej dłoni w układach cylindrycznych osi Y i X.
@@ -141,12 +149,14 @@ pub(crate) mod cs_utils; // Dostępny tylko wewnątrz crate przy włączonym cs_
 - [ ] **DMS Nz90Ex0 Altitude:** Podjąć decyzję o włączeniu pola `alt` (wysokość) do struktury `CoordsDmsNz90Ex0` w celu pełnej zgodności z ECEF.
 
 ---
+
 ---
 
-- [ ] **SignStrExt - Obsługa -0.0:** Sprawdzić, czy dla `f64` należy uwzględniać "ujemne zero" w metodach `sign_*`. Obecna implementacja `self >= 0.0` traktuje `-0.0` jako dodatnie (N/E).
+- [ ] **AbstractSignStrExt - Obsługa -0.0:** Sprawdzić, czy dla `f64` należy uwzględniać "ujemne zero" w metodach `sign_*`. Obecna implementacja `self >= 0.0` traktuje `-0.0` jako dodatnie (N/E).
 - [ ] **Lokalizacja:** Rozważyć, czy nazewnictwo kierunków (N/S/E/W) powinno być konfigurowalne (np. polskie P/P/W/Z) poprzez opcjonalny parametr lub feature flag.
 
 ---
+
 ---
 
 - [ ] **Feature Gating:** Rozdzielić moduły `core::d2` i `core::d3` za pomocą atrybutów `#[cfg(feature = "dim2")]` / `#[cfg(feature = "dim3")]`.
@@ -154,6 +164,7 @@ pub(crate) mod cs_utils; // Dostępny tylko wewnątrz crate przy włączonym cs_
 - [ ] **Cylindrical Rotation Check:** Wykonać testy jednostkowe sprawdzające, czy kierunki obrotu w `new_from_rfx` i `new_from_rfy` są zgodne z intuicją CAD (prawoskrętność).
 
 ---
+
 ---
 
 - [ ] **Unit Tests - Vector Ops:** Implementacja testów dla `dot`, `cross` (2D/3D) oraz `angle_between` z wykorzystaniem wartości referencyjnych.
@@ -169,6 +180,7 @@ pub(crate) mod cs_utils; // Dostępny tylko wewnątrz crate przy włączonym cs_
 - [ ] **DMS Validation:** Dodać walidację wejściowych parametrów DMS (sekundy < 60, minuty < 60) przed konwersją do radianów.
 
 ---
+
 ---
 
 - [ ] **ANSI Color Support:** Rozważyć użycie kodów kolorów ANSI zamiast (lub obok) emoji, aby poprawić czytelność w terminalach nieobsługujących pełnego zestawu Unicode.
@@ -176,27 +188,32 @@ pub(crate) mod cs_utils; // Dostępny tylko wewnątrz crate przy włączonym cs_
 - [ ] **Log Integration:** Przygotować implementację traitu `Display` lub integrację z makrem `log::debug!`, aby uniknąć bezpośredniego używania `println!` wewnątrz biblioteki.
 
 ---
----
-
-- [ ] **Eksport DTO z modelem Wildcard:** Przeanalizować, czy użycie `pub use model_coords::*;` nie spowoduje zanieczyszczenia przestrzeni nazw (Namespace Pollution) w miarę dodawania nowych układów DTO. Rozważyć wprowadzenie modułu `prelude`.
 
 ---
+
+- [ ] **Eksport DTO z modelem Wildcard:** Przeanalizować, czy użycie `pub use model::*;` nie spowoduje zanieczyszczenia przestrzeni nazw (Namespace Pollution) w miarę dodawania nowych układów DTO. Rozważyć wprowadzenie modułu `prelude`.
+
+---
+
 ---
 
 - [ ] **Linter & Docs Atrybuty:** Rozważyć dodanie na górze pliku `libs.rs` (lub `lib.rs`) rygorystycznych atrybutów, np. `#![warn(missing_docs)]` oraz `#![deny(clippy::unwrap_used)]`, aby wymusić rygor dokumentacyjny i bezpieczeństwo (brak panik) w całym drzewie projektu.
 - [ ] **no_std Support:** Przeanalizować możliwość dodania atrybutu `#![no_std]` (wymagałoby użycia biblioteki `libm` dla funkcji trygonometrycznych na rzecz wbudowanego `std`), co otworzyłoby bibliotekę na systemy Embedded i lekkie środowiska WASM.
 
 ---
+
 ---
 
 - [ ] **Globalne Lintery:** Dodać na początku `src/lib.rs` dyrektywy `#![warn(missing_docs)]` oraz `#![deny(clippy::unwrap_used)]` w celu zablokowania możliwości wdrożenia nieudokumentowanego lub panikującego kodu.
 - [ ] **Feature Flags w Crate Root:** Jeśli wprowadzimy system `features` (np. dla wyłączania modułu 3D), `src/lib.rs` będzie miejscem do warunkowego eksportowania (np. `#[cfg(feature = "full")] pub mod libs;`).
 
 ---
+
 ---
 
-- [ ] **Fasada w przykładach:** Zaktualizować importy w `basic_usage.rs`, aby używały skróconych ścieżek z fasady `cs.rs` (np. `use cad_cs::CoordsPolar;` zamiast pełnej ścieżki do `model_coords`), w celu testowania publicznego API tak, jak widzi to użytkownik zewnętrzny.
+- [ ] **Fasada w przykładach:** Zaktualizować importy w `basic_usage.rs`, aby używały skróconych ścieżek z fasady `cs.rs` (np. `use cad_cs::CoordsPolar;` zamiast pełnej ścieżki do `model`), w celu testowania publicznego API tak, jak widzi to użytkownik zewnętrzny.
 - [ ] **Rozszerzenie Examples:** Dodać osobny plik `examples/advanced_geodesy.rs` skupiający się wyłącznie na konwersjach ECEF i operacjach krzyżowych, odciążając tym samym `basic_usage.rs`.
 
 ---
+
 ---

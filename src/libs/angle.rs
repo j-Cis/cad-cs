@@ -13,17 +13,23 @@ impl Angle {
 	/// 📚 【 POL】: Tworzy instancję Angle bezpośrednio z wartości w radianach (Konstruktor bazowy).
 	/// 📚 【 ENG】: Creates an Angle instance directly from a value in radians (Base constructor).
 	#[inline]
-	pub const fn from_rad(r: f64) -> Self { Self(r) }
+	pub const fn from_rad(r: f64) -> Self {
+		Self(r)
+	}
 
 	/// 📚 【 POL】: Tworzy instancję Angle z wartości w stopniach, dokonując konwersji na radiany.
 	/// 📚 【 ENG】: Creates an Angle instance from a value in degrees, converting it to radians.
 	#[inline]
-	pub fn from_deg(d: f64) -> Self { Self(d.to_radians()) }
+	pub fn from_deg(d: f64) -> Self {
+		Self(d.to_radians())
+	}
 
 	/// 📚 【 POL】: Tworzy instancję Angle jako wielokrotność liczby PI.
 	/// 📚 【 ENG】: Creates an Angle instance as a multiple of PI.
 	#[inline]
-	pub fn from_pi_frac(fraction: f64) -> Self { Self(fraction * consts::PI) }
+	pub fn from_pi_frac(fraction: f64) -> Self {
+		Self(fraction * consts::PI)
+	}
 
 	/// 📚 【 POL】: Dekoduje format DMS (Stopnie, Minuty, Sekundy) do reprezentacji radianowej.
 	/// 📚 【 ENG】: Decodes DMS (Degrees, Minutes, Seconds) format to radian representation.
@@ -56,25 +62,35 @@ impl Angle {
 	/// 📚 【 POL】: Zwraca wartość kąta w radianach (f64). Operacja bezkosztowa.
 	/// 📚 【 ENG】: Returns angle value in radians (f64). Zero-cost operation.
 	#[inline]
-	pub const fn rad(self) -> f64 { self.0 }
+	pub const fn rad(self) -> f64 {
+		self.0
+	}
 
 	/// 📚 【 POL】: Zwraca wartość kąta w stopniach (f64).
 	/// 📚 【 ENG】: Returns angle value in degrees (f64).
 	#[inline]
-	pub fn deg(self) -> f64 { self.0.to_degrees() }
+	pub fn deg(self) -> f64 {
+		self.0.to_degrees()
+	}
 
 	/// 📚 【 POL】: Zwraca kąt jako ułamek liczby PI w postaci (licznik, mianownik).
 	/// 📚 【 ENG】: Returns angle as a fraction of PI in (numerator, denominator) form.
 	#[inline]
-	pub fn pi_frac(self) -> (f64, f64) { frac::as_frac_pi(self.0) }
+	pub fn pi_frac(self) -> (f64, f64) {
+		frac::as_frac_pi(self.0)
+	}
 
 	/// 📚 【 POL】: Formatuje kąt jako ciąg znaków w radianach. Alokuje String.
 	/// 📚 【 ENG】: Formats angle as a string in radians. Allocates String.
-	pub fn print_rad(self) -> String { format!("{:.4} rad", self.rad()) }
+	pub fn print_rad(self) -> String {
+		format!("{:.4} rad", self.rad())
+	}
 
 	/// 📚 【 POL】: Formatuje kąt jako ciąg znaków w stopniach. Alokuje String.
 	/// 📚 【 ENG】: Formats angle as a string in degrees. Allocates String.
-	pub fn print_deg(self) -> String { format!("{:.2}°", self.deg()) }
+	pub fn print_deg(self) -> String {
+		format!("{:.2}°", self.deg())
+	}
 
 	/// 📚 【 POL】: Formatuje kąt jako ułamek liczby PI. Alokuje String.
 	/// 📚 【 ENG】: Formats angle as a fraction of PI. Allocates String.
@@ -130,4 +146,17 @@ pub enum AngleFmt {
 	/// 📚 【 POL】: Ułamki liczby PI (np. 1/2 π)
 	/// 📚 【 ENG】: PI Fractions (e.g., 1/2 π)
 	PiFrac,
+}
+
+impl AngleFmt {
+	/// 📚 【 POL】: Formatuje wartość f64 (interpretowaną jako radiany) zgodnie z wybranym formatem.
+	/// 📚 【 ENG】: Formats a f64 value (interpreted as radians) according to the selected format.
+    #[rustfmt::skip] #[inline]
+	pub fn format(&self, val: f64) -> String {
+        match self {
+            Self::Rad    => Angle::from_rad(val).print_rad(),
+			Self::Deg    => Angle::from_rad(val).print_deg(),
+			Self::PiFrac => Angle::from_rad(val).print_pi_frac(),
+        }
+    }
 }

@@ -1,26 +1,13 @@
 // 📃 ./src/libs/cs/helper/d3.rs
 
-use super::print_fmt_ang;
+use crate::libs::cs::abstract_traits::{AbstractHelperCs3, AbstractMathCs3};
 use crate::libs::{angle::AngleFmt, cs::model::Cs};
 
 // ===================================================================================
 // TRAIT DLA 3D
 // ===================================================================================
 
-/// 📚 【 POL】: Trait rozszerzający dla Cs<3>, umożliwiający zaawansowane formatowanie rzutów i geodezji.
-/// 📚 【 ENG】: Extension trait for Cs<3>, enabling advanced formatting for projections and geodesy.
-pub trait Cs3ConsoleDebug {
-	fn print_q(&self, name: &str);
-	fn print_xyz(&self, name: &str);
-	fn print_rft(&self, name: &str, fmt: AngleFmt);
-	fn print_rfx(&self, name: &str, fmt: AngleFmt);
-	fn print_rfy(&self, name: &str, fmt: AngleFmt);
-	fn print_rfz(&self, name: &str, fmt: AngleFmt);
-	fn print_dms_sn_we(&self, name: &str);
-	fn print(&self, name: &str, fmt: AngleFmt);
-}
-
-impl Cs3ConsoleDebug for Cs<3> {
+impl AbstractHelperCs3 for Cs<3> {
 	#[rustfmt::skip] #[inline]
 	fn print_q(&self, name: &str) {
 		let s = self.q_sign();
@@ -35,25 +22,25 @@ impl Cs3ConsoleDebug for Cs<3> {
 	#[rustfmt::skip] #[inline]
 	fn print_rft(&self, name: &str, fmt: AngleFmt) {
 		let rft = self.to_rft_from_xyz();
-		println!(" {} 🟫 (R: {:?}, Φ: {}, Θ: {})", name, rft[0], print_fmt_ang(rft[1], fmt), print_fmt_ang(rft[2], fmt));
+		println!(" {} 🟫 (R: {:?}, Φ: {}, Θ: {})", name, rft[0], fmt.format(rft[1]), fmt.format(rft[2]));
 	}
 
 	#[rustfmt::skip] #[inline]
 	fn print_rfx(&self, name: &str, fmt: AngleFmt) {
 		let rfx = self.to_rfx_from_xyz();
-		println!(" {} 🟧 (R: {:?}, Φ: {}, x: {:?})", name, rfx[0], print_fmt_ang(rfx[1], fmt), rfx[2]);
+		println!(" {} 🟧 (R: {:?}, Φ: {}, x: {:?})", name, rfx[0], fmt.format(rfx[1]), rfx[2]);
 	}
 
 	#[rustfmt::skip] #[inline]
 	fn print_rfy(&self, name: &str, fmt: AngleFmt) {
 		let rfy = self.to_rfy_from_xyz();
-		println!(" {} 🟨 (R: {:?}, Φ: {}, y: {:?})", name, rfy[0], print_fmt_ang(rfy[1], fmt), rfy[2]);
+		println!(" {} 🟨 (R: {:?}, Φ: {}, y: {:?})", name, rfy[0], fmt.format(rfy[1]), rfy[2]);
 	}
 
 	#[rustfmt::skip] #[inline]
 	fn print_rfz(&self, name: &str, fmt: AngleFmt) {
 		let rfz = self.to_rfz_from_xyz();
-		println!(" {} 🟥 (R: {:?}, Φ: {}, z: {:?})", name, rfz[0], print_fmt_ang(rfz[1], fmt), rfz[2]);
+		println!(" {} 🟥 (R: {:?}, Φ: {}, z: {:?})", name, rfz[0], fmt.format(rfz[1]), rfz[2]);
 	}
 
 	/// 📚 【 POL】: Wyświetla współrzędne w formacie geodezyjnym DMS (Stopnie, Minuty, Sekundy) z oznaczeniami N/S i E/W.
@@ -61,7 +48,7 @@ impl Cs3ConsoleDebug for Cs<3> {
 	#[rustfmt::skip] #[inline]
 	fn print_dms_sn_we(&self, name: &str) {
 		// Pobieramy nasz rozszerzony trait dla formatowania znaków
-		use crate::libs::cs::utils::SignStrExt;
+		use crate::libs::cs::abstract_traits::AbstractSignStrExt;
 
 		// Dekompresujemy ECEF (XYZ) do DTO z DMS
 		let dms = self.to_dms_sn_we_from_xyz();

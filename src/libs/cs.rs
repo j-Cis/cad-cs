@@ -16,11 +16,9 @@ pub mod math;
 
 /// 📚 【 POL】: Definicja struktury bazowej `Cs<N>` oraz ograniczeń wymiarowych (trait Dim).
 /// 📚 【 ENG】: Definition of the base `Cs<N>` structure and dimensional constraints (Dim trait).
-pub mod model;
-
 /// 📚 【 POL】: Modele danych (DTO) reprezentujące punkty w różnych układach współrzędnych.
 /// 📚 【 ENG】: Data models (DTO) representing points in various coordinate systems.
-pub mod model_coords;
+pub mod model;
 
 /// 📚 【 POL】: Narzędzia pomocnicze, w tym rozszerzenia typów do formatowania znaków.
 /// 📚 【 ENG】: Utility tools, including type extensions for sign formatting.
@@ -30,10 +28,23 @@ pub mod utils;
 
 /// 📚 【 POL】: Bezpośredni dostęp do jądra obliczeniowego i aliasów typów.
 /// 📚 【 ENG】: Direct access to the computational kernel and type aliases.
-pub use model::{Cs, Cs2, Cs3, Dim};
+pub use model::Cs;
 /// 📚 【 POL】: Globalny eksport wszystkich struktur DTO dla wygody inicjalizacji.
 /// 📚 【 ENG】: Global export of all DTO structures for initialization convenience.
-pub use model_coords::*;
+pub use model::*;
+pub use types::{Cs2, Cs3, Dim};
+
+// --- ABSTRAKCJA ---
+
+pub mod abstract_traits;
 /// 📚 【 POL】: Eksport traitu formatowania, wymaganego dla metod takich jak `sign_sn()`.
 /// 📚 【 ENG】: Export of the formatting trait, required for methods like `sign_sn()`.
-pub use utils::SignStrExt;
+pub use abstract_traits::AbstractSignStrExt;
+
+// --- MAKRA ---
+
+pub mod macros;
+
+// --- TYPY / ALIASY ---
+
+pub mod types;

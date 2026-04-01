@@ -7,7 +7,7 @@ use std::{
 
 use crate::libs::{
 	cs::{
-		abstract_traits::{AbstractArithmeticCsGeneric, AbstractMathCsGeneric},
+		abstracts::{AbstractArithmeticCsGeneric, AbstractMathCsGeneric},
 		model::Cs,
 		types::Dim,
 	},

@@ -15,3 +15,7 @@ pub mod frac;
 /// 📚 【 POL】: Fundament stabilności numerycznej. Globalne progi tolerancji dla operacji zmiennoprzecinkowych.
 /// 📚 【 ENG】: Numerical stability foundation. Global tolerance thresholds for floating-point operations.
 pub mod tolerance;
+
+/// 📚 【 POL】: Stałe fizyczne i matematyczne używane w całej bibliotece.
+/// 📚 【 ENG】: Physical and mathematical constants used throughout the library.
+pub mod consts;

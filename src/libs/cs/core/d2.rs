@@ -1,7 +1,7 @@
 // 📃 ./src/libs/cs/core/d2.rs
 
 use crate::libs::cs::{
-	abstract_traits::AbstractProjectionsCs2,
+	abstracts::AbstractProjectionsCs2,
 	model::{Cs, *},
 	types::Cs2,
 };

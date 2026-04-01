@@ -25,7 +25,7 @@ use cad_cs::libs::angle::AngleFmt;
 
 // Trait rozszerzający znaki
 // use cad_cs::AbstractSignStrExt;
-use cad_cs::libs::cs::abstract_traits::{
+use cad_cs::libs::cs::abstracts::{
 	// AbstractMathCs2,        // Dla metod typu .q() czy .rxy()
 	// AbstractMathCs3,
 	AbstractHelperCs2,

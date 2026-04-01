@@ -1,7 +1,7 @@
 // 📃 ./src/libs/cs/math/d2.rs
 
 use crate::libs::cs::{
-	abstract_traits::{AbstractMathCs2, AbstractSignStrExt},
+	abstracts::{AbstractMathCs2, AbstractSignStrExt},
 	model::Cs,
 };
 

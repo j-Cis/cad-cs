@@ -3,7 +3,7 @@
 use crate::libs::{
 	angle::AngleFmt,
 	cs::{
-		abstract_traits::{AbstractHelperCs3, AbstractMathCs3},
+		abstracts::{AbstractHelperCs3, AbstractMathCs3},
 		model::Cs,
 	},
 };
@@ -53,7 +53,7 @@ impl AbstractHelperCs3 for Cs<3> {
 	#[rustfmt::skip] #[inline]
 	fn print_dms_sn_we(&self, name: &str) {
 		// Pobieramy nasz rozszerzony trait dla formatowania znaków
-		use crate::libs::cs::abstract_traits::AbstractSignStrExt;
+		use crate::libs::cs::abstracts::AbstractSignStrExt;
 
 		// Dekompresujemy ECEF (XYZ) do DTO z DMS
 		let dms = self.to_dms_sn_we_from_xyz();

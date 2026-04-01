@@ -1,6 +1,6 @@
 // 📃 ./examples/basic_usage.rs
 
-use cad_cs::libs::cs::abstract_traits::{
+use cad_cs::libs::cs::abstracts::{
 	//AbstractHelperCs2, // Jeśli używasz .print()
 	AbstractHelperCs3, // Jeśli używasz .print()
 	AbstractMathCs2,

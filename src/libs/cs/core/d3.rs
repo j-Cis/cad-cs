@@ -1,7 +1,7 @@
 // 📃 ./src/libs/cs/core/d3.rs
 
 use crate::libs::cs::{
-	abstract_traits::AbstractProjectionsCs3,
+	abstracts::AbstractProjectionsCs3,
 	model::{Cs, *},
 	types::Cs3,
 };

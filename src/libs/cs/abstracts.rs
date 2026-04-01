@@ -1,4 +1,4 @@
-// 📃 ./src/libs/cs/abstract_traits.rs
+// 📃 ./src/libs/cs/abstracts.rs
 
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
@@ -99,8 +99,8 @@ pub trait AbstractMathCs3 {
 	fn cross(&self, other: &Cs<3>) -> Cs<3>;
 }
 
-/// 📚 【 POL】: Kontrakt generyczny dla fundamentalnych operacji modelu Cs<N>.
-/// 📚 【 ENG】: Generic contract for fundamental Cs<N> model operations.
+/// 📚 【 POL】: Kontrakt generyczny dla fundamentalnych operacji modelu` Cs<N>`.
+/// 📚 【 ENG】: Generic contract for fundamental `Cs<N>` model operations.
 pub trait AbstractModelCsGeneric<const N: usize> {
 	fn new(data: [f64; N]) -> Self;
 	fn origin() -> Self;
@@ -109,8 +109,8 @@ pub trait AbstractModelCsGeneric<const N: usize> {
 
 /// 📚 【 POL】: Kontrakt dla pomocniczych funkcji diagnostycznych 2D.
 /// 📚 【 ENG】: Contract for 2D diagnostic helper functions.
-/// 📚 【 POL】: Trait rozszerzający dla Cs<2>, umożliwiający formatowanie danych wyjściowych do konsoli.
-/// 📚 【 ENG】: Extension trait for Cs<2>, enabling output formatting to the console.
+/// 📚 【 POL】: Trait rozszerzający dla `Cs<2>`, umożliwiający formatowanie danych wyjściowych do konsoli.
+/// 📚 【 ENG】: Extension trait for `Cs<2>`, enabling output formatting to the console.
 pub trait AbstractHelperCs2 {
 	/// 📚 【 POL】: Wyświetla informację o ćwiartce i znakach składowych.
 	/// 📚 【 ENG】: Displays quadrant information and component signs.
@@ -131,8 +131,8 @@ pub trait AbstractHelperCs2 {
 
 /// 📚 【 POL】: Kontrakt dla pomocniczych funkcji diagnostycznych 3D.
 /// 📚 【 ENG】: Contract for 3D diagnostic helper functions.
-/// 📚 【 POL】: Trait rozszerzający dla Cs<3>, umożliwiający zaawansowane formatowanie rzutów i geodezji.
-/// 📚 【 ENG】: Extension trait for Cs<3>, enabling advanced formatting for projections and geodesy.
+/// 📚 【 POL】: Trait rozszerzający dla `Cs<3>`, umożliwiający zaawansowane formatowanie rzutów i geodezji.
+/// 📚 【 ENG】: Extension trait for `Cs<3>`, enabling advanced formatting for projections and geodesy.
 pub trait AbstractHelperCs3 {
 	fn print_q(&self, name: &str);
 	fn print_xyz(&self, name: &str);

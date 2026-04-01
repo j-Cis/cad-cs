@@ -7,7 +7,7 @@ pub mod d3;
 
 use std::ops::Deref;
 
-use super::{abstract_traits::AbstractModelCsGeneric, model::Cs, types::Dim};
+use super::{abstracts::AbstractModelCsGeneric, model::Cs, types::Dim};
 
 /// 📚 【 POL】: Implementacja Deref zapewniająca bezpośredni dostęp do wewnętrznej tablicy danych.
 /// 📚 【 ENG】: Deref implementation providing direct access to the internal data array.

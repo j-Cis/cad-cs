@@ -3,7 +3,7 @@
 use crate::libs::{
 	angle::AngleFmt,
 	cs::{
-		abstract_traits::{AbstractHelperCs2, AbstractMathCs2},
+		abstracts::{AbstractHelperCs2, AbstractMathCs2},
 		model::Cs,
 	},
 };

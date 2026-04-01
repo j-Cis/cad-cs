@@ -30,18 +30,22 @@ macro_rules! cs {
 /// 📚 【 ENG 】: Macro constructor creating an Angle instance from DMS format.
 #[macro_export]
 macro_rules! dms_angle {
-	($d:expr, $m:expr, $s:expr) => {
-		$crate::libs::angle::Angle::from_dms($d as i16, $m as u8, $s as f32)
-	};
+    ($d:expr, $m:expr, $s:expr) => {
+        // W pełni kwalifikowana ścieżka uwalnia użytkownika z konieczności importowania AbstractAngle!
+        <$crate::libs::angle::Angle as $crate::libs::angle::AbstractAngle>::from_dms($d as i16, $m as u8, $s as f32)
+    };
 }
 
 /// 📚 【 POL 】: Konwertuje format DMS bezpośrednio do wartości f64 w radianach.
 /// 📚 【 ENG 】: Converts DMS format directly to a f64 value in radians.
 #[macro_export]
 macro_rules! dms {
-	($d:expr, $m:expr, $s:expr) => {
-		$crate::libs::angle::Angle::from_dms($d as i16, $m as u8, $s as f32).rad()
-	};
+    ($d:expr, $m:expr, $s:expr) => {
+        // Tutaj tak samo - wywołujemy .rad() bezpośrednio z traita, aby uniknąć błędów zakresu (scope).
+        <$crate::libs::angle::Angle as $crate::libs::angle::AbstractAngle>::rad(
+            <$crate::libs::angle::Angle as $crate::libs::angle::AbstractAngle>::from_dms($d as i16, $m as u8, $s as f32)
+        )
+    };
 }
 
 /// 📚 【 POL】: Makro implementujące trait AbstractSignStrExt dla wskazanych typów liczbowych i zdefiniowanego punktu zera.
@@ -49,7 +53,7 @@ macro_rules! dms {
 #[macro_export]
 macro_rules! impl_sign_str {
 	($t:ty, $zero:expr) => {
-		impl $crate::libs::cs::abstract_traits::AbstractSignStrExt for $t {
+		impl $crate::libs::cs::abstracts::AbstractSignStrExt for $t {
 			#[inline]
 			fn sign_str(self) -> &'static str { if self >= $zero { "+" } else { "-" } }
 			#[inline]

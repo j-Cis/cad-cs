@@ -36,10 +36,10 @@ pub use types::{Cs2, Cs3, Dim};
 
 // --- ABSTRAKCJA ---
 
-pub mod abstract_traits;
+pub mod abstracts;
 /// 📚 【 POL】: Eksport traitu formatowania, wymaganego dla metod takich jak `sign_sn()`.
 /// 📚 【 ENG】: Export of the formatting trait, required for methods like `sign_sn()`.
-pub use abstract_traits::AbstractSignStrExt;
+pub use abstracts::AbstractSignStrExt;
 
 // --- MAKRA ---
 

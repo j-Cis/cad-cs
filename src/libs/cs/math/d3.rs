@@ -2,11 +2,12 @@
 
 use crate::libs::{
 	cs::{
-		abstract_traits::{AbstractMathCs3, AbstractSignStrExt},
+		abstracts::{AbstractMathCs3, AbstractSignStrExt},
 		model::Cs,
 	},
 	tolerance,
 };
+use crate::libs::angle::AbstractAngle;
 
 impl AbstractMathCs3 for Cs<3> {
 	/// 📚 【 POL】: Długość rzutu (promień) na płaszczyznę XY.

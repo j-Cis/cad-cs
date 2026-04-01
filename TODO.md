@@ -12,7 +12,7 @@
 
 ### Dług technologiczny (Drobne poprawki)
 
-- [ ] **Zabezpieczenie tagu HTML w dokumentacji:** Składnia `Cs<N>` w pliku `src/libs/cs/model.rs` (linia 55) musi zostać ujęta w grawisy (`` `Cs<N>` ``), żeby `cargo doc` nie uznawał `<N>` za niezamknięty tag języka HTML.
+- [*] **Zabezpieczenie tagu HTML w dokumentacji:** Składnia `Cs<N>` w pliku `src/libs/cs/model.rs` (linia 55) musi zostać ujęta w grawisy (`` `Cs<N>` ``), żeby `cargo doc` nie uznawał `<N>` za niezamknięty tag języka HTML.
 - [ ] **Oczyszczenie importów:** Nieużywany import `AbstractHelperCs2` w `examples/basic_usage.rs` nie został naprawiony przez `cargo fix` i nadal wymaga ręcznego usunięcia.
 
 ### Rozwój Architektury

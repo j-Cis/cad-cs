@@ -10,6 +10,24 @@ args = [
 	"if (Test-Path '.history\\*') { Remove-Item -Path '.history\\*' -Recurse -Force }; Write-Host 'Folder .history zostal wyczyszczony.'"
 ]
 
+# --- CZYSZCZENIE diagnostyki ---
+[tasks.errors-clean]
+description = "Czyści zawartość folderu .err, ale zachowuje sam katalog"
+command = "powershell"
+args = [
+	"-Command", 
+	"if (Test-Path '.err\\*') { Remove-Item -Path '.err\\*' -Recurse -Force }; Write-Host 'Folder .err zostal wyczyszczony.'"
+]
+
+# --- CZYSZCZENIE tymczasowego schowka ---
+[tasks.temps-clean]
+description = "Czyści zawartość folderu .temp, ale zachowuje sam katalog"
+command = "powershell"
+args = [
+	"-Command", 
+	"if (Test-Path '.temp\\*') { Remove-Item -Path '.temp\\*' -Recurse -Force }; Write-Host 'Folder .temp zostal wyczyszczony.'"
+]
+
 # --- SNAPSHOT STRUKTURY ---
 [tasks.history-snapshot-filetree]
 description = "Generuje snapshot struktury projektu bez pełnego kodu"
@@ -252,38 +270,29 @@ args = [
 [tasks.a]
 alias = "history-snapshot"
 
-[tasks.b]
-alias = "doc-full"
-
-[tasks.d]
+[tasks.a_doc]
 alias = "history-snapshot-totalcode"
+
+[tasks.a_fs]
+alias = "history-snapshot-filetree"
+
+[tasks.a_clean]
+alias = "history-clean"
 
 [tasks.e]
 alias = "errors-snapshot"
 
+[tasks.e_clean]
+alias = "errors-clean"
+
 [tasks.f]
-alias = "history-snapshot-filetree"
-
-[tasks.g]
-alias = "push-new-release-git"
-
-[tasks.h]
-alias = "push-new-release-cargo"
-
-[tasks.n]
-alias = "history-snapshot-fresh"
-
-[tasks.r]
-alias = "history-clean"
-
-[tasks.w]
-alias = "check-wasm32"
-
-[tasks.w64]
-alias = "check-wasm32"
-
-[tasks.x]
 alias = "fmt-safe"
 
+[tasks.f_clean]
+alias = "errors-clean"
 
+[tasks.next]
+alias = "push-new-release-git"
 
+[tasks.t_clean]
+alias = "temps-clean"

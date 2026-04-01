@@ -1,4 +1,4 @@
-// src/libs/cs/math/d3.rs
+// 📃 ./src/libs/cs/math/d3.rs
 
 use crate::libs::{
 	cs::{model::Cs, utils::SignStrExt},
@@ -123,7 +123,7 @@ impl Cs<3> {
 	/// 📚 【 POL】: Konwertuje wektor XYZ na geodezyjny format DMS (Szerokość, Długość).
 	/// 📚 【 ENG】: Converts a XYZ vector to geodetic DMS format (Latitude, Longitude).
 	#[rustfmt::skip]
-	pub fn to_dms_sn_we_from_xyz(&self) -> crate::libs::cs::model_coords::CoordsDmsNz90Ex0 {
+	pub fn to_dms_sn_we_from_xyz(&self) -> crate::libs::cs::model_coords::CoordsSphericalEcefSnWeDms {
 		use crate::libs::angle::Angle;
 		use crate::libs::tolerance;
 
@@ -148,7 +148,7 @@ impl Cs<3> {
 		let (lon_d, lon_m, lon_s) = lon_angle.to_dms();
 
 		// Pakujemy w DTO
-		crate::libs::cs::model_coords::CoordsDmsNz90Ex0 {
+		crate::libs::cs::model_coords::CoordsSphericalEcefSnWeDms {
 			sn_lat_d: lat_d as i8,
 			sn_lat_m: lat_m,
 			sn_lat_s: lat_s,

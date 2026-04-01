@@ -1,4 +1,4 @@
-// src/libs/cs/core/d2.rs
+// 📃 ./src/libs/cs/core/d2.rs
 
 use crate::libs::cs::{
 	model::{Cs, Cs2},
@@ -7,54 +7,21 @@ use crate::libs::cs::{
 
 // --- IMPLEMENTACJE FROM (DTO -> Cs2) ---
 
-impl From<Coords2dXy> for Cs2 {
+impl From<CoordsXy> for Cs2 {
 	/// 📚 【 POL】: Konwertuje kartezjańskie DTO XY na wektor Cs2.
 	/// 📚 【 ENG】: Converts Cartesian XY DTO to a Cs2 vector.
 	#[inline]
-	fn from(c: Coords2dXy) -> Self { Cs([c.x, c.y]) }
+	fn from(c: CoordsXy) -> Self { Cs([c.x, c.y]) }
 }
 
-impl From<Coords2dXz> for Cs2 {
-	/// 📚 【 POL】: Konwertuje kartezjańskie DTO XZ na wektor Cs2.
-	/// 📚 【 ENG】: Converts Cartesian XZ DTO to a Cs2 vector.
-	#[inline]
-	fn from(c: Coords2dXz) -> Self { Cs([c.x, c.z]) }
-}
 
-impl From<Coords2dYz> for Cs2 {
-	/// 📚 【 POL】: Konwertuje kartezjańskie DTO YZ na wektor Cs2.
-	/// 📚 【 ENG】: Converts Cartesian YZ DTO to a Cs2 vector.
-	#[inline]
-	fn from(c: Coords2dYz) -> Self { Cs([c.y, c.z]) }
-}
-
-impl From<Coords2dXyPolar> for Cs2 {
+impl From<CoordsPolar> for Cs2 {
 	/// 📚 【 POL】: Konwertuje współrzędne biegunowe XY na wektor kartezjański Cs2.
 	/// 📚 【 ENG】: Converts XY polar coordinates to a Cs2 Cartesian vector.
 	#[inline]
-	fn from(c: Coords2dXyPolar) -> Self {
+	fn from(c: CoordsPolar) -> Self {
 		let (sin_f, cos_f) = c.f_yx.sin_cos();
 		Cs([c.r_xy * cos_f, c.r_xy * sin_f])
-	}
-}
-
-impl From<Coords2dXzPolar> for Cs2 {
-	/// 📚 【 POL】: Konwertuje współrzędne biegunowe XZ na wektor kartezjański Cs2.
-	/// 📚 【 ENG】: Converts XZ polar coordinates to a Cs2 Cartesian vector.
-	#[inline]
-	fn from(c: Coords2dXzPolar) -> Self {
-		let (sin_f, cos_f) = c.f_zx.sin_cos();
-		Cs([c.r_xz * cos_f, c.r_xz * sin_f])
-	}
-}
-
-impl From<Coords2dYzPolar> for Cs2 {
-	/// 📚 【 POL】: Konwertuje współrzędne biegunowe YZ na wektor kartezjański Cs2.
-	/// 📚 【 ENG】: Converts YZ polar coordinates to a Cs2 Cartesian vector.
-	#[inline]
-	fn from(c: Coords2dYzPolar) -> Self {
-		let (sin_f, cos_f) = c.f_zy.sin_cos();
-		Cs([c.r_yz * cos_f, c.r_yz * sin_f])
 	}
 }
 

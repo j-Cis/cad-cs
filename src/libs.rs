@@ -1,4 +1,4 @@
-// src/libs.rs
+// 📃 ./src/libs.rs
 
 /// 📚 【 POL】: Izolator systemu kątowego. Bezpieczne zarządzanie radianami, stopniami i formatem DMS.
 /// 📚 【 ENG】: Angular system insulator. Safe management of radians, degrees, and DMS format.

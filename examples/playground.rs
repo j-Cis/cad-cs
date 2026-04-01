@@ -1,4 +1,4 @@
-// examples/playground.rs
+// 📃 ./examples/playground.rs
 
 // ===================================================================================
 // IMPORTY BIBLIOTEKI CAD-CS (Aktywne i zakomentowane do testów)
@@ -12,9 +12,9 @@ use cad_cs::cs;
 // use cad_cs::{Cs, Cs2, Cs3, Dim};
 
 // Typy modeli i układów współrzędnych (DTO)
-// use cad_cs::{Coords2dXy, Coords2dXyPolar, Coords2dXz, Coords2dXzPolar, Coords2dYz, Coords2dYzPolar};
-// use cad_cs::{Coords3dXyCylindricalZ, Coords3dXzCylindricalY, Coords3dYzCylindricalX};
-// use cad_cs::{Coords3dXyz, Coords3dXyzSpherical, CoordsDmsNz90Ex0};
+// use cad_cs::{CoordsXy, CoordsPolar, CoordsXz2d, CoordsPolarXz2d, CoordsYz2d, CoordsPolarYz2d};
+// use cad_cs::{CoordsCylindricalZ, CoordsCylindricalY, CoordsCylindricalX};
+// use cad_cs::{CoordsXyz, CoordsSpherical, CoordsSphericalEcefSnWeDms};
 
 // Typy pomocnicze z modułu kątów
 use cad_cs::libs::angle::AngleFmt;

@@ -1,4 +1,4 @@
-// src/libs/cs.rs
+// 📃 ./src/libs/cs.rs
 
 // --- REJESTRACJA PODMODUŁÓW ---
 

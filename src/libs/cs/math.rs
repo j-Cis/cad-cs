@@ -1,4 +1,4 @@
-// src/libs/cs/math.rs
+// 📃 ./src/libs/cs/math.rs
 
 use std::{
 	array,
@@ -10,7 +10,9 @@ use crate::libs::{
 	tolerance,
 };
 
+/// 📚 【 POL】: Specjalizacja 2D. 📚 【 ENG】: 2D Specialization.
 pub mod d2;
+/// 📚 【 POL】: Specjalizacja 3D. 📚 【 ENG】: 3D Specialization.
 pub mod d3;
 
 impl<const N: usize> Cs<N>

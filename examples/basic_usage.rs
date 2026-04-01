@@ -1,4 +1,4 @@
-// examples/basic_usage.rs
+// 📃 ./examples/basic_usage.rs
 
 use cad_cs::{
 	cs,
@@ -9,7 +9,7 @@ use cad_cs::{
 			Cs2,
 			Cs3,
 			helper::d3::Cs3ConsoleDebug,
-			model_coords::{Coords2dXyPolar, Coords3dXyzSpherical},
+			model_coords::{CoordsPolar, CoordsSpherical},
 		},
 	},
 };
@@ -43,7 +43,7 @@ fn main() {
 
 	// 📚 [POL]: Konwersja układu biegunowego (R, Φ) na kartezjański wektor Cs2.
 	// 📚 [ENG]: Conversion of polar system (R, Φ) to Cartesian Cs2 vector.
-	let punkt_z_biegunowego: Cs2 = Coords2dXyPolar {
+	let punkt_z_biegunowego: Cs2 = CoordsPolar {
 		r_xy: 10.0,
 		f_yx: std::f64::consts::PI / 2.0, // 90° (Y-axis)
 	}
@@ -53,7 +53,7 @@ fn main() {
 
 	// 📚 [POL]: Konwersja układu sferycznego (R, Φ, Θ) na kartezjański wektor Cs3.
 	// 📚 [ENG]: Conversion of spherical system (R, Φ, Θ) to Cartesian Cs3 vector.
-	let punkt_ze_sferycznego: Cs3 = Coords3dXyzSpherical {
+	let punkt_ze_sferycznego: Cs3 = CoordsSpherical {
 		r_xyz: 20.0,
 		f_yx: 0.0,                        // X-axis azimuth
 		t_zr: std::f64::consts::PI / 4.0, // 45° inclination from Z-axis

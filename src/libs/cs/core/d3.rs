@@ -1,4 +1,5 @@
-// src/libs/cs/core/d3.rs
+// 📃 ./src/libs/cs/core/d3.rs
+
 
 use crate::libs::cs::{
 	model::{Cs, Cs3},
@@ -7,48 +8,48 @@ use crate::libs::cs::{
 
 // --- IMPLEMENTACJE FROM (DTO -> Cs3) ---
 
-impl From<Coords3dXyz> for Cs3 {
+impl From<CoordsXyz> for Cs3 {
 	/// 📚 【 POL】: Konwertuje kartezjańskie DTO XYZ na wektor Cs3.
 	/// 📚 【 ENG】: Converts Cartesian XYZ DTO to a Cs3 vector.
 	#[inline]
-	fn from(c: Coords3dXyz) -> Self { Cs([c.x, c.y, c.z]) }
+	fn from(c: CoordsXyz) -> Self { Cs([c.x, c.y, c.z]) }
 }
 
-impl From<Coords3dXyCylindricalZ> for Cs3 {
+impl From<CoordsCylindricalZ> for Cs3 {
 	/// 📚 【 POL】: Konwertuje współrzędne cylindryczne względem osi Z na wektor kartezjański Cs3.
 	/// 📚 【 ENG】: Converts cylindrical coordinates relative to the Z-axis to a Cs3 Cartesian vector.
 	#[inline]
-	fn from(c: Coords3dXyCylindricalZ) -> Self {
+	fn from(c: CoordsCylindricalZ) -> Self {
 		let (sin_f, cos_f) = c.f_yx.sin_cos();
 		Cs([c.r_xy * cos_f, c.r_xy * sin_f, c.z])
 	}
 }
 
-impl From<Coords3dXzCylindricalY> for Cs3 {
+impl From<CoordsCylindricalY> for Cs3 {
 	/// 📚 【 POL】: Konwertuje współrzędne cylindryczne względem osi Y na wektor kartezjański Cs3.
 	/// 📚 【 ENG】: Converts cylindrical coordinates relative to the Y-axis to a Cs3 Cartesian vector.
 	#[inline]
-	fn from(c: Coords3dXzCylindricalY) -> Self {
+	fn from(c: CoordsCylindricalY) -> Self {
 		let (sin_f, cos_f) = c.f_zx.sin_cos();
 		Cs([c.r_xz * cos_f, c.y, c.r_xz * sin_f])
 	}
 }
 
-impl From<Coords3dYzCylindricalX> for Cs3 {
+impl From<CoordsCylindricalX> for Cs3 {
 	/// 📚 【 POL】: Konwertuje współrzędne cylindryczne względem osi X na wektor kartezjański Cs3.
 	/// 📚 【 ENG】: Converts cylindrical coordinates relative to the X-axis to a Cs3 Cartesian vector.
 	#[inline]
-	fn from(c: Coords3dYzCylindricalX) -> Self {
+	fn from(c: CoordsCylindricalX) -> Self {
 		let (sin_f, cos_f) = c.f_zy.sin_cos();
 		Cs([c.x, c.r_yz * cos_f, c.r_yz * sin_f])
 	}
 }
 
-impl From<Coords3dXyzSpherical> for Cs3 {
+impl From<CoordsSpherical> for Cs3 {
 	/// 📚 【 POL】: Konwertuje współrzędne sferyczne na wektor kartezjański Cs3.
 	/// 📚 【 ENG】: Converts spherical coordinates to a Cs3 Cartesian vector.
 	#[inline]
-	fn from(c: Coords3dXyzSpherical) -> Self {
+	fn from(c: CoordsSpherical) -> Self {
 		let (sin_f, cos_f) = c.f_yx.sin_cos(); // Azymut XY
 		let (sin_t, cos_t) = c.t_zr.sin_cos(); // Inklinacja Z do R
 		Cs([c.r_xyz * sin_t * cos_f, c.r_xyz * sin_t * sin_f, c.r_xyz * cos_t])

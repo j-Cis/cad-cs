@@ -18,10 +18,6 @@ args = [
 	"plot", "-o", "./.history/", 
 	"-p", "./target/+", "-p", "!./target/", 
 	"-p", "./.git/+", "-p", "!./.git/", 
-	"-p", "./.github/+", "-p", "!./.github/", 
-	"-p", "./.vscode/+", "-p", "!./.vscode/", 
-	"-p", "./.err/+", "-p", "!./.err/", 
-	"-p", "./.history/+", "-p", "!./.history/", 
 	"-x", "-v", "grid", "--save-address", "-b", "-a", "--lang", "en"
 ]
 
@@ -38,6 +34,7 @@ args = [
 	"-p", "./.history/+", "-p", "!./.history/", 
 	"-p", "./.err/+", "-p", "!./.err/", 
 	"-p", "./LICENSE-APACHE", "-p", "./LICENSE-MIT", "-p", "*.lock", 
+	"-p", ".gitattributes", "-p", ".gitignore", 
 	"-x", "-v", "grid", "--save-archive", "-b", "-a", "--lang", "en"
 ]
 
@@ -238,16 +235,31 @@ description = "Publikuje najnowszą wersję paczki w rejestrze crates.io"
 command = "cargo"
 args = ["publish"]
 
+[tasks.doc-full]
+description = "Generuje najobszerniejszą dokumentację (prywatne API, wszystkie features i targety) i otwiera w przeglądarce"
+command = "cargo"
+args = [
+    "doc",
+    "--no-deps",
+    "--document-private-items",
+    "--all-features",
+    "--examples",
+    "--open"
+]
+
 # --- ALIASY ALFABETYCZNIE ---
 
 [tasks.a]
 alias = "history-snapshot"
 
-[tasks.e]
-alias = "errors-snapshot"
+[tasks.b]
+alias = "doc-full"
 
 [tasks.d]
 alias = "history-snapshot-totalcode"
+
+[tasks.e]
+alias = "errors-snapshot"
 
 [tasks.f]
 alias = "history-snapshot-filetree"

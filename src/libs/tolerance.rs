@@ -1,4 +1,4 @@
-// src/libs/tolerance.rs
+// 📃 ./src/libs/tolerance.rs
 
 /// 📚 【 POL】: Absolutna tolerancja przestrzenna używana do weryfikacji koincydencji punktów i długości wektorów.
 /// 📚 【 ENG】: Absolute spatial tolerance used for point coincidence and vector length verification.

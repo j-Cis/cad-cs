@@ -18,6 +18,7 @@ exclude = [
 	".err/",
 	".github/",
 	".vscode/",
+	".temp/",
 	"Makefile.toml",
 	".rustfmt.toml",
 	"TODO.md",

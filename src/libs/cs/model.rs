@@ -1,4 +1,4 @@
-// src/libs/cs/model.rs
+// 📃 ./src/libs/cs/model.rs
 
 use std::ops::Deref;
 

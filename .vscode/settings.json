@@ -1,7 +1,41 @@
 {
-    "markdownlint.ignore": [
-        ".history/**/*.md"
-    ],
+	"search.exclude": {
+		"**": true,
+		"src/**": false,
+		"example/**": false,
+		"ARCHITECTURE.md": false,
+		"TODO.md": false,
+		"ROADMAP.md": false,
+		"README.md": false
+	},
+	"files.readonlyInclude": {
+		"**/*.lock": true,
+		".git/**": true,
+		".err/**": true,
+		".history/**": true,
+		"target/**": true,
+		"LICENSE-APACHE": true,
+		"LICENSE-MIT": true
+	},
+	 // Wykluczenie całego folderu z walidacji lintera
+	"files.watcherExclude": {
+		"**/.temp/**": true,
+		"**/.err/**": true,
+		"**/.git/**": true,
+		"**/.history/**": true
+	},
+	"markdownlint.ignore": [
+		".temp/**",
+		".err/**",
+		".git/**",
+		".history/**"
+	],
+	"markdownlint.ignorePatterns": [
+		".temp/**/*.md",
+		".err/**/*.md",
+		".git/**/*.md",
+		".history/**/*.md"
+	],
 
 	// --- FORMATOWANIE I TABULATORY ---
 	// Wymuszamy tabulatory zamiast spacji (zgodnie z .rustfmt.toml)
@@ -28,5 +62,19 @@
     "editor.renderWhitespace": "boundary",
 
     // Renderowanie małej strzałki na końcach linii (ułatwia nawigację)
-    "editor.renderLineHighlight": "all"
+    "editor.renderLineHighlight": "all",
+	"actionButtons": {
+		"defaultColor": "none",
+		"loadNpmCommands": false,
+		"reloadButton": null,
+		"commands": [
+			{
+				"name": "$(terminal) Terminal w Oknie",
+				"color": "#00FF00",
+				"useVsCodeApi": true,
+				"command": "workbench.action.terminal.newInNewWindow",
+				"tooltip": "Otwiera nowy terminal w osobnym oknie"
+			}
+		]
+	}
 }

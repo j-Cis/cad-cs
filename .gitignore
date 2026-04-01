@@ -1,3 +1,10 @@
 /target
 *.exe
 *.lock
+
+# Ignoruj pliki VS Code...
+.vscode/*
+# ...ale ZACHOWAJ te konkretne:
+!.vscode/settings.json
+!.vscode/*.code-profile
+!.vscode/keybindings.json

@@ -1,7 +1,12 @@
 // 📃 ./src/libs/cs/helper/d2.rs
 
-use crate::libs::cs::abstract_traits::{AbstractHelperCs2, AbstractMathCs2};
-use crate::libs::{angle::AngleFmt, cs::model::Cs};
+use crate::libs::{
+	angle::AngleFmt,
+	cs::{
+		abstract_traits::{AbstractHelperCs2, AbstractMathCs2},
+		model::Cs,
+	},
+};
 // ===================================================================================
 // TRAIT DLA 2D
 // ===================================================================================

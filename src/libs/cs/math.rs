@@ -6,9 +6,11 @@ use std::{
 };
 
 use crate::libs::{
-	cs::abstract_traits::{AbstractArithmeticCsGeneric, AbstractMathCsGeneric},
-	cs::model::Cs,
-	cs::types::Dim,
+	cs::{
+		abstract_traits::{AbstractArithmeticCsGeneric, AbstractMathCsGeneric},
+		model::Cs,
+		types::Dim,
+	},
 	tolerance,
 };
 
@@ -18,8 +20,7 @@ pub mod d2;
 pub mod d3;
 
 impl<const N: usize> AbstractMathCsGeneric for Cs<N>
-where
-	Cs<N>: Dim,
+where Cs<N>: Dim
 {
 	/// 📚 【 POL】: Operacja odejmowania wektorów. Zwraca wektor różnicy (B - A).
 	/// 📚 【 ENG】: Vector subtraction. Returns the difference vector (B - A).
@@ -87,8 +88,7 @@ where
 /// 📚 【 POL】: Implementacja operatora dodawania (Cs + Cs).
 /// 📚 【 ENG】: Implementation of the addition operator (Cs + Cs).
 impl<const N: usize> Add for Cs<N>
-where
-	Cs<N>: Dim,
+where Cs<N>: Dim
 {
 	type Output = Cs<N>;
 	#[inline]
@@ -101,8 +101,7 @@ where
 /// 📚 【 POL】: Implementacja operatora odejmowania (Cs - Cs).
 /// 📚 【 ENG】: Implementation of the subtraction operator (Cs - Cs).
 impl<const N: usize> Sub for Cs<N>
-where
-	Cs<N>: Dim,
+where Cs<N>: Dim
 {
 	type Output = Cs<N>;
 	#[inline]
@@ -115,8 +114,7 @@ where
 /// 📚 【 POL】: Implementacja operatora negacji (-Cs).
 /// 📚 【 ENG】: Implementation of the negation operator (-Cs).
 impl<const N: usize> Neg for Cs<N>
-where
-	Cs<N>: Dim,
+where Cs<N>: Dim
 {
 	type Output = Cs<N>;
 	#[inline]
@@ -129,8 +127,7 @@ where
 /// 📚 【 POL】: Implementacja mnożenia wektora przez skalar (Cs * f64).
 /// 📚 【 ENG】: Implementation of vector multiplication by a scalar (Cs * f64).
 impl<const N: usize> Mul<f64> for Cs<N>
-where
-	Cs<N>: Dim,
+where Cs<N>: Dim
 {
 	type Output = Cs<N>;
 	#[inline]
@@ -143,21 +140,17 @@ where
 /// 📚 【 POL】: Implementacja mnożenia skalara przez wektor (f64 * Cs).
 /// 📚 【 ENG】: Implementation of scalar multiplication by a vector (f64 * Cs).
 impl<const N: usize> Mul<Cs<N>> for f64
-where
-	Cs<N>: Dim,
+where Cs<N>: Dim
 {
 	type Output = Cs<N>;
 	#[inline]
-	fn mul(self, rhs: Cs<N>) -> Self::Output {
-		rhs * self
-	}
+	fn mul(self, rhs: Cs<N>) -> Self::Output { rhs * self }
 }
 
 /// 📚 【 POL】: Implementacja dzielenia wektora przez skalar (Cs / f64).
 /// 📚 【 ENG】: Implementation of vector division by a scalar (Cs / f64).
 impl<const N: usize> Div<f64> for Cs<N>
-where
-	Cs<N>: Dim,
+where Cs<N>: Dim
 {
 	type Output = Cs<N>;
 	#[inline]
@@ -173,12 +166,17 @@ where
 // PODPIĘCIE ABSTRAKTU ARYTMETYCZNEGO POD OPERATORY POWYŻSZE
 // =============================================================================
 
-impl<const N: usize> AbstractArithmeticCsGeneric for Cs<N> 
-where Cs<N>: Dim 
+impl<const N: usize> AbstractArithmeticCsGeneric for Cs<N>
+where Cs<N>: Dim
 {
-    #[inline] fn add_cs(&self, rhs: &Self) -> Self { AbstractMathCsGeneric::add(self, rhs) }
-    #[inline] fn sub_cs(&self, rhs: &Self) -> Self { AbstractMathCsGeneric::sub(self, rhs) }
-    #[inline] fn neg_cs(&self) -> Self { -*self }
-    #[inline] fn mul_scalar(&self, rhs: f64) -> Self { *self * rhs }
-    #[inline] fn div_scalar(&self, rhs: f64) -> Self { *self / rhs }
+	#[inline]
+	fn add_cs(&self, rhs: &Self) -> Self { AbstractMathCsGeneric::add(self, rhs) }
+	#[inline]
+	fn sub_cs(&self, rhs: &Self) -> Self { AbstractMathCsGeneric::sub(self, rhs) }
+	#[inline]
+	fn neg_cs(&self) -> Self { -*self }
+	#[inline]
+	fn mul_scalar(&self, rhs: f64) -> Self { *self * rhs }
+	#[inline]
+	fn div_scalar(&self, rhs: f64) -> Self { *self / rhs }
 }

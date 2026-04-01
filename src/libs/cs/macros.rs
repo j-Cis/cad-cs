@@ -48,20 +48,14 @@ macro_rules! dms {
 /// 📚 【 ENG】: Macro implementing the AbstractSignStrExt trait for specified numerical types and a defined zero point.
 #[macro_export]
 macro_rules! impl_sign_str {
-    ($t:ty, $zero:expr) => {
-        impl $crate::libs::cs::abstract_traits::AbstractSignStrExt for $t {
-            #[inline]
-            fn sign_str(self) -> &'static str {
-                if self >= $zero { "+" } else { "-" }
-            }
-            #[inline]
-            fn sign_sn(self) -> &'static str {
-                if self >= $zero { "N" } else { "S" }
-            }
-            #[inline]
-            fn sign_we(self) -> &'static str {
-                if self >= $zero { "E" } else { "W" }
-            }
-        }
-    };
+	($t:ty, $zero:expr) => {
+		impl $crate::libs::cs::abstract_traits::AbstractSignStrExt for $t {
+			#[inline]
+			fn sign_str(self) -> &'static str { if self >= $zero { "+" } else { "-" } }
+			#[inline]
+			fn sign_sn(self) -> &'static str { if self >= $zero { "N" } else { "S" } }
+			#[inline]
+			fn sign_we(self) -> &'static str { if self >= $zero { "E" } else { "W" } }
+		}
+	};
 }

@@ -1,7 +1,9 @@
 // 📃 ./src/libs/cs/core/d3.rs
 
 use crate::libs::cs::{
-	abstract_traits::AbstractProjectionsCs3, model::Cs, model::*, types::Cs3,
+	abstract_traits::AbstractProjectionsCs3,
+	model::{Cs, *},
+	types::Cs3,
 };
 
 // --- IMPLEMENTACJE FROM (DTO -> Cs3) ---
@@ -10,9 +12,7 @@ impl From<CoordsXyz> for Cs3 {
 	/// 📚 【 POL】: Konwertuje kartezjańskie DTO XYZ na wektor Cs3.
 	/// 📚 【 ENG】: Converts Cartesian XYZ DTO to a Cs3 vector.
 	#[inline]
-	fn from(c: CoordsXyz) -> Self {
-		Cs([c.x, c.y, c.z])
-	}
+	fn from(c: CoordsXyz) -> Self { Cs([c.x, c.y, c.z]) }
 }
 
 impl From<CoordsCylindricalZ> for Cs3 {

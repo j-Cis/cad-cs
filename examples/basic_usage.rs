@@ -1,18 +1,19 @@
 // 📃 ./examples/basic_usage.rs
 
 use cad_cs::libs::cs::abstract_traits::{
+	//AbstractHelperCs2, // Jeśli używasz .print()
+	AbstractHelperCs3, // Jeśli używasz .print()
 	AbstractMathCs2,
 	AbstractMathCs3,
-	//AbstractHelperCs2, // Jeśli używasz .print()
-	AbstractHelperCs3  // Jeśli używasz .print()
 };
 use cad_cs::{
-	cs, dms,
+	cs,
+	dms,
 	libs::{
 		angle::AngleFmt,
 		cs::{
-			Cs2, Cs3,
-			
+			Cs2,
+			Cs3,
 			model::{CoordsPolar, CoordsSpherical},
 		},
 	},

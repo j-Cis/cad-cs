@@ -1,6 +1,9 @@
 // 📃 ./src/libs/cs/math/d2.rs
 
-use crate::libs::cs::{abstract_traits::AbstractMathCs2, model::Cs, abstract_traits::AbstractSignStrExt};
+use crate::libs::cs::{
+	abstract_traits::{AbstractMathCs2, AbstractSignStrExt},
+	model::Cs,
+};
 
 impl AbstractMathCs2 for Cs<2> {
 	/// 📚 【 POL】: Długość rzutu (promień) na płaszczyznę XY.

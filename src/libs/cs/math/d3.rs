@@ -1,7 +1,10 @@
 // 📃 ./src/libs/cs/math/d3.rs
 
 use crate::libs::{
-	cs::{abstract_traits::AbstractMathCs3, model::Cs, abstract_traits::AbstractSignStrExt},
+	cs::{
+		abstract_traits::{AbstractMathCs3, AbstractSignStrExt},
+		model::Cs,
+	},
 	tolerance,
 };
 

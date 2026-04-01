@@ -1,7 +1,9 @@
 // 📃 ./src/libs/cs/core/d2.rs
 
 use crate::libs::cs::{
-	abstract_traits::AbstractProjectionsCs2, model::Cs, model::*, types::Cs2,
+	abstract_traits::AbstractProjectionsCs2,
+	model::{Cs, *},
+	types::Cs2,
 };
 
 // --- IMPLEMENTACJE FROM (DTO -> Cs2) ---
@@ -10,9 +12,7 @@ impl From<CoordsXy> for Cs2 {
 	/// 📚 【 POL】: Konwertuje kartezjańskie DTO XY na wektor Cs2.
 	/// 📚 【 ENG】: Converts Cartesian XY DTO to a Cs2 vector.
 	#[inline]
-	fn from(c: CoordsXy) -> Self {
-		Cs([c.x, c.y])
-	}
+	fn from(c: CoordsXy) -> Self { Cs([c.x, c.y]) }
 }
 
 impl From<CoordsPolar> for Cs2 {

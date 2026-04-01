@@ -1,7 +1,12 @@
 // 📃 ./src/libs/cs/helper/d3.rs
 
-use crate::libs::cs::abstract_traits::{AbstractHelperCs3, AbstractMathCs3};
-use crate::libs::{angle::AngleFmt, cs::model::Cs};
+use crate::libs::{
+	angle::AngleFmt,
+	cs::{
+		abstract_traits::{AbstractHelperCs3, AbstractMathCs3},
+		model::Cs,
+	},
+};
 
 // ===================================================================================
 // TRAIT DLA 3D

@@ -23,17 +23,15 @@ use cad_cs::libs::angle::AngleFmt;
 // Typy z modułu ułamków
 // use cad_cs::libs::frac::{as_frac, as_frac_pi};
 
-
 // Trait rozszerzający znaki
 // use cad_cs::AbstractSignStrExt;
-
 use cad_cs::libs::cs::abstract_traits::{
-	AbstractProjectionsCs2,
-	AbstractProjectionsCs3,
 	// AbstractMathCs2,        // Dla metod typu .q() czy .rxy()
 	// AbstractMathCs3,
 	AbstractHelperCs2,
-	AbstractHelperCs3
+	AbstractHelperCs3,
+	AbstractProjectionsCs2,
+	AbstractProjectionsCs3,
 };
 
 fn main() {

@@ -1,8 +1,8 @@
 // 📃 ./src/libs/cs/abstract_traits.rs
 
-use crate::libs::{angle::AngleFmt, cs::model::Cs};
-
 use std::ops::{Add, Div, Mul, Neg, Sub};
+
+use crate::libs::{angle::AngleFmt, cs::model::Cs};
 
 /// 📚 【 POL】: Kontrakt gwarantujący implementację podstawowych rzutowań 2D.
 /// 📚 【 ENG】: Contract guaranteeing the implementation of basic 2D projections.
@@ -153,13 +153,12 @@ pub trait AbstractArithmeticCsGeneric:
 	+ Sized // Zapewnia, że rozmiar jest znany w czasie kompilacji
 {
 	// Deklarujemy metody, które potem implementujesz w math.rs
-    fn add_cs(&self, rhs: &Self) -> Self;
-    fn sub_cs(&self, rhs: &Self) -> Self;
-    fn neg_cs(&self) -> Self;
-    fn mul_scalar(&self, rhs: f64) -> Self;
-    fn div_scalar(&self, rhs: f64) -> Self;
+	fn add_cs(&self, rhs: &Self) -> Self;
+	fn sub_cs(&self, rhs: &Self) -> Self;
+	fn neg_cs(&self) -> Self;
+	fn mul_scalar(&self, rhs: f64) -> Self;
+	fn div_scalar(&self, rhs: f64) -> Self;
 }
-
 
 /// 📚 【 POL】: Trait rozszerzający dla typów liczbowych, ułatwiający prezentację znaków kierunkowych.
 /// 📚 【 ENG】: Extension trait for numerical types, facilitating the presentation of directional signs.

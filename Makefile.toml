@@ -390,8 +390,32 @@ args = ["-Command", "$v=$env:CARGO_MAKE_CRATE_VERSION.Split('-')[0].Split('.'); 
 # ----------------------------------------------------
 [tasks.v-next--point]
 description = "Podbija punkt w obecnej fazie prerelease (np. dev.1 -> dev.2)"
-command = "cargo"
-args = ["set-version", "--bump", "prerelease"]
+command = "powershell"
+args = [
+    "-Command",
+    """
+    $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
+    $v = $env:CARGO_MAKE_CRATE_VERSION;
+    $parts = $v.Split('-');
+    
+    if ($parts.Length -lt 2) { 
+        Write-Host '❌ Jesteś na stabilnej wersji! Użyj v_new_fix lub v_new_ver, aby zacząć nowy cykl.' -ForegroundColor Red; 
+        exit 1; 
+    }
+    
+    $base = $parts[0];
+    $suffix_parts = $parts[1].Split('.');
+    
+    $phase = $suffix_parts[0];
+    # Jeśli z jakiegoś powodu nie było kropki i numeru, zakładamy 0, w przeciwnym razie bierzemy obecny numer
+    $num = if ($suffix_parts.Length -gt 1) { [int]$suffix_parts[1] } else { 0 };
+    
+    $new_version = "$base-$phase.$($num + 1)";
+    
+    Write-Host "📈 Podbijanie iteracji: $v -> $new_version" -ForegroundColor Cyan;
+    cargo set-version $new_version;
+    """
+]
 
 [tasks.v-next--phase]
 description = "Awansuje projekt do kolejnej fazy (dev -> snapshot -> alpha -> beta -> rc)"

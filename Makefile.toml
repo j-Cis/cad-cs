@@ -103,15 +103,8 @@ args = [
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-[tasks.fmt-c5-diag-package-list]
-dependencies = ["ensure-prompt-and-err-folders-exist"]
-ignore_errors = true
-command = "powershell"
-args = [
-	"-Command", 
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 3/6 (D/{A,B,C,D,E,F}): 📖                                 '; cargo package --list --allow-dirty *> .err/c0_package_list.log"
-]
 
 [tasks.fmt-c2-cargo]
 description = "Automatyczna naprawa błędów rustc"
@@ -119,7 +112,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command", 
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 1/6 (A/{A,B,C,D,E,F}): 📖 Naprawa rustc (cargo fix)...'; cargo fix --allow-dirty --allow-no-vcs --all-targets --all-features *> .err/c1_cargo_fix.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 2/7: 📖 Naprawa rustc (cargo fix)...'; cargo fix --allow-dirty --allow-no-vcs --all-targets --all-features *> .prompt/.err/c2_cargo_fix.log"
 ]
 
 [tasks.fmt-c3-clippy]
@@ -128,7 +121,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command", 
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 2/6 (B/{A,B,C,D,E,F}): 📖 Naprawa lintera (clippy --fix)...'; cargo clippy --fix --allow-dirty --all-targets --all-features *> .err/c2_clippy_fix.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼3/7: 📖 Naprawa lintera (clippy --fix)...'; cargo clippy --fix --allow-dirty --all-targets --all-features *> .prompt/.err/c3_clippy_fix.log"
 ]
 
 [tasks.fmt-c4-fmt-nightly-by-rustfmt-file-config]
@@ -137,7 +130,16 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command", 
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 3/6 (C/{A,B,C,D,E,F}): 📖 Formatowanie kodu (cargo +nightly fmt)...'; cargo +nightly fmt *> .err/c3_cargo_fmt.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 4/7: 📖 Formatowanie kodu (cargo +nightly fmt)...'; cargo +nightly fmt *> .prompt/.err/c4_cargo_fmt.log"
+]
+
+[tasks.fmt-c5-diag-package-list]
+dependencies = ["ensure-prompt-and-err-folders-exist"]
+ignore_errors = true
+command = "powershell"
+args = [
+	"-Command", 
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 5/7: 📖 Zrzut listy plików paczki (cargo package)...'; cargo package --list --allow-dirty *> .prompt/.err/c5_package_list.log"
 ]
 
 [tasks.fmt-c6-diag-verify]
@@ -146,7 +148,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command", 
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 3/6 (E/{A,B,C,D,E,F}): 📖                                 '; cargo verify-project *> .err/c4_verify_project.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 6/7: 📖 Weryfikacja struktury (cargo verify-project)...'; cargo verify-project *> .prompt/.err/c6_verify_project.log"
 ]
 
 [tasks.fmt-c7-diag-audit]
@@ -155,7 +157,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command", 
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 3/6 (F/{A,B,C,D,E,F}): 📖                                 '; cargo audit *> .err/c5_security_audit.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 7/7: 📖 Audyt bezpieczeństwa (cargo audit)...'; cargo audit *> .prompt/.err/c7_security_audit.log"
 ]
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -166,7 +168,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command",
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo +nightly fmt -- --check *> .err/o0_fmt_check.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo +nightly fmt -- --check *> .prompt/.err/o0_fmt_check.log"
 ]
 
 [tasks.err-diag-o1-check]
@@ -175,7 +177,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command",
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo check --message-format short *> .err/o1_check.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo check --message-format short *> .prompt/.err/o1_check.log"
 ]
 
 [tasks.err-diag-o2-examples]
@@ -184,9 +186,8 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command",
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo check --examples *> .err/o2_check_examples.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo check --examples *> .prompt/.err/o2_check_examples.log"
 ]
-
 
 [tasks.err-diag-o3-clippy-basic]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
@@ -194,7 +195,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command",
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo clippy *> .err/o3_clippy.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo clippy *> .prompt/.err/o3_clippy.log"
 ]
 
 [tasks.err-diag-o4-clippy-strict]
@@ -203,7 +204,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command",
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo clippy --all-targets --all-features -- -D warnings *> .err/o4_clippy_strict.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo clippy --all-targets --all-features -- -D warnings *> .prompt/.err/o4_clippy_strict.log"
 ]
 
 [tasks.err-diag-o5-release-build]
@@ -212,7 +213,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command",
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo build --release *> .err/o5_build_release.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo build --release *> .prompt/.err/o5_build_release.log"
 ]
 
 [tasks.err-diag-o6-doc-gen]
@@ -221,7 +222,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command",
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo doc --no-deps --document-private-items *> .err/o6_doc_check.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo doc --no-deps --document-private-items *> .prompt/.err/o6_doc_check.log"
 ]
 
 [tasks.err-diag-o7-test-compile]
@@ -230,7 +231,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command",
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --no-run *> .err/o7_test_compile.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --no-run *> .prompt/.err/o7_test_compile.log"
 ]
 
 [tasks.err-diag-o8-test-run]
@@ -239,7 +240,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command",
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --verbose *> .err/o8_test_run.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --verbose *> .prompt/.err/o8_test_run.log"
 ]
 
 [tasks.err-diag-o9-test-doc]
@@ -248,7 +249,7 @@ ignore_errors = true
 command = "powershell"
 args = [
 	"-Command",
-	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --doc *> .err/o9_test_doc.log"
+	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --doc *> .prompt/.err/o9_test_doc.log"
 ]
 
 

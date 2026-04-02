@@ -562,6 +562,25 @@ run_task = { name = [
     "snapshot-code", 
 ], parallel = false }
 
+[tasks.info-tofile]
+description = "Wykonuje pełny cykl (info) w tle i zapisuje zrzut z konsoli do pliku .prompt/info.log"
+category = "Combo"
+command = "powershell"
+args = [
+    "-Command",
+    """
+    $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
+    if (-Not (Test-Path .prompt)) { New-Item -ItemType Directory -Path .prompt | Out-Null }
+    
+    Write-Host "`n⏳ Uruchamiam pełny cykl (cargo make info)..." -ForegroundColor Cyan;
+    Write-Host "📝 Wszystkie logi z konsoli lecą do: .prompt\\info.log" -ForegroundColor DarkGray;
+    
+    cargo make info *> .\\.prompt\\info.log;
+    
+    Write-Host "`n✅ Zakończono! Kontekst przygotowany, a przebieg zapisany w .prompt\\info.log`n" -ForegroundColor Green;
+    """
+]
+
 # ====================================================
 # 📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖
 # 📖                                               📖
@@ -729,6 +748,7 @@ args = [
 | Opis | Alias | Task |
 |------|--------|-------|
 | KOMPLETNY KONTEKST (Clean → Fix/Fmt → Diag → Snapshot) | ai | info |
+| KOMPLETNY KONTEKST (Clean → Fix/Fmt → Diag → Snapshot) z zapisem do pliku `.\.prompt\info.log` | ai_out | info-tofile |
 
 ---
 ---
@@ -821,6 +841,7 @@ args = [
 | 46 | sequence: all err-diag + doc | snapshot-diag-err-save | e |
 | 47 | sequence: includes + excludes + source | snapshot-code | a |
 | 48 | sequence: clear err → clear src → fmt-safe → diag-save → snapshot-code | info | ai |
+| 49 | sequence: clear err → clear src → fmt-safe → diag-save → snapshot-code; `.\.prompt\info.log`| info-tofile | ai_out |
 
 ---
 ---
@@ -891,6 +912,9 @@ alias = "clear-contents-of-err-folder-under-prompt"
 
 [tasks.ai]
 alias = "info"
+
+[tasks.ai_out]
+alias = "info-tofile"
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -11,30 +11,24 @@
 	"files.readonlyInclude": {
 		"**/*.lock": true,
 		".git/**": true,
-		".err/**": true,
-		".history/**": true,
+		".prompt/**": true,
 		"target/**": true,
 		"LICENSE-APACHE": true,
 		"LICENSE-MIT": true
 	},
 	 // Wykluczenie całego folderu z walidacji lintera
 	"files.watcherExclude": {
-		"**/.temp/**": true,
-		"**/.err/**": true,
+		"./.prompt/**/*.log": true,
+		"./.prompt/**/*.md": true,
 		"**/.git/**": true,
-		"**/.history/**": true
 	},
 	"markdownlint.ignore": [
-		".temp/**",
-		".err/**",
 		".git/**",
-		".history/**"
+		".prompt/**"
 	],
 	"markdownlint.ignorePatterns": [
-		".temp/**/*.md",
-		".err/**/*.md",
 		".git/**/*.md",
-		".history/**/*.md"
+		".prompt/**/*.md"
 	],
 
 	// --- FORMATOWANIE I TABULATORY ---

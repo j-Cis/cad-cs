@@ -2,18 +2,12 @@
 skip_core_tasks = true
 
 # ====================================================
-# ------ KOMENDY JEDNOSTKOWE :
-# ------
-# ------ ------ KONFIGURACJA
+# 🗃️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗃️
+# 🗃️🗂️                                           🗂️🗃️
+# 🗃️🗂️            USUWANIE FOLDERÓW              🗂️🗃️ 
+# 🗃️🗂️                                           🗂️🗃️
+# 🗃️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗂️🗃️
 # ====================================================
-
-[tasks.clear-contents-of-src-folder-under-prompt]
-description = "Czyści zawartość folderu .prompt\\.src, ale zachowuje sam katalog"
-command = "powershell"
-args = [
-	"-Command", 
-	"if (Test-Path '.prompt\\.src\\*') { Remove-Item -Path '.prompt\\.src\\*' -Recurse -Force }; Write-Host 'Folder .prompt\\.src zostal wyczyszczony.'"
-]
 
 [tasks.clear-contents-of-err-folder-under-prompt]
 description = "Czyści zawartość folderu .prompt\\.err, ale zachowuje sam katalog"
@@ -31,6 +25,14 @@ args = [
 	"if (-Not (Test-Path .prompt\\.err)) { New-Item -ItemType Directory -Path .prompt\\.err | Out-Null }"
 ]
 
+[tasks.clear-contents-of-src-folder-under-prompt]
+description = "Czyści zawartość folderu .prompt\\.src, ale zachowuje sam katalog"
+command = "powershell"
+args = [
+	"-Command", 
+	"if (Test-Path '.prompt\\.src\\*') { Remove-Item -Path '.prompt\\.src\\*' -Recurse -Force }; Write-Host 'Folder .prompt\\.src zostal wyczyszczony.'"
+]
+
 [tasks.ensure-prompt-and-src-folders-exist]
 description = "Przygotowanie folderu .prompt\\.src"
 command = "powershell"
@@ -39,10 +41,28 @@ args = [
 	"if (-Not (Test-Path .prompt\\.src)) { New-Item -ItemType Directory -Path .prompt\\.src | Out-Null }"
 ]
 
+[tasks.clear-contents-of-helpers-folder-under-prompt]
+description = "Czyści zawartość folderu .prompt\\.helpers, ale zachowuje sam katalog"
+command = "powershell"
+args = [
+	"-Command", 
+	"if (Test-Path '.prompt\\.helpers\\*') { Remove-Item -Path '.prompt\\.helpers\\*' -Recurse -Force }; Write-Host 'Folder .prompt\\.helpers zostal wyczyszczony.'"
+]
+
+[tasks.ensure-prompt-and-helpers-folders-exist]
+description = "Przygotowanie folderu .prompt\\.helpers"
+command = "powershell"
+args = [
+	"-Command",
+	"if (-Not (Test-Path .prompt\\.helpers)) { New-Item -ItemType Directory -Path .prompt\\.helpers | Out-Null }"
+]
+
 # ====================================================
-# ------ KOMENDY JEDNOSTKOWE :
-# ------
-# ------ ------ GENEROWANIE PLIKÓW
+# 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
+# 🟩📑                                          📑🟩
+# 🟩📑           GENEROWANIE PLIKÓW             📑🟩
+# 🟩📑                                          📑🟩
+# 🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
 # ====================================================
 
 [tasks.snapshot-filetree-includes]
@@ -84,7 +104,7 @@ args = [
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-[tasks.err-diag-package-list]
+[tasks.fmt-c5-diag-package-list]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -93,7 +113,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 3/6 (D/{A,B,C,D,E,F}): 📖                                 '; cargo package --list --allow-dirty *> .err/c0_package_list.log"
 ]
 
-[tasks.cargo-fix-core]
+[tasks.fmt-c2-cargo]
 description = "Automatyczna naprawa błędów rustc"
 ignore_errors = true
 command = "powershell"
@@ -102,7 +122,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 1/6 (A/{A,B,C,D,E,F}): 📖 Naprawa rustc (cargo fix)...'; cargo fix --allow-dirty --allow-no-vcs --all-targets --all-features *> .err/c1_cargo_fix.log"
 ]
 
-[tasks.clippy-fix]
+[tasks.fmt-c3-clippy]
 description = "Automatyczna naprawa sugestii Clippy"
 ignore_errors = true
 command = "powershell"
@@ -111,7 +131,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 2/6 (B/{A,B,C,D,E,F}): 📖 Naprawa lintera (clippy --fix)...'; cargo clippy --fix --allow-dirty --all-targets --all-features *> .err/c2_clippy_fix.log"
 ]
 
-[tasks.fmt-cargo]
+[tasks.fmt-c4-fmt-nightly-by-rustfmt-file-config]
 description = "Standardowe formatowanie cargo +nightly fmt"
 ignore_errors = true
 command = "powershell"
@@ -120,7 +140,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 3/6 (C/{A,B,C,D,E,F}): 📖 Formatowanie kodu (cargo +nightly fmt)...'; cargo +nightly fmt *> .err/c3_cargo_fmt.log"
 ]
 
-[tasks.err-diag-verify]
+[tasks.fmt-c6-diag-verify]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -129,7 +149,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; Write-Host ' 👉🏼 3/6 (E/{A,B,C,D,E,F}): 📖                                 '; cargo verify-project *> .err/c4_verify_project.log"
 ]
 
-[tasks.err-diag-audit]
+[tasks.fmt-c7-diag-audit]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -140,7 +160,7 @@ args = [
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-[tasks.err-diag-fmt]
+[tasks.err-diag-o0-fmt]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -149,7 +169,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo +nightly fmt -- --check *> .err/o0_fmt_check.log"
 ]
 
-[tasks.err-diag-check]
+[tasks.err-diag-o1-check]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -158,7 +178,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo check --message-format short *> .err/o1_check.log"
 ]
 
-[tasks.err-diag-examples]
+[tasks.err-diag-o2-examples]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -168,7 +188,7 @@ args = [
 ]
 
 
-[tasks.err-diag-clippy-basic]
+[tasks.err-diag-o3-clippy-basic]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -177,7 +197,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo clippy *> .err/o3_clippy.log"
 ]
 
-[tasks.err-diag-clippy-strict]
+[tasks.err-diag-o4-clippy-strict]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -186,7 +206,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo clippy --all-targets --all-features -- -D warnings *> .err/o4_clippy_strict.log"
 ]
 
-[tasks.err-diag-release-build]
+[tasks.err-diag-o5-release-build]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -195,7 +215,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo build --release *> .err/o5_build_release.log"
 ]
 
-[tasks.err-diag-doc-gen]
+[tasks.err-diag-o6-doc-gen]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -204,7 +224,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo doc --no-deps --document-private-items *> .err/o6_doc_check.log"
 ]
 
-[tasks.err-diag-test-compile]
+[tasks.err-diag-o7-test-compile]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -213,7 +233,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --no-run *> .err/o7_test_compile.log"
 ]
 
-[tasks.err-diag-test-run]
+[tasks.err-diag-o8-test-run]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -222,7 +242,7 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --verbose *> .err/o8_test_run.log"
 ]
 
-[tasks.err-diag-test-doc]
+[tasks.err-diag-o9-test-doc]
 dependencies = ["ensure-prompt-and-err-folders-exist"]
 ignore_errors = true
 command = "powershell"
@@ -231,13 +251,35 @@ args = [
 	"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; cargo test --doc *> .err/o9_test_doc.log"
 ]
 
+
 # ====================================================
 # ------ KOMENDY JEDNOSTKOWE :
 # ------
-# ------ ------ TWORZENIE PUNKTU PRZYWRACANIA
+# ------ ------ GENEROWANIE DOKUMENTACJI
 # ====================================================
 
-# [tasks.pre-op-snapshot-restore-point]
+[tasks.doc-full]
+description = "Generuje najobszerniejszą dokumentację (prywatne API, wszystkie features i targety) i otwiera w przeglądarce"
+command = "cargo"
+args = [
+    "doc",
+    "--no-deps",
+    "--document-private-items",
+    "--all-features",
+    "--examples",
+    "--open"
+]
+
+# ====================================================
+# 🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙
+# 🆙                                               🆙
+# 🆙               KONTROLA STANU                  🆙 
+# 🆙            PUNKTU PRZYWRACANIA                🆙 
+# 🆙                                               🆙
+# 🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙
+# ====================================================
+
+# [tasks.fmt-c0-pre-op-snapshot-restore-point]
 # description = "Tworzy bezpieczny commit, jeśli są niezatwierdzone zmiany"
 # command = "powershell"
 # args = [
@@ -245,36 +287,50 @@ args = [
 # 	"Write-Host '📦 Zabezpieczanie pracy...'; if (git status --porcelain) { git add .; git commit -m 'chore: pre-operation backup'; Write-Host '✅ Zmiany zapisane w Gicie.' } else { Write-Host 'ℹ️ Brak zmian do zapisu.' }"
 # ]
 
-[tasks.pre-op-snapshot-restore-point]
-description = "Tworzy podwójny snapshot z wymuszeniem zapisu plików w VS Code"
+
+[tasks.fmt-c0-pre-op-snapshot-restore-point-draft]
+description = "Wstępny snapshot (Zrzut obecnego stanu + prośba o zapis IDE)"
 command = "powershell"
 args = [
     "-Command",
     """
     $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
+    Write-Host '📦 Zabezpieczanie obecnego stanu dysku (Wstępny zrzut)...';
     
-    Write-Host '📦 1/3: Weryfikacja obecnego stanu dysku...';
-    if (git status --porcelain) {
-        git add .;
-        git commit -m 'chore: pre-operation backup (stan początkowy)';
-        Write-Host '✔️ Commit przed zapisem wykonany.';
-    } else {
-        Write-Host 'ℹ️ Brak zmian na dysku przed zapisem.';
+    git add .;
+    if (git status --porcelain) { 
+        git commit -m 'chore: pre-operation backup (stan wstępny)'; 
+        Write-Host '✔️ Wstępny commit wykonany.' -ForegroundColor Green;
+    } else { 
+        Write-Host 'ℹ️ Brak zmian na dysku do wstępnego commita.' -ForegroundColor DarkGray;
     }
 
-    Write-Host '💾 2/3: Wymuszam zapis wszystkich otwartych plików w VS Code...';
-    code vscode://command/workbench.action.files.saveAll;
+    Write-Host "`n`n";
+    Write-Host '=====================================================' -ForegroundColor Red;
+    Write-Host ' ⚠️  UWAGA: ZAPISZ PLIKI W EDYTORZE!  ⚠️ ' -ForegroundColor Yellow;
+    Write-Host '=====================================================' -ForegroundColor Red;
+    Write-Host '1. Wciśnij teraz w VS Code skrót: Ctrl + K, a potem S' -ForegroundColor Cyan;
+    Write-Host '2. Kiedy kropki na zakładkach znikną, uruchom główny snapshot:' -ForegroundColor White;
+    Write-Host '👉 cargo make fmt-c0-pre-op-snapshot-restore-point' -ForegroundColor Magenta;
+    Write-Host "`n`n";
+    """
+]
 
-    Write-Host '⏳ Czekam 1 sekundę na zrzut buforów i indeksowanie Git...';
-    Start-Sleep -Seconds 1; 
-
-    Write-Host '📦 3/3: Weryfikacja dopalonych plików...';
-    if (git status --porcelain) {
-        git add .;
-        git commit -m 'chore: pre-operation backup (dopalone pliki z RAM)';
-        Write-Host '✔️ Commit po zapisie wykonany (uratowano niezapisane pliki!).';
-    } else {
-        Write-Host 'ℹ️ Brak zmian po zapisie (wszystko było już na dysku).';
+[tasks.fmt-c0-pre-op-snapshot-restore-point]
+description = "Główny snapshot (Zabezpiecza stan plików w Gicie)"
+command = "powershell"
+args = [
+    "-Command",
+    """
+    $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
+    Write-Host '📦 Weryfikacja i zabezpieczanie plików (Główny zrzut)...';
+    
+    git add .;
+    if (git status --porcelain) { 
+        git commit -m 'chore: pre-operation backup (stan finalny)'; 
+        Write-Host '✔️ Snapshot gotowy. Pliki zabezpieczone w Gicie!' -ForegroundColor Green;
+    } else { 
+        Write-Host 'ℹ️ Brak zmian do zapisu. Wszystko jest zsynchronizowane.' -ForegroundColor DarkGray;
     }
     """
 ]
@@ -285,7 +341,7 @@ args = [
 # ------ ------ WALKA Z BIAŁYMI ZNAKAMI
 # ====================================================
 
-[tasks.fmt-fix-whitespace]
+[tasks.fmt-c1-fmt-whitespace]
 description = "Usuwa puste spacje z końców linii (naprawa błędu rustfmt)"
 command = "powershell"
 args = [
@@ -294,44 +350,224 @@ args = [
 ]
 
 # ====================================================
-# ------ KOMENDY JEDNOSTKOWE :
-# ------
-# ------ ------ DODAWANIE TAGU WERSJI Z PLIKU CARGO
+# 🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙
+# 🆙                                               🆙
+# 🆙               KONTROLA STANU                  🆙 
+# 🆙     ZARZĄDZANIE WERSJONOWANIEM (WORKFLOW)     🆙 
+# 🆙                                               🆙
+# 🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙🆙
 # ====================================================
 
+# ----------------------------------------------------
+# A. ZAMKNIĘCIE CYKLU
+# ----------------------------------------------------
+[tasks.v-finish-dist]
+description = "Publikuje stabilną dystrybucję (odcina sufiksy, np. rc.7 -> 0.5.0)"
+command = "powershell"
+args = ["-Command", "$base = $env:CARGO_MAKE_CRATE_VERSION.Split('-')[0]; cargo set-version $base"]
 
+# ----------------------------------------------------
+# B-D. OTWIERANIE NOWEGO CYKLU (Tworzy czyste płótno do pracy)
+# ----------------------------------------------------
+[tasks.v-start-patch]
+description = "Otwiera cykl poprawkowy (np. 0.5.0 -> 0.5.1-dev.1)"
+command = "powershell"
+args = ["-Command", "$v=$env:CARGO_MAKE_CRATE_VERSION.Split('-')[0].Split('.'); $new_v=\"$($v[0]).$($v[1]).$([int]$v[2]+1)-dev.1\"; cargo set-version $new_v"]
 
+[tasks.v-start-minor]
+description = "Otwiera nowy cykl funkcji (np. 0.5.0 -> 0.6.0-dev.1)"
+command = "powershell"
+args = ["-Command", "$v=$env:CARGO_MAKE_CRATE_VERSION.Split('-')[0].Split('.'); $new_v=\"$($v[0]).$([int]$v[1]+1).0-dev.1\"; cargo set-version $new_v"]
 
-# --- AUTOMATYZACJA WERSJONOWANIA (TAG & PUSH) ---
-[tasks.push-new-release-git]
-description = "Tworzy nowy tag Git na podstawie wersji w Cargo.toml i wypycha na serwer"
+[tasks.v-start-major]
+description = "Otwiera nowy cykl fundamentów (np. 0.5.0 -> 1.0.0-dev.1)"
+command = "powershell"
+args = ["-Command", "$v=$env:CARGO_MAKE_CRATE_VERSION.Split('-')[0].Split('.'); $new_v=\"$([int]$v[0]+1).0.0-dev.1\"; cargo set-version $new_v"]
+
+# ----------------------------------------------------
+# E-F. BIEŻĄCA PRACA I AWANSE (Silnik organicznego tworzenia)
+# ----------------------------------------------------
+[tasks.v-next--point]
+description = "Podbija punkt w obecnej fazie prerelease (np. dev.1 -> dev.2)"
+command = "cargo"
+args = ["set-version", "--bump", "prerelease"]
+
+[tasks.v-next--phase]
+description = "Awansuje projekt do kolejnej fazy (dev -> snapshot -> alpha -> beta -> rc)"
 command = "powershell"
 args = [
-	"-Command",
-	"Write-Host \"🏷️ Odczytana wersja z Cargo.toml: v$env:CARGO_MAKE_CRATE_VERSION...\"; git tag v$env:CARGO_MAKE_CRATE_VERSION; Write-Host \"🚀 Wypychanie kodu i tagów na GitHuba...\"; git push origin main --tags"
+    "-Command", 
+    """
+    $base = $env:CARGO_MAKE_CRATE_VERSION.Split('-')[0];
+    $suffix = $env:CARGO_MAKE_CRATE_VERSION.Split('-')[1];
+    if (-not $suffix) { Write-Host '❌ Jesteś na stabilnej wersji! Użyj v-start-*, aby zacząć nowy cykl.'; exit 1 }
+    
+    $current_phase = $suffix.Split('.')[0];
+    switch ($current_phase) {
+        'dev'      { $next = 'snapshot.1' }
+        'snapshot' { $next = 'alpha.1' }
+        'alpha'    { $next = 'beta.1' }
+        'beta'     { $next = 'rc.1' }
+        'rc'       { Write-Host '❌ Jesteś w fazie RC! Użyj v-finish-dist, aby wydać stabilną dystrybucję.'; exit 1 }
+        default    { Write-Host \"❌ Nieznana faza: $current_phase\"; exit 1 }
+    }
+    
+    cargo set-version \"$base-$next\";
+    Write-Host \"✅ Awansowano z $current_phase na fazę: $($next.Split('.')[0].ToUpper())\" -ForegroundColor Green;
+    """
 ]
 
-# --- PUBLIKACJA NA CRATES.IO ---
-[tasks.push-new-release-cargo]
+# ----------------------------------------------------
+# G. TAGOWANIE WERSJI
+# ----------------------------------------------------
+
+[tasks.v-add-hashtag]
+description = "Commituje zmiany, pobiera hasz i tworzy lokalny tag wersji (bez pusha)"
+command = "powershell"
+args = [
+    "-Command",
+    """
+    $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
+    
+    # 1) Odczyt wersji z Cargo.toml
+    $ver = $env:CARGO_MAKE_CRATE_VERSION
+    Write-Host "`n📦 1/5: Wykryto wersję Cargo.toml: v$ver" -ForegroundColor Cyan;
+    
+    # 2) git add .
+    Write-Host '➕ 2/5: Dodawanie plików do indeksu (git add .)...';
+    git add .;
+    
+    # 3) git commit
+    Write-Host '📝 3/5: Tworzenie commitu wydania...';
+    if (git status --porcelain) {
+        git commit -m "chore: release v$ver";
+        Write-Host '✔️ Commit utworzony pomyślnie.' -ForegroundColor Green;
+    } else {
+        Write-Host 'ℹ️ Repozytorium jest czyste, przypinam tag do aktualnego stanu.' -ForegroundColor DarkGray;
+    }
+    
+    # 4) Pobranie hasza ostatniego commitu
+    $hash = git rev-parse --short HEAD
+    Write-Host "🔍 4/5: Odczytano hasz commitu: $hash" -ForegroundColor Yellow;
+    
+    # 5) Utworzenie tagu (składnia: git tag v[wersja] [hasz])
+    Write-Host "🏷️ 5/5: Przypinanie tagu v$ver do commitu $hash...";
+    if (git tag -l "v$ver") { git tag -d "v$ver" | Out-Null }
+    git tag "v$ver" $hash;
+    
+    Write-Host "`n✅ Wydanie v$ver pomyślnie zakończone - rozważ opublikowanie w rejestrze crates i na GitHubie!" -ForegroundColor Green;
+    """
+]
+
+# ----------------------------------------------------
+# H. PUBLIKOWANIE OTAGOWANEJ WERSJI
+# ----------------------------------------------------
+
+[tasks.v--pub-crates]
 description = "Publikuje najnowszą wersję paczki w rejestrze crates.io"
 command = "cargo"
 args = ["publish"]
 
-
-
-
-
-
-
-
-
-
+[tasks.v--pub-github]
+description = "Wypycha kod (gałąź main) oraz lokalne tagi na GitHuba"
+command = "powershell"
+args = [
+    "-Command",
+    """
+    $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
+    
+    Write-Host "`n🚀 1/2: Wypychanie kodu (gałąź main) na GitHuba..." -ForegroundColor Magenta;
+    git push origin main;
+    
+    Write-Host "`n🏷️ 2/2: Wypychanie tagów na serwer..." -ForegroundColor Cyan;
+    git push origin main --tags;
+    
+    Write-Host "`n✅ Publikacja na GitHubie zakończona sukcesem!" -ForegroundColor Green;
+    """
+]
 
 
 # ====================================================
-# ------ KOMENDY JEDNOSTKOWE :
-# ------
-# ------ ------ WYŚWIETLENIE POMOCY
+# 🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪
+# 🟪                                               🟪
+# 🟪             KOMENDY ZBIORCZE                  🟪 
+# 🟪                                               🟪
+# 🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪🟪
+# ====================================================
+
+[tasks.snapshot-code]
+description = "Wykonuje kompleksowe snapshote: struktury plików oraz źródłowego kodu"
+dependencies = [
+	"ensure-prompt-and-src-folders-exist",
+	"snapshot-filetree-includes", 
+	"snapshot-filetree-excludes",
+	"snapshot-total-source-code"
+]
+
+[tasks.snapshot-fresh-diag-err]
+description = "Czyści folder src i generuje nowe snapshoty (Serial execution)"
+run_task = { name = [
+	"clear-contents-of-src-folder-under-prompt", 
+	"snapshot-code"
+], parallel = false }
+
+
+[tasks.snapshot-diag-err-save]
+description = "Uruchamia pełną diagnostykę Cargo"
+run_task = { name = [
+	"ensure-prompt-and-err-folders-exist",
+	"err-diag-o0-fmt",
+	"err-diag-o1-check",
+	"err-diag-o2-examples",
+	"err-diag-o3-clippy-basic",
+	"err-diag-o4-clippy-strict",
+	"err-diag-o5-release-build",
+	"err-diag-o6-doc-gen",
+	"err-diag-o7-test-compile",
+	"err-diag-o8-test-run",
+	"err-diag-o9-test-doc",
+	"doc-full"
+], parallel = false }
+
+
+[tasks.snapshot-diag-fmt-safe]
+description = "Pełny cykl: Backup -> Spacje -> Clippy Fix -> Cargo Fmt -> Cargo package list -> Cargo Audit"
+run_task = { name = [
+	"ensure-prompt-and-err-folders-exist",
+	"fmt-c0-pre-op-snapshot-restore-point", 
+	"fmt-c1-fmt-whitespace", 
+	"fmt-c2-cargo",
+	"fmt-c3-clippy", 
+	"fmt-c4-fmt-nightly-by-rustfmt-file-config",
+	"fmt-c5-diag-package-list",
+	"fmt-c6-diag-verify",
+	"fmt-c7-diag-audit"
+], parallel = false }
+
+[tasks.snapshot-fresh-diag]
+description = "Czyści folder err i generuje nowe snapshoty (Serial execution)"
+run_task = { name = [
+	"clear-contents-of-err-folder-under-prompt", 
+	"snapshot-diag-fmt-safe",
+	"snapshot-diag-err-save"
+], parallel = false }
+
+[tasks.info]
+description = "KOMPLETNY KONTEKST (Clean -> Fix/Fmt -> Diag -> Snapshot): Przygotowuje idealny stan projektu dla AI"
+run_task = { name = [
+    "clear-contents-of-err-folder-under-prompt",
+    "clear-contents-of-src-folder-under-prompt", 
+    "snapshot-diag-fmt-safe", 
+    "snapshot-diag-err-save",
+    "snapshot-code", 
+], parallel = false }
+
+# ====================================================
+# 📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖
+# 📖                                               📖
+# 📖📖📖📖           P  O  M  O  C          📖📖📖📖 
+# 📖                                               📖
+# 📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖📖
 # ====================================================
 
 
@@ -341,90 +577,264 @@ category = "Zarządzanie"
 command = "cargo"
 args = ["make", "--list-all-steps", "--output-format", "short-description"]
 
-
 [tasks.help]
-description = "Wyświetla posegregowaną listę komend: Aliasy, Komendy zbiorcze i Jednostki"
+description = "Wyświetla statyczną, sformatowaną tabelę ze wszystkimi komendami i aliasami"
 category = "Pomoc"
 command = "powershell"
 args = [
     "-Command",
-    "$OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;",
-    "$all = cargo make --list-all-steps --output-format short-description | Where-Object { $_ -match ' - ' -and $_ -notmatch '^(init|end|default)\b' };",
-    "Write-Host \"`n`n🚀 --- NAJWAŻNIEJSZE (Z ALIASAMI) ---\" -ForegroundColor Cyan;",
-    "$all | Where-Object { $_ -match '\\[aliases:' } | ForEach-Object { Write-Host $_ };",
-    "Write-Host \"`n`n📦 --- KOMENDY ZBIORCZE (COMBO) ---\" -ForegroundColor Yellow;",
-    "$all | Where-Object { $_ -notmatch '\\[aliases:' -and $_ -match 'snapshot|safe|release' } | ForEach-Object { Write-Host $_ };",
-    "Write-Host \"`n`n🛠️ --- JEDNOSTKI (INDYWIDUALNE) ---\" -ForegroundColor White;",
-    "$all | Where-Object { $_ -notmatch '\\[aliases:' -and $_ -notmatch 'snapshot|safe|release' } | ForEach-Object { Write-Host $_ };",
-    "Write-Host \"`n\";"
+    '''
+    $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
+    Write-Host @'
+
+## 📘 **Tabela tematyczna: opis → alias → task**
+
+### 🟦 **A. Usuwanie / przygotowanie folderów**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| Czyści `.prompt/.err` | e_clean / f_clean | clear-contents-of-err-folder-under-prompt |
+| Tworzy `.prompt/.err` | — | ensure-prompt-and-err-folders-exist |
+| Czyści `.prompt/.src` | a_clean | clear-contents-of-src-folder-under-prompt |
+| Tworzy `.prompt/.src` | — | ensure-prompt-and-src-folders-exist |
+| Czyści `.prompt/.helpers` | — | clear-contents-of-helpers-folder-under-prompt |
+| Tworzy `.prompt/.helpers` | — | ensure-prompt-and-helpers-folders-exist |
+
+---
+
+### 🟩 **B. Snapshoty plików z zapisem do `./.prompt/.src/**.md`**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| Snapshot istotnych plików | a_f_i | snapshot-filetree-includes |
+| Snapshot nieistotnych plików | a_f_e | snapshot-filetree-excludes |
+| Snapshot kodu źródłowego | a_doc | snapshot-total-source-code |
+| Kompletny snapshot (includes + excludes + source) | a | snapshot-code |
+| Czyści src + snapshoty | — | snapshot-fresh-diag-err |
+
+---
+
+### 🟫 **C. Formatowanie i diagnostyka (fmt-c\*) & (err-diag-o\*) z zapisem do `./.prompt/.err/**.log`**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| Pełna diagnostyka Cargo | e | snapshot-diag-err-save |
+| Pełny cykl: backup → whitespace → fix → fmt → audit | f | snapshot-diag-fmt-safe |
+| Czyści err + pełna diagnostyka | — | snapshot-fresh-diag |
+
+#### 🟨 **C1. (zmiany plików) Formatowanie i diagnostyka (fmt-c\*) z zapisem do `./.prompt/.err/**.log`**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| PUNKT PRZYWRACANIA 1/2 | b0 | fmt-c0-pre-op-snapshot-restore-point-draft |
+| PUNKT PRZYWRACANIA 2/2 | b | fmt-c0-pre-op-snapshot-restore-point |
+| Usuwanie spacji końcowych | — | fmt-c1-fmt-whitespace |
+| cargo fix | — | fmt-c2-cargo |
+| clippy --fix | — | fmt-c3-clippy |
+| cargo +nightly fmt | — | fmt-c4-fmt-nightly-by-rustfmt-file-config |
+| cargo package --list | — | fmt-c5-diag-package-list |
+| cargo verify-project | — | fmt-c6-diag-verify |
+| cargo audit | — | fmt-c7-diag-audit |
+
+---
+
+#### 🟧 **C2. (bez zmian) Diagnostyka błędów (err-diag-o\*) z zapisem do `./.prompt/.err/**.log`**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| cargo fmt --check | — | err-diag-o0-fmt |
+| cargo check | — | err-diag-o1-check |
+| cargo check --examples | — | err-diag-o2-examples |
+| cargo clippy | — | err-diag-o3-clippy-basic |
+| cargo clippy -D warnings | — | err-diag-o4-clippy-strict |
+| cargo build --release | — | err-diag-o5-release-build |
+| cargo doc | — | err-diag-o6-doc-gen |
+| cargo test --no-run | — | err-diag-o7-test-compile |
+| cargo test --verbose | — | err-diag-o8-test-run |
+| cargo test --doc | — | err-diag-o9-test-doc |
+
+---
+
+### 🟪 **D. Dokumentacja z zapisem do `./target/doc/**/*`**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| Pełna dokumentacja + otwarcie | — | doc-full |
+
+---
+
+### 🟫 **E. Wersjonowanie (v-\*)**
+
+> | **Alias** | **Task** | **Purpose** | **Example result** |
+> | --- | --- | --- | --- |
+> | `v_tag` | `task.v-add-hashtag` | | |
+> | `v_tag_pub` | `task.v--pub-crates` | | |
+> | `v_tag_git` | `task.v--pub-github` | | |
+> | `v_end` | `task.v-finish-dist` | Promote final **RC** to **stable release** | `v0.5.0-rc.7` → `v0.5.0` |
+> | `v_new_fix` | `task.v-start-patch` | Bump **patch** and start **dev** prerelease | `v0.5.0` → `v0.5.1-dev.1` |
+> | `v_new_ver` | `task.v-start-minor` | Bump **minor** and start **dev** prerelease | `v0.5.0` → `v0.6.0-dev.1` |
+> | - | `task.v-start-major` | Bump **major** and start **dev** prerelease | `v0.5.0` → `v1.0.0-dev.1` |
+> | `v_num` | `task.v-next--point` | Increment current prerelease counter  ( `dev.N` → `dev.N+1` or `snapshot.N` → `snapshot.N+1` or `alpha.N` → `alpha.N+1` or `beta.N` → `beta.N+1` or `rc.N` → r`c.N+1` ) | `v0.5.0-dev.1` →  `v0.5.0-dev.2` |
+> | `v_typ` | `task.v-next--phase` | Advance lifecycle stage  (`dev` → `snapshot` → `alpha` → `beta` → `rc`) | `v0.5.0-dev.3` → `v0.5.0-snapshot.1` |
+
+#### **Zamykanie cyklu**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| Stabilna dystrybucja (odcina sufiksy) | v_end | v-finish-dist |
+
+#### **Otwieranie nowego cyklu**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| Patch → dev.1 | v_new_fix | v-start-patch |
+| Minor → dev.1 | v_new_ver | v-start-minor |
+| Major → dev.1 | — | v-start-major |
+
+#### **Praca w cyklu**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| Podbija punkt prerelease | v_num | v-next--point |
+| Awans fazy prerelease | v_typ | v-next--phase |
+
+#### **Tagowanie i publikacja**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| Commit + tag lokalny | v_tag | v-add-hashtag |
+| Publikacja crates.io | v_tag_pub | v--pub-crates |
+| Push + tagi na GitHub | v_tag_git | v--pub-github |
+
+---
+
+### 🟫 **F. Pomoc**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| Lista wszystkich komend | H | HELP |
+| Lista posegregowana | h | help |
+
+---
+
+### 🟧 **G. Różne**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| Kompilacja wasm32 | — | check-wasm32 |
+| Kompilacja wasm64 | — | check-wasm64 |
+
+### 🧠 **H. Mega-Combo (Kontekst dla AI)**
+
+| Opis | Alias | Task |
+|------|--------|-------|
+| KOMPLETNY KONTEKST (Clean → Fix/Fmt → Diag → Snapshot) | ai | info |
+
+---
+---
+'@
+    '''
 ]
 
+[tasks.help-az]
+description = "Wyświetla statyczną tabelę komend posortowaną alfabetycznie po oryginalnej komendzie (od strony silnika)"
+category = "Pomoc"
+command = "powershell"
+args = [
+    "-Command",
+    '''
+    $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
+    Write-Host @'
 
+## 📘 **Tabela posortowana alfabetycznie po komendzie wykonywanej**
 
+### 🔤 **A. Komendy zaczynające się od `cargo …`**
 
+| # | Oryginalna komenda | Task | Alias |
+|---|--------------------|------|--------|
+| 1 | cargo add-hashtag (wewn. git → ale główna operacja to cargo set-version) | v-add-hashtag | v_tag |
+| 2 | cargo audit | fmt-c7-diag-audit | — |
+| 3 | cargo build --release | err-diag-o5-release-build | — |
+| 4 | cargo check | err-diag-o1-check | — |
+| 5 | cargo check --examples | err-diag-o2-examples | — |
+| 6 | cargo check --target wasm32 | check-wasm32 | — |
+| 7 | cargo check --target wasm64 | check-wasm64 | — |
+| 8 | cargo clippy | err-diag-o3-clippy-basic | — |
+| 9 | cargo clippy --fix | fmt-c3-clippy | — |
+| 10 | cargo clippy -D warnings | err-diag-o4-clippy-strict | — |
+| 11 | cargo doc | err-diag-o6-doc-gen | — |
+| 12 | cargo doc --open | doc-full | — |
+| 13 | cargo fix | fmt-c2-cargo | — |
+| 14 | cargo fmt --check | err-diag-o0-fmt | — |
+| 15 | cargo +nightly fmt | fmt-c4-fmt-nightly-by-rustfmt-file-config | — |
+| 16 | cargo package --list | fmt-c5-diag-package-list | — |
+| 17 | cargo plot (includes) | snapshot-filetree-includes | a_f_i |
+| 18 | cargo plot (excludes) | snapshot-filetree-excludes | a_f_e |
+| 19 | cargo plot (source code) | snapshot-total-source-code | a_doc |
+| 20 | cargo publish | v--pub-crates | v_tag_pub |
+| 21 | cargo set-version (finish dist) | v-finish-dist | v_end |
+| 22 | cargo set-version (start patch) | v-start-patch | v_new_fix |
+| 23 | cargo set-version (start minor) | v-start-minor | v_new_ver |
+| 24 | cargo set-version (start major) | v-start-major | — |
+| 25 | cargo set-version --bump prerelease | v-next--point | v_num |
+| 26 | cargo set-version (phase advance) | v-next--phase | v_typ |
+| 27 | cargo test --no-run | err-diag-o7-test-compile | — |
+| 28 | cargo test --verbose | err-diag-o8-test-run | — |
+| 29 | cargo test --doc | err-diag-o9-test-doc | — |
+| 30 | cargo verify-project | fmt-c6-diag-verify | — |
 
+---
 
+### 🔤 **B. Komendy zaczynające się od `git …`**
 
+| # | Oryginalna komenda | Task | Alias |
+|---|--------------------|------|--------|
+| 31 | git add + commit (snapshot draft) | fmt-c0-pre-op-snapshot-restore-point-draft | b0 |
+| 32 | git add + commit (snapshot final) | fmt-c0-pre-op-snapshot-restore-point | b |
+| 33 | git add + commit + tag | v-add-hashtag | v_tag |
+| 34 | git push origin main | v--pub-github | v_tag_git |
+| 35 | git push origin main --tags | v--pub-github | v_tag_git |
 
+---
 
+### 🔤 **C. Komendy systemowe / PowerShell**
 
+| # | Oryginalna komenda | Task | Alias |
+|---|--------------------|------|--------|
+| 36 | Remove-Item .prompt/.err | clear-contents-of-err-folder-under-prompt | e_clean / f_clean |
+| 37 | New-Item .prompt/.err | ensure-prompt-and-err-folders-exist | — |
+| 38 | Remove-Item .prompt/.src | clear-contents-of-src-folder-under-prompt | a_clean |
+| 39 | New-Item .prompt/.src | ensure-prompt-and-src-folders-exist | — |
+| 40 | Remove-Item .prompt/.helpers | clear-contents-of-helpers-folder-under-prompt | — |
+| 41 | New-Item .prompt/.helpers | ensure-prompt-and-helpers-folders-exist | — |
+| 42 | TrimEnd whitespace in *.rs | fmt-c1-fmt-whitespace | — |
 
-# --- KOMENDA ZBIORCZA ---
-[tasks.history-snapshot]
-description = "Wykonuje oba snapshoty: strukturę oraz pełne archiwum"
-dependencies = ["snapshot-filetree-includes", "snapshot-total-source-code"]
+---
 
-# --- KOMENDA "NA ŚWIEŻO" ---
-[tasks.history-snapshot-fresh]
-description = "Czyści historię i generuje nowe snapshoty (Serial execution)"
-run_task = { name = ["clear-contents-of-src-folder-under-prompt", "history-snapshot"], parallel = false }
+### 🔤 **D. Komendy złożone (run_task)** (nie mają jednej komendy — to sekwencje)
 
-# --- DIAGNOSTYKA LOKALNA (CI/CD) ---
+| # | Oryginalna komenda | Task | Alias |
+|---|--------------------|------|--------|
+| 43 | sequence: clear src → snapshot-code | snapshot-fresh-diag-err | — |
+| 44 | sequence: clear err → fmt-safe → diag-save | snapshot-fresh-diag | — |
+| 45 | sequence: fmt snapshot → whitespace → fix → fmt → audit | snapshot-diag-fmt-safe | f |
+| 46 | sequence: all err-diag + doc | snapshot-diag-err-save | e |
+| 47 | sequence: includes + excludes + source | snapshot-code | a |
+| 48 | sequence: clear err → clear src → fmt-safe → diag-save → snapshot-code | info | ai |
 
-# --- MODUŁY 1-13 (Czysty PS7 Flow) ---
+---
+---
+'@
+    '''
+]
 
-
-
-# --- MODUŁY POMOCNICZE ---
-
-
-
-# --- NAPRAWY KOMPILATORA I LINTERA (Z ZAPISEM DO LOGÓW) ---
-
-# --- KOMENDA ZBIORCZA (COMBO) ---
-
-
-[tasks.errors-snapshot]
-description = "Uruchamia pełną diagnostykę Cargo"
-run_task = { name = [
-	"err-diag-check",
-	"err-diag-examples",
-	"err-diag-fmt",
-	"err-diag-clippy-basic",
-	"err-diag-clippy-strict",
-	"err-diag-test-compile",
-	"err-diag-doc-gen",
-	"err-diag-release-build",
-	"err-diag-test-run",
-	"err-diag-test-doc"
-], parallel = false }
-
-# --- BEZPIECZNE FORMATOWANIE ---
-
-[tasks.fmt-safe]
-description = "Pełny cykl: Backup -> Spacje -> Clippy Fix -> Cargo Fmt -> Cargo package list -> Cargo Audit"
-run_task = { name = [
-	"pre-op-snapshot-restore-point", 
-	"fmt-fix-whitespace", 
-	"cargo-fix-core",
-	"clippy-fix", 
-	"fmt-cargo",
-	"err-diag-package-list",
-	"err-diag-verify",
-	"err-diag-audit"
-], parallel = false }
-
-# --- SPRAWDZANIE PLATFORM (Przenośność) ---
+# ====================================================
+# ✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️
+# ✳️                                               ✳️
+# ✳️                 RÓŻNE INNE                    ✳️ 
+# ✳️                                               ✳️
+# ✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️✳️
+# ====================================================
 
 [tasks.check-wasm32]
 description = "Sprawdza, czy biblioteka skompiluje się pod WebAssembly (przeglądarki)"
@@ -440,46 +850,49 @@ args = ["check", "--target", "wasm64-unknown-unknown", "--lib"]
 # UWAGA: Aby to zadziałało, musisz mieć zainstalowany target.
 # Odpal raz w konsoli: rustup target add wasm64-unknown-unknown
 
-
-[tasks.doc-full]
-description = "Generuje najobszerniejszą dokumentację (prywatne API, wszystkie features i targety) i otwiera w przeglądarce"
-command = "cargo"
-args = [
-    "doc",
-    "--no-deps",
-    "--document-private-items",
-    "--all-features",
-    "--examples",
-    "--open"
-]
-
-
-
-# --- ALIASY ALFABETYCZNIE ---
+# ====================================================
+# 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+# 🟥                                               🟥
+# 🟥                ALIAS - ALIASY                 🟥 
+# 🟥                                               🟥
+# 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+# ====================================================
 
 [tasks.a]
-alias = "history-snapshot"
+alias = "snapshot-code"
 
 [tasks.a_doc]
 alias = "snapshot-total-source-code"
 
-[tasks.a_fs]
+[tasks.a_f_i]
 alias = "snapshot-filetree-includes"
+
+[tasks.a_f_e]
+alias = "snapshot-filetree-excludes"
 
 [tasks.a_clean]
 alias = "clear-contents-of-src-folder-under-prompt"
 
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+
 [tasks.e]
-alias = "errors-snapshot"
+alias = "snapshot-diag-err-save"
 
 [tasks.e_clean]
 alias = "clear-contents-of-err-folder-under-prompt"
 
 [tasks.f]
-alias = "fmt-safe"
+alias = "snapshot-diag-fmt-safe"
 
 [tasks.f_clean]
 alias = "clear-contents-of-err-folder-under-prompt"
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+[tasks.ai]
+alias = "info"
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 [tasks.h]
 alias = "help"
@@ -487,8 +900,47 @@ alias = "help"
 [tasks.H]
 alias = "HELP"
 
-[tasks.next]
-alias = "push-new-release-git"
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-[tasks.t_clean]
-alias = "temps-clean"
+[tasks.b0]
+alias = "fmt-c0-pre-op-snapshot-restore-point-draft"
+
+[tasks.b]
+alias = "fmt-c0-pre-op-snapshot-restore-point"
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+# {G}/H
+[tasks.v_tag]
+alias = "v-add-hashtag"
+
+# {E-F}/H
+[tasks.v_num]
+alias = "v-next--point"
+
+# {E-F}/H
+[tasks.v_typ]
+alias = "v-next--phase"
+
+# {B-D}/H
+[tasks.v_new_fix]
+alias = "v-start-patch"
+
+# {B-D}/H
+[tasks.v_new_ver]
+alias = "v-start-minor"
+
+# {A}/H
+[tasks.v_end]
+alias = "v-finish-dist"
+
+# {H}/H
+[tasks.v_tag_pub]
+alias = "v--pub-crates"
+
+# {H}/H
+[tasks.v_tag_git]
+alias = "v--pub-github"
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+
